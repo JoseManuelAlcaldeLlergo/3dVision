@@ -100,10 +100,12 @@ main (int argc, char* const* argv)
         cv::namedWindow(wname_or);
         cv::imshow(wname_or, img);
         std::cout<<"PRESS ANY KEY TO CONTINUE..."<<std::endl;
+        cv::waitKey(0);
+
         mouse_parameters_or.img = img.clone();
         mouse_parameters_or.wname = wname_or;
+
         cvSetMouseCallback( wname_or.c_str(), on_mouse, &mouse_parameters_or );
-        cv::waitKey(0);
 
         // // Dividimos la imagen en las dos que la componen
         cv::Mat img_left = img(cv::Range(0, img.rows), cv::Range(0, round(img.cols / 2)));
