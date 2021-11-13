@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/pepe/UCO/V3D/Semana2/Practicas/Practica1/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/stereo_calibrate.dir/stereo_calibrate.cc.o -c /home/pepe/UCO/V3D/Semana2/Practicas/Practica1/stereo_calibrate.cc",
+  "file": "/home/pepe/UCO/V3D/Semana2/Practicas/Practica1/stereo_calibrate.cc"
+},
+{
+  "directory": "/home/pepe/UCO/V3D/Semana2/Practicas/Practica1/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/stereo_calibrate.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana2/Practicas/Practica1/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana2/Practicas/Practica1/common_code.cpp"
+}
+]

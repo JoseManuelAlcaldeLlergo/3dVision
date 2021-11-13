@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/pepe/UCO/V3D/usm_enhance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o -c /home/pepe/UCO/V3D/usm_enhance/test_common_code_obf.cpp",
+  "file": "/home/pepe/UCO/V3D/usm_enhance/test_common_code_obf.cpp"
+},
+{
+  "directory": "/home/pepe/UCO/V3D/usm_enhance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/test_common_code.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/usm_enhance/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/usm_enhance/common_code.cpp"
+},
+{
+  "directory": "/home/pepe/UCO/V3D/usm_enhance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o -c /home/pepe/UCO/V3D/usm_enhance/usm_enhance.cpp",
+  "file": "/home/pepe/UCO/V3D/usm_enhance/usm_enhance.cpp"
+},
+{
+  "directory": "/home/pepe/UCO/V3D/usm_enhance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/usm_enhance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/usm_enhance/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/usm_enhance/common_code.cpp"
+}
+]

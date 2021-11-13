@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_checkundistorted/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/stereo_checkundistorted.dir/stereo_checkundistorted.cpp.o -c /home/pepe/UCO/V3D/Semana2/Practicas/Stereo_checkundistorted/stereo_checkundistorted.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_checkundistorted/stereo_checkundistorted.cpp"
+},
+{
+  "directory": "/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_checkundistorted/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/stereo_checkundistorted.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana2/Practicas/Stereo_checkundistorted/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_checkundistorted/common_code.cpp"
+}
+]

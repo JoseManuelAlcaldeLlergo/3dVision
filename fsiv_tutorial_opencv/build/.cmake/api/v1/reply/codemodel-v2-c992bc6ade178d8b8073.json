@@ -1,0 +1,95 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "minitutorial_opencv",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "comp_stats::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-comp_stats-Debug-d28f6f6cee76e8fb0afb.json",
+					"name" : "comp_stats",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "esqueleto::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-esqueleto-Debug-28c83482234893d70147.json",
+					"name" : "esqueleto",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pruebas::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pruebas-Debug-e2b0eabf2150b53aff94.json",
+					"name" : "pruebas",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "show_img::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-show_img-Debug-8d653a572942b7773791.json",
+					"name" : "show_img",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "show_video::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-show_video-Debug-df2e9b1411f0c7926934.json",
+					"name" : "show_video",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/pepe/UCO/V3D/fsiv_tutorial_opencv/build",
+		"source" : "/home/pepe/UCO/V3D/fsiv_tutorial_opencv"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

@@ -1,0 +1,3 @@
+/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_calibration/build/CMakeFiles/rebuild_cache.dir
+/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_calibration/build/CMakeFiles/edit_cache.dir
+/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_calibration/build/CMakeFiles/stereo_calibrate.dir
