@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/stereo_sparse.dir/stereo_sparse.cpp.o -c /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/stereo_sparse.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/stereo_sparse.cpp"
+},
+{
+  "directory": "/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/stereo_sparse.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/common_code.cpp"
+}
+]

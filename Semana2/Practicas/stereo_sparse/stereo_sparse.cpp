@@ -21,7 +21,6 @@
 #include <opencv2/calib3d.hpp>
 
 #include "common_code.hpp"
-#include "dirreader.h"
 
 const cv::String keys =
     "{help h usage ? |      | print this message.}"
