@@ -29,29 +29,6 @@ const cv::String keys =
     "{@output        |<none>| PCD output file.}"    ;
 
 
-std::string type2str(int type) {
-  std::string r;
-
-  uchar depth = type & CV_MAT_DEPTH_MASK;
-  uchar chans = 1 + (type >> CV_CN_SHIFT);
-
-  switch ( depth ) {
-    case CV_8U:  r = "8U"; break;
-    case CV_8S:  r = "8S"; break;
-    case CV_16U: r = "16U"; break;
-    case CV_16S: r = "16S"; break;
-    case CV_32S: r = "32S"; break;
-    case CV_32F: r = "32F"; break;
-    case CV_64F: r = "64F"; break;
-    default:     r = "User"; break;
-  }
-
-  r += "C";
-  r += (chans+'0');
-
-  return r;
-}
-
 int
 main (int argc, char* const* argv)
 {
@@ -93,24 +70,13 @@ main (int argc, char* const* argv)
         }
 
         
-
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
         load_calibration_parameters(fs, camera_size, error, st_parameters.mtxL, st_parameters.mtxR, st_parameters.distL, st_parameters.distR, st_parameters.Rot, st_parameters.Trns, st_parameters.Emat, st_parameters.Fmat);
 
         //Imagen original
         cv::Mat img = cv::imread(img_name);
-        // cv::namedWindow("STEREO", CV_WINDOW_NORMAL);
-        // cv::namedWindow(wname_or);
-        // cv::imshow(wname_or, img);
-        // std::cout<<"PRESS ANY KEY TO CONTINUE..."<<std::endl;
-        // mouse_parameters_or.img = img.clone();
-        // mouse_parameters_or.wname = wname_or;
-
-        // cvSetMouseCallback( wname_or.c_str(), on_mouse, &mouse_parameters_or );
-        // cv::waitKey(0);
-
-        
+      
 
         // // Dividimos la imagen en las dos que la componen
         cv::Mat img_left = img(cv::Range(0, img.rows), cv::Range(0, round(img.cols / 2)));
@@ -133,65 +99,18 @@ main (int argc, char* const* argv)
         // std::cout<<"PRESS ANY KEY TO FINISH..."<<std::endl;
         cv::waitKey(0);
 
-        //Practica 3
+        //Practica 4
 
-        cv::Mat new_left;
-        cv::Mat new_right;
+        std::vector<cv::KeyPoint> keypoints_query,keypoints_train;
+        cv::Mat descriptors_query, descriptors_train;
+        std::vector<cv::DMatch> matches;
 
-        cv::cvtColor(img_left,new_left, CV_BGR2GRAY);
-        // img_left.convertTo(new_left,CV_8UC1);
-        
-        cv::cvtColor(img_right,new_right, CV_BGR2GRAY);
-        // img_right.convertTo(new_right,CV_8UC1);
+        auto Detector=cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,  0,  3, 1e-4f );
+        Detector ->detectAndCompute(img_left, cv::Mat(), keypoints_query, descriptors_query);
+        Detector ->detectAndCompute(img_right, cv::Mat(), keypoints_train, descriptors_train);
+        auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
+        matcher->match(descriptors_query, descriptors_train, matches, cv::Mat());
 
-        std::string ty =  type2str( img_left.type() );
-
-        cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create();
-        //cv::Mat disp(img_left.rows, img_left.cols, CV_8UC1), disparity;
-        cv::Mat disp, disparity;
-        sbm->compute(new_left,new_right,disp);
-
-        // Converting disparity values to CV_32F from CV_16S
-        disp.convertTo(disparity,CV_32F, 1.0);
-        disparity=disparity/16.f;
-
-        float B = sqrt((float)pow(st_parameters.Trns.at<double>(0,0),2) + (float)pow(st_parameters.Trns.at<double>(1,0),2) + (float)pow(st_parameters.Trns.at<double>(2,0),2));
-        float f = (float)st_parameters.mtxL.at<double>(0,0);
-        float cx = (float)st_parameters.mtxL.at<double>(0,2);
-        float cy = (float)st_parameters.mtxL.at<double>(1,2);
-        float X,Y,Z;
-
-        std::vector<cv::Point3f> _3dpoints;
-        // std::cout<<disparity<<std::endl;
-
-        for(int x = 0; x<disparity.cols; x++){
-            for(int y = 0; y<disparity.rows; y++){            
-                if(disparity.at<float>(y,x) > 10.0){
-                    Z = B*f/disparity.at<float>(y,x);
-                    X = (x-cx)*Z/f;
-                    Y = (y-cy)*Z/f;
-                    _3dpoints.push_back(cv::Point3f(X,Y,Z));
-                }
-                else{
-                    // _3dpoints.push_back(cv::Point3f(x,y,0));
-                }
-            }
-        }
-
-        writeToPCD(output_file,_3dpoints);
-
-        // for (int c = 0; c < st_parameters.Trns.rows; c++)
-        // {
-        //     for (int d = 0; d < st_parameters.Trns.cols; d++)
-        //     {
-        //         std::cout << "row: " << c << " col: " << d << " " << st_parameters.Trns.at<double>(c, d) << std::endl;
-        //     }
-        // }
-        // // Scaling down the disparity values and normalizing them
-        // cv::Mat disparityNorm = (disparity/16.0f -
-        // (float)minDisparity)/((float)numDisparities);
-
-        // std::cout<<"HOLA"<<std::endl;
 
 
         
