@@ -1,13 +1,3 @@
-/*!
-  Esto es un esqueleto de programa para usar en las prácticas
-  de Visión Artificial.
-
-  Se supone que se utilizará OpenCV.
-
-  Para compilar, puedes ejecutar:
-    g++ -Wall -o esqueleto esqueleto.cc `pkg-config opencv --cflags --libs`
-
-*/
 
 #include <iostream>
 #include <exception>
@@ -30,28 +20,6 @@ const cv::String keys =
     "{@output        |<none>| PCD output file.}"    ;
 
 
-std::string type2str(int type) {
-  std::string r;
-
-  uchar depth = type & CV_MAT_DEPTH_MASK;
-  uchar chans = 1 + (type >> CV_CN_SHIFT);
-
-  switch ( depth ) {
-    case CV_8U:  r = "8U"; break;
-    case CV_8S:  r = "8S"; break;
-    case CV_16U: r = "16U"; break;
-    case CV_16S: r = "16S"; break;
-    case CV_32S: r = "32S"; break;
-    case CV_32F: r = "32F"; break;
-    case CV_64F: r = "64F"; break;
-    default:     r = "User"; break;
-  }
-
-  r += "C";
-  r += (chans+'0');
-
-  return r;
-}
 
 int
 main (int argc, char* const* argv)
@@ -101,15 +69,6 @@ main (int argc, char* const* argv)
 
         //Imagen original
         cv::Mat img = cv::imread(img_name);
-        // cv::namedWindow("STEREO", CV_WINDOW_NORMAL);
-        // cv::namedWindow(wname_or);
-        // cv::imshow(wname_or, img);
-        // std::cout<<"PRESS ANY KEY TO CONTINUE..."<<std::endl;
-        // mouse_parameters_or.img = img.clone();
-        // mouse_parameters_or.wname = wname_or;
-
-        // cvSetMouseCallback( wname_or.c_str(), on_mouse, &mouse_parameters_or );
-        // cv::waitKey(0);
 
         
 
@@ -127,11 +86,6 @@ main (int argc, char* const* argv)
         cv::namedWindow(wname_rect);
         cv::imshow(wname_rect, img_rect);
 
-        // mouse_parameters_rect.img = img_rect.clone();
-        // mouse_parameters_rect.wname = wname_rect;
-        
-        // cvSetMouseCallback( wname_rect.c_str(), on_mouse, &mouse_parameters_rect );
-        // std::cout<<"PRESS ANY KEY TO FINISH..."<<std::endl;
         cv::waitKey(0);
 
         //Practica 3
@@ -144,8 +98,6 @@ main (int argc, char* const* argv)
         
         cv::cvtColor(img_right,new_right, CV_BGR2GRAY);
         // img_right.convertTo(new_right,CV_8UC1);
-
-        std::string ty =  type2str( img_left.type() );
 
         cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create();
         //cv::Mat disp(img_left.rows, img_left.cols, CV_8UC1), disparity;
@@ -163,7 +115,6 @@ main (int argc, char* const* argv)
         float X,Y,Z;
 
         std::vector<cv::Point3f> _3dpoints;
-        // std::cout<<disparity<<std::endl;
 
         for(int x = 0; x<disparity.cols; x++){
             for(int y = 0; y<disparity.rows; y++){            
@@ -173,9 +124,7 @@ main (int argc, char* const* argv)
                     Y = (y-cy)*Z/f;
                     _3dpoints.push_back(cv::Point3f(X,Y,Z));
                 }
-                else{
-                    // _3dpoints.push_back(cv::Point3f(x,y,0));
-                }
+
             }
         }
 

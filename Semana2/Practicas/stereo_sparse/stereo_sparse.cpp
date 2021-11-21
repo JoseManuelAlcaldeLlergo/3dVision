@@ -1,14 +1,3 @@
-/*!
-  Esto es un esqueleto de programa para usar en las prácticas
-  de Visión Artificial.
-
-  Se supone que se utilizará OpenCV.
-
-  Para compilar, puedes ejecutar:
-    g++ -Wall -o esqueleto esqueleto.cc `pkg-config opencv --cflags --libs`
-
-*/
-
 #include <iostream>
 #include <exception>
 
@@ -140,6 +129,13 @@ main (int argc, char* const* argv)
         cv::namedWindow("Filtered Matches",CV_WINDOW_NORMAL);
         cv::imshow("Filtered Matches", filter_matches_image);
         cv::waitKey(0);
+
+        //Triangulation
+        float B = sqrt((float)pow(st_parameters.Trns.at<double>(0,0),2) + (float)pow(st_parameters.Trns.at<double>(1,0),2) + (float)pow(st_parameters.Trns.at<double>(2,0),2));
+        float f = (float)st_parameters.mtxL.at<double>(0,0);
+        float cx = (float)st_parameters.mtxL.at<double>(0,2);
+        float cy = (float)st_parameters.mtxL.at<double>(1,2);
+        float X,Y,Z;
 
         
     }
