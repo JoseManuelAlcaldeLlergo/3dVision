@@ -104,6 +104,7 @@ main (int argc, char* const* argv)
         std::vector<cv::KeyPoint> keypoints_query,keypoints_train;
         cv::Mat descriptors_query, descriptors_train;
         std::vector<cv::DMatch> matches;
+        cv::Mat matchesImage;
 
         auto Detector=cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,  0,  3, 1e-4f );
         Detector ->detectAndCompute(img_left, cv::Mat(), keypoints_query, descriptors_query);
@@ -111,7 +112,20 @@ main (int argc, char* const* argv)
         auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
         matcher->match(descriptors_query, descriptors_train, matches, cv::Mat());
 
+        std::cout<<matches.size()<<" matches"<<std::endl;
+        for(unsigned int i = 0; i<matches.size(); i++){
+            std::cout<<matches[i].distance<<std::endl;
+        }
 
+        cv::drawMatches(img_left,keypoints_query, img_right, keypoints_train, matches, matchesImage);
+
+        cv::imshow("MATCHES", matchesImage);
+        cv::waitKey(0);
+        cv::imshow("DescQ", descriptors_query);
+        cv::waitKey(0);
+        cv::imshow("DescT", descriptors_train);
+
+        cv::waitKey(0);
 
         
     }
