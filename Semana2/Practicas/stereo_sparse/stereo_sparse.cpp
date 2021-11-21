@@ -103,8 +103,8 @@ main (int argc, char* const* argv)
 
         std::vector<cv::KeyPoint> keypoints_query,keypoints_train;
         cv::Mat descriptors_query, descriptors_train;
-        std::vector<cv::DMatch> matches;
-        cv::Mat matchesImage;
+        std::vector<cv::DMatch> matches, filter_matches;
+        cv::Mat matches_image, filter_matches_image;
 
         auto Detector=cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB,  0,  3, 1e-4f );
         Detector ->detectAndCompute(img_left, cv::Mat(), keypoints_query, descriptors_query);
@@ -112,20 +112,33 @@ main (int argc, char* const* argv)
         auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
         matcher->match(descriptors_query, descriptors_train, matches, cv::Mat());
 
+       
         std::cout<<matches.size()<<" matches"<<std::endl;
-        for(unsigned int i = 0; i<matches.size(); i++){
-            std::cout<<matches[i].distance<<std::endl;
-        }
-
-        cv::drawMatches(img_left,keypoints_query, img_right, keypoints_train, matches, matchesImage);
+        cv::drawMatches(img_left,keypoints_query, img_right, keypoints_train, matches, matches_image);
         
-
-        cv::imshow("MATCHES", matchesImage);
+        cv::namedWindow("Matches",CV_WINDOW_NORMAL);
+        cv::imshow("Matches", matches_image);
         cv::waitKey(0);
-        cv::imshow("DescQ", descriptors_query);
-        cv::waitKey(0);
-        cv::imshow("DescT", descriptors_train);
+        // cv::imshow("DescQ", descriptors_query);
+        // cv::waitKey(0);
+        // cv::imshow("DescT", descriptors_train);
 
+        // cv::waitKey(0);
+
+        
+        for(unsigned int i = 0; i<matches.size(); i++){
+            // If the distance between the y values of query and train keypoints which match are higher than 4 pixels we filter them
+            if((abs(keypoints_query[matches[i].queryIdx].pt.y - keypoints_train[matches[i].trainIdx].pt.y )< 4.0)){
+                //std::cout<<"filtro"<<std::endl;
+                filter_matches.push_back(matches[i]);
+            }
+        }
+        std::cout<<filter_matches.size()<<std::endl;
+
+        cv::drawMatches(img_left,keypoints_query, img_right, keypoints_train, filter_matches, filter_matches_image);
+        
+        cv::namedWindow("Filtered Matches",CV_WINDOW_NORMAL);
+        cv::imshow("Filtered Matches", filter_matches_image);
         cv::waitKey(0);
 
         
