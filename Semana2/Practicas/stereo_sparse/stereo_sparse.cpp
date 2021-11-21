@@ -118,6 +118,7 @@ main (int argc, char* const* argv)
         }
 
         cv::drawMatches(img_left,keypoints_query, img_right, keypoints_train, matches, matchesImage);
+        
 
         cv::imshow("MATCHES", matchesImage);
         cv::waitKey(0);
