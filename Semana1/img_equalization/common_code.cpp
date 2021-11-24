@@ -136,7 +136,7 @@ fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
     //fsiv_create_equalization_lookup_table y fsiv_apply_lookup_table
     //
 
-    if(out.empty())
+    if (out.empty())
         out = in.clone();
 
     // Si el radio es 0, aunque el resultado sea el mismo el bucle lo separamos para agilizar el proceso
@@ -163,7 +163,7 @@ fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
                 cv::Mat lkt = fsiv_create_equalization_lookup_table(hist);
                 fsiv_apply_lookup_table(partial_in, lkt, partial_out);
 
-                for (int r = 0; r < partial_out.rows ; r++)
+                for (int r = 0; r < partial_out.rows; r++)
                 {
                     for (int c = 0; c < partial_out.cols; c++)
                     {
