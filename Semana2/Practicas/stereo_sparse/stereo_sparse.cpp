@@ -65,7 +65,6 @@ main (int argc, char* const* argv)
 
         //Imagen original
         cv::Mat img = cv::imread(img_name);
-      
 
         // // Dividimos la imagen en las dos que la componen
         cv::Mat img_left = img(cv::Range(0, img.rows), cv::Range(0, round(img.cols / 2)));
@@ -90,7 +89,7 @@ main (int argc, char* const* argv)
 
         //Practica 4
 
-        std::vector<cv::KeyPoint> keypoints_query,keypoints_train;
+        std::vector<cv::KeyPoint> keypoints_query,keypoints_train, keypoints_query_filtered,keypoints_train_filtered;
         cv::Mat descriptors_query, descriptors_train;
         std::vector<cv::DMatch> matches, filter_matches;
         cv::Mat matches_image, filter_matches_image;
@@ -118,13 +117,16 @@ main (int argc, char* const* argv)
         for(unsigned int i = 0; i<matches.size(); i++){
             // If the distance between the y values of query and train keypoints which match are higher than 4 pixels we filter them
             if((abs(keypoints_query[matches[i].queryIdx].pt.y - keypoints_train[matches[i].trainIdx].pt.y )< 4.0)){
-                //std::cout<<"filtro"<<std::endl;
-                filter_matches.push_back(matches[i]);
+                // The current size of the filtered matches vector will define the index of te new match
+                int current_size = filter_matches.size();
+                filter_matches.push_back(cv::DMatch(current_size,current_size,0));
+                keypoints_query_filtered.push_back(keypoints_query[matches[i].queryIdx]);
+                keypoints_train_filtered.push_back(keypoints_train[matches[i].trainIdx]);
             }
         }
         std::cout<<filter_matches.size()<<std::endl;
 
-        cv::drawMatches(img_left,keypoints_query, img_right, keypoints_train, filter_matches, filter_matches_image);
+        cv::drawMatches(img_left,keypoints_query_filtered, img_right, keypoints_train_filtered, filter_matches, filter_matches_image);
         
         cv::namedWindow("Filtered Matches",CV_WINDOW_NORMAL);
         cv::imshow("Filtered Matches", filter_matches_image);

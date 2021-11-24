@@ -1,4 +1,0 @@
-/home/pepe/UCO/V3D/img_equalization/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/img_equalization/CMakeFiles/test_common_code.dir
-/home/pepe/UCO/V3D/img_equalization/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/img_equalization/CMakeFiles/img_equalization.dir

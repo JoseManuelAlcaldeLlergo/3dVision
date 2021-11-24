@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/img_equalization
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana1/img_equalization
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/img_equalization/build
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana1/img_equalization/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/test_common_code.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/test_common_code.dir/flags.make
 
 CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o: CMakeFiles/test_common_code.dir/flags.make
 CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o: ../test_common_code_obf.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/img_equalization/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o"
-	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o -c /home/pepe/UCO/V3D/img_equalization/test_common_code_obf.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/img_equalization/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o"
+	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o -c /home/pepe/UCO/V3D/Semana1/img_equalization/test_common_code_obf.cpp
 
 CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.i"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/img_equalization/test_common_code_obf.cpp > CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.i
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/img_equalization/test_common_code_obf.cpp > CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.i
 
 CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.s"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/img_equalization/test_common_code_obf.cpp -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.s
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/img_equalization/test_common_code_obf.cpp -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.s
 
 CMakeFiles/test_common_code.dir/common_code.cpp.o: CMakeFiles/test_common_code.dir/flags.make
 CMakeFiles/test_common_code.dir/common_code.cpp.o: ../common_code.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/img_equalization/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test_common_code.dir/common_code.cpp.o"
-	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_common_code.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/img_equalization/common_code.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/img_equalization/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test_common_code.dir/common_code.cpp.o"
+	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_common_code.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana1/img_equalization/common_code.cpp
 
 CMakeFiles/test_common_code.dir/common_code.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_common_code.dir/common_code.cpp.i"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/img_equalization/common_code.cpp > CMakeFiles/test_common_code.dir/common_code.cpp.i
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/img_equalization/common_code.cpp > CMakeFiles/test_common_code.dir/common_code.cpp.i
 
 CMakeFiles/test_common_code.dir/common_code.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_common_code.dir/common_code.cpp.s"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/img_equalization/common_code.cpp -o CMakeFiles/test_common_code.dir/common_code.cpp.s
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/img_equalization/common_code.cpp -o CMakeFiles/test_common_code.dir/common_code.cpp.s
 
 # Object files for target test_common_code
 test_common_code_OBJECTS = \
@@ -112,7 +112,7 @@ test_common_code: /usr/local/lib/libopencv_imgcodecs.so.3.4.16
 test_common_code: /usr/local/lib/libopencv_imgproc.so.3.4.16
 test_common_code: /usr/local/lib/libopencv_core.so.3.4.16
 test_common_code: CMakeFiles/test_common_code.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/img_equalization/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable test_common_code"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/Semana1/img_equalization/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable test_common_code"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_common_code.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,6 +125,6 @@ CMakeFiles/test_common_code.dir/clean:
 .PHONY : CMakeFiles/test_common_code.dir/clean
 
 CMakeFiles/test_common_code.dir/depend:
-	cd /home/pepe/UCO/V3D/img_equalization/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/img_equalization /home/pepe/UCO/V3D/img_equalization /home/pepe/UCO/V3D/img_equalization/build /home/pepe/UCO/V3D/img_equalization/build /home/pepe/UCO/V3D/img_equalization/build/CMakeFiles/test_common_code.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pepe/UCO/V3D/Semana1/img_equalization/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/Semana1/img_equalization /home/pepe/UCO/V3D/Semana1/img_equalization /home/pepe/UCO/V3D/Semana1/img_equalization/build /home/pepe/UCO/V3D/Semana1/img_equalization/build /home/pepe/UCO/V3D/Semana1/img_equalization/build/CMakeFiles/test_common_code.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/test_common_code.dir/depend
 

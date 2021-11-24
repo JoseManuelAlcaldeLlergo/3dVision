@@ -2,11 +2,11 @@
 #include "common_code.hpp"
 
 cv::Mat
-fsiv_compute_histogram(const cv::Mat& in, cv::Mat& hist)
+fsiv_compute_histogram(const cv::Mat &in, cv::Mat &hist)
 {
-    CV_Assert(in.type()==CV_8UC1);
-    CV_Assert(hist.empty() ||(hist.type()==CV_32FC1 &&
-                              hist.rows==256 && hist.cols==1));
+    CV_Assert(in.type() == CV_8UC1);
+    CV_Assert(hist.empty() || (hist.type() == CV_32FC1 &&
+                               hist.rows == 256 && hist.cols == 1));
     //TODO
     //Tienes dos alternativas:
     //1- Implementar un recorrido por la imagen y calcular el histograma.
@@ -15,11 +15,13 @@ fsiv_compute_histogram(const cv::Mat& in, cv::Mat& hist)
 
     // std::vector<float> hist(256,0);
 
-    cv::Mat my_hist(256,1,CV_32F,0.0);
-    for(int y=0;y<in.rows;y++){
-    	for(int x=0;x<in.cols;x++){
-    		my_hist.at<float>(0,in.at<uchar>(y,x))+=1;
-    	}
+    cv::Mat my_hist(256, 1, CV_32F, 0.0);
+    for (int y = 0; y < in.rows; y++)
+    {
+        for (int x = 0; x < in.cols; x++)
+        {
+            my_hist.at<float>(0, in.at<uchar>(y, x)) += 1;
+        }
     }
 
     hist = my_hist;
@@ -27,23 +29,22 @@ fsiv_compute_histogram(const cv::Mat& in, cv::Mat& hist)
 
     //
 
-    CV_Assert(hist.type()==CV_32FC1);
-    CV_Assert(hist.rows==256 && hist.cols==1);
+    CV_Assert(hist.type() == CV_32FC1);
+    CV_Assert(hist.rows == 256 && hist.cols == 1);
     return hist;
 }
 
-void
-fsiv_normalize_histogram(cv::Mat& hist)
+void fsiv_normalize_histogram(cv::Mat &hist)
 {
-    CV_Assert(hist.type()==CV_32FC1);
-    CV_Assert(hist.rows==256 && hist.cols==1);
+    CV_Assert(hist.type() == CV_32FC1);
+    CV_Assert(hist.rows == 256 && hist.cols == 1);
 
     //TODO
     // for(int i=0; i<256; i++){
     // 	//cout<<"histogram["<<i<<"]= "<<histogram[i]<<endl;
     // 	hist[i]=(hist[i]*255.)/(input.cols*input.rows);
     // 	//cout<<"histogramN["<<i<<"]= "<<histogramN[i]<<endl;
-	//     	//suma+=histogramN[i];
+    //     	//suma+=histogramN[i];
 
     // }
 
@@ -51,32 +52,31 @@ fsiv_normalize_histogram(cv::Mat& hist)
     // std::cout<<"AQUI"<<cv::sum(hist)[0]<<std::endl;
 
     //
-    CV_Assert(hist.type()==CV_32FC1);
-    CV_Assert(hist.rows==256 && hist.cols==1);
+    CV_Assert(hist.type() == CV_32FC1);
+    CV_Assert(hist.rows == 256 && hist.cols == 1);
 }
 
-void
-fsiv_accumulate_histogram(cv::Mat& hist)
+void fsiv_accumulate_histogram(cv::Mat &hist)
 {
-    CV_Assert(hist.type()==CV_32FC1);
-    CV_Assert(hist.rows==256 && hist.cols==1);
+    CV_Assert(hist.type() == CV_32FC1);
+    CV_Assert(hist.rows == 256 && hist.cols == 1);
 
     //TODO
-    for(int i=0; i<256; i++){
-    	hist.at<float>(0,i)=hist.at<float>(0,i-1)+hist.at<float>(i);
-    	//cout<<"histogramNC["<<i<<"]= "<<histogramN[i]<<endl;
-
+    for (int i = 0; i < 256; i++)
+    {
+        hist.at<float>(0, i) = hist.at<float>(0, i - 1) + hist.at<float>(i);
+        //cout<<"histogramNC["<<i<<"]= "<<histogramN[i]<<endl;
     }
 
     //
 }
 
 cv::Mat
-fsiv_create_equalization_lookup_table(const cv::Mat& hist,
+fsiv_create_equalization_lookup_table(const cv::Mat &hist,
                                       bool hold_median)
 {
-    CV_Assert(hist.type()==CV_32FC1);
-    CV_Assert(hist.rows==256 && hist.cols==1);
+    CV_Assert(hist.type() == CV_32FC1);
+    CV_Assert(hist.rows == 256 && hist.cols == 1);
     cv::Mat lkt;
     //TODO
     //Usa las funciones fsiv_normalize_histogram y fsiv_accumulate_histogram
@@ -86,88 +86,98 @@ fsiv_create_equalization_lookup_table(const cv::Mat& hist,
     // std::cout<<lkt<<std::endl;
     fsiv_accumulate_histogram(lkt);
     // Como tenemos valores entre 0 y 1, hay que volver a la escala 0 255
-    lkt = lkt*255;
+    lkt = lkt * 255;
     // std::cout<<lkt<<std::endl;
-    lkt.convertTo(lkt,CV_8UC1);
+    lkt.convertTo(lkt, CV_8UC1);
     // std::cout<<lkt<<std::endl;
-
-
 
     //
 
-    CV_Assert(lkt.type()==CV_8UC1);
-    CV_Assert(lkt.rows==256 && lkt.cols==1);
+    CV_Assert(lkt.type() == CV_8UC1);
+    CV_Assert(lkt.rows == 256 && lkt.cols == 1);
     return lkt;
 }
 
 cv::Mat
-fsiv_apply_lookup_table(const cv::Mat&in, const cv::Mat& lkt,
-                        cv::Mat& out)
+fsiv_apply_lookup_table(const cv::Mat &in, const cv::Mat &lkt,
+                        cv::Mat &out)
 {
-    CV_Assert(in.type()==CV_8UC1);
-    CV_Assert(lkt.type()==CV_8UC1);
-    CV_Assert(lkt.rows==256 && lkt.cols==1);
-    CV_Assert(out.empty() || (out.type()==CV_8UC1 &&
-                              out.rows==in.rows && out.cols==in.cols));
+    CV_Assert(in.type() == CV_8UC1);
+    CV_Assert(lkt.type() == CV_8UC1);
+    CV_Assert(lkt.rows == 256 && lkt.cols == 1);
+    CV_Assert(out.empty() || (out.type() == CV_8UC1 &&
+                              out.rows == in.rows && out.cols == in.cols));
 
     //TODO
-    if(out.empty()){
-        out = cv::Mat::zeros(in.size(),in.type());
+    if (out.empty())
+    {
+        out = cv::Mat::zeros(in.size(), in.type());
     }
-    for(int y = 0; y<in.rows; y++){
-        for(int x = 0; x<in.cols; x++){
-            out.at<uchar>(y,x) = lkt.at<uchar>(0,in.at<uchar>(y,x));
+    for (int y = 0; y < in.rows; y++)
+    {
+        for (int x = 0; x < in.cols; x++)
+        {
+            out.at<uchar>(y, x) = lkt.at<uchar>(0, in.at<uchar>(y, x));
         }
     }
-    
 
     //
-    CV_Assert(out.rows ==in.rows && out.cols==in.cols && out.type()==in.type());
+    CV_Assert(out.rows == in.rows && out.cols == in.cols && out.type() == in.type());
     return out;
 }
 
 cv::Mat
-fsiv_image_equalization(const cv::Mat& in, cv::Mat& out,
-                    bool hold_median, int radius)
+fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
+                        bool hold_median, int radius)
 {
-    CV_Assert(in.type()==CV_8UC1);
+    CV_Assert(in.type() == CV_8UC1);
     //TODO
     //Utiliza las funciones fsiv_compute_histogram,
     //fsiv_create_equalization_lookup_table y fsiv_apply_lookup_table
     //
+
+    if(out.empty())
+        out = in.clone();
+
     // Si el radio es 0, aunque el resultado sea el mismo el bucle lo separamos para agilizar el proceso
-    if(radius == 0){
-        cv::Mat hist(256,1,CV_32F,0.0);
-        fsiv_compute_histogram(in,hist);
+    if (radius == 0)
+    {
+        cv::Mat hist(256, 1, CV_32F, 0.0);
+        fsiv_compute_histogram(in, hist);
         cv::Mat lkt = fsiv_create_equalization_lookup_table(hist);
-        fsiv_apply_lookup_table(in,lkt,out);
+        fsiv_apply_lookup_table(in, lkt, out);
     }
-    else{
-        for(int y = 0; y<in.rows; y++){
-            for(int x = 0; x<in.cols; x++){
-                cv::Mat hist(256,1,CV_32F,0.0);
+    else
+    {
+        for (int y = radius; y < in.rows - radius; y++)
+        {
+            for (int x = radius; x < in.cols - radius; x++)
+            {
+                cv::Mat hist(256, 1, CV_32F, 0.0);
                 // radius=80;
-                cv::Mat partial_in = in(cv::Range(0,2*radius+1),cv::Range(0,2*radius+1));
-                cv::Mat partial_out = cv::Mat::zeros(cv::Size(2*radius+1,2*radius+1),CV_8UC1);
+                cv::Mat partial_in = in(cv::Rect(x - radius, y - radius, (2 * radius) + 1, (2 * radius) + 1));
+                cv::Mat partial_out = cv::Mat::zeros(cv::Size(2 * radius + 1, 2 * radius + 1), CV_8UC1);
                 // cv::imshow("Prueba",partial_in);
                 // cv::waitKey(0);
-                fsiv_compute_histogram(partial_in,hist);
+                fsiv_compute_histogram(partial_in, hist);
                 cv::Mat lkt = fsiv_create_equalization_lookup_table(hist);
-                fsiv_apply_lookup_table(partial_in,lkt,partial_out);
-                
-                for(int r = 0; r<partial_out.rows-(2*radius+1); r++){
-                    for(int c = 0; c<partial_out.cols-(2*radius+1); c++){
-                        out.at<uchar>(y+r,x+c) = partial_out.at<uchar>(r,c);
-                    }
-                }   
-            }
-    }
-    }
-    
-    
+                fsiv_apply_lookup_table(partial_in, lkt, partial_out);
 
+                for (int r = 0; r < partial_out.rows ; r++)
+                {
+                    for (int c = 0; c < partial_out.cols; c++)
+                    {
+                        out.at<uchar>(y - radius + r, x - radius + c) = partial_out.at<uchar>(r, c);
+                    }
+                }
+            }
+            cv::namedWindow("Ecualización", CV_WINDOW_NORMAL);
+            cv::imshow("Ecualización", out);
+            cv::waitKey(0);
+        }
+    }
 
     //
-    CV_Assert(out.rows==in.rows && out.cols==in.cols && out.type()==in.type());
+    CV_Assert(out.rows == in.rows && out.cols == in.cols && out.type() == in.type());
     return out;
 }

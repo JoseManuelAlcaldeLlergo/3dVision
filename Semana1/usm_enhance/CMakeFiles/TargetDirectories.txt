@@ -1,4 +1,4 @@
-/home/pepe/UCO/V3D/usm_enhance/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/usm_enhance/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/usm_enhance/CMakeFiles/test_common_code.dir
-/home/pepe/UCO/V3D/usm_enhance/CMakeFiles/usm_enhance.dir
+/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/rebuild_cache.dir
+/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/edit_cache.dir
+/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/test_common_code.dir
+/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/usm_enhance.dir

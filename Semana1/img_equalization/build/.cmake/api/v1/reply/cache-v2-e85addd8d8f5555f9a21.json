@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/pepe/UCO/V3D/usm_enhance/build"
+			"value" : "/home/pepe/UCO/V3D/Semana1/img_equalization/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -607,7 +607,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/pepe/UCO/V3D/usm_enhance"
+			"value" : "/home/pepe/UCO/V3D/Semana1/img_equalization"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -851,7 +851,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "usm_enhance"
+			"value" : "img_equalization"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1143,7 +1143,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "[/usr/local][v3.4.16(3.0)]"
+			"value" : "[/usr/local][v3.4.16(3.4)]"
 		},
 		{
 			"name" : "OpenCV_DIR",
@@ -1158,7 +1158,7 @@
 			"value" : "/usr/local/share/OpenCV"
 		},
 		{
-			"name" : "usm_enhance_BINARY_DIR",
+			"name" : "img_equalization_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1167,10 +1167,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/pepe/UCO/V3D/usm_enhance/build"
+			"value" : "/home/pepe/UCO/V3D/Semana1/img_equalization/build"
 		},
 		{
-			"name" : "usm_enhance_SOURCE_DIR",
+			"name" : "img_equalization_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1179,7 +1179,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/pepe/UCO/V3D/usm_enhance"
+			"value" : "/home/pepe/UCO/V3D/Semana1/img_equalization"
 		}
 	],
 	"kind" : "cache",

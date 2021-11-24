@@ -72,7 +72,7 @@ fsiv_circular_expansion(cv::Mat const& in, const int r)
     //Hint you don't need use any "for" sentence, only 9 copyTo from "in"
     // rois to "ret_v" rois.
 
-    cv::copyMakeBorder(in, ret_v, r, r, r, r, cv::BORDER_CONSTANT);
+    cv::copyMakeBorder(in, ret_v, r, r, r, r, cv::BORDER_WRAP);
 
     //
     CV_Assert(ret_v.type()==in.type());

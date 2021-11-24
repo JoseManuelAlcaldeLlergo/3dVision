@@ -1,4 +1,4 @@
-# Install script for directory: /home/pepe/UCO/V3D/img_equalization
+# Install script for directory: /home/pepe/UCO/V3D/Semana1/img_equalization
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/pepe/UCO/V3D/img_equalization/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/pepe/UCO/V3D/Semana1/img_equalization/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

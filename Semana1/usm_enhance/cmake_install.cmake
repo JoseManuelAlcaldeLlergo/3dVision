@@ -1,4 +1,4 @@
-# Install script for directory: /home/pepe/UCO/V3D/usm_enhance
+# Install script for directory: /home/pepe/UCO/V3D/Semana1/usm_enhance
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/pepe/UCO/V3D/usm_enhance/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/pepe/UCO/V3D/Semana1/usm_enhance/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

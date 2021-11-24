@@ -57,8 +57,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/pepe/UCO/V3D/img_equalization/build",
-		"source" : "/home/pepe/UCO/V3D/img_equalization"
+		"build" : "/home/pepe/UCO/V3D/Semana1/img_equalization/build",
+		"source" : "/home/pepe/UCO/V3D/Semana1/img_equalization"
 	},
 	"version" : 
 	{

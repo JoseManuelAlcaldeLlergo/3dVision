@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/usm_enhance
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana1/usm_enhance
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/usm_enhance
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana1/usm_enhance
 
 # Include any dependencies generated for this target.
 include CMakeFiles/usm_enhance.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/usm_enhance.dir/flags.make
 
 CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o: CMakeFiles/usm_enhance.dir/flags.make
 CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o: usm_enhance.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/usm_enhance/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o -c /home/pepe/UCO/V3D/usm_enhance/usm_enhance.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o -c /home/pepe/UCO/V3D/Semana1/usm_enhance/usm_enhance.cpp
 
 CMakeFiles/usm_enhance.dir/usm_enhance.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/usm_enhance.dir/usm_enhance.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/usm_enhance/usm_enhance.cpp > CMakeFiles/usm_enhance.dir/usm_enhance.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/usm_enhance/usm_enhance.cpp > CMakeFiles/usm_enhance.dir/usm_enhance.cpp.i
 
 CMakeFiles/usm_enhance.dir/usm_enhance.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/usm_enhance.dir/usm_enhance.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/usm_enhance/usm_enhance.cpp -o CMakeFiles/usm_enhance.dir/usm_enhance.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/usm_enhance/usm_enhance.cpp -o CMakeFiles/usm_enhance.dir/usm_enhance.cpp.s
 
 CMakeFiles/usm_enhance.dir/common_code.cpp.o: CMakeFiles/usm_enhance.dir/flags.make
 CMakeFiles/usm_enhance.dir/common_code.cpp.o: common_code.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/usm_enhance/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/usm_enhance.dir/common_code.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/usm_enhance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/usm_enhance/common_code.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/usm_enhance.dir/common_code.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/usm_enhance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana1/usm_enhance/common_code.cpp
 
 CMakeFiles/usm_enhance.dir/common_code.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/usm_enhance.dir/common_code.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/usm_enhance/common_code.cpp > CMakeFiles/usm_enhance.dir/common_code.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/usm_enhance/common_code.cpp > CMakeFiles/usm_enhance.dir/common_code.cpp.i
 
 CMakeFiles/usm_enhance.dir/common_code.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/usm_enhance.dir/common_code.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/usm_enhance/common_code.cpp -o CMakeFiles/usm_enhance.dir/common_code.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/usm_enhance/common_code.cpp -o CMakeFiles/usm_enhance.dir/common_code.cpp.s
 
 # Object files for target usm_enhance
 usm_enhance_OBJECTS = \
@@ -112,7 +112,7 @@ usm_enhance: /usr/local/lib/libopencv_imgcodecs.so.3.4.16
 usm_enhance: /usr/local/lib/libopencv_imgproc.so.3.4.16
 usm_enhance: /usr/local/lib/libopencv_core.so.3.4.16
 usm_enhance: CMakeFiles/usm_enhance.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/usm_enhance/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable usm_enhance"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable usm_enhance"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/usm_enhance.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,6 +125,6 @@ CMakeFiles/usm_enhance.dir/clean:
 .PHONY : CMakeFiles/usm_enhance.dir/clean
 
 CMakeFiles/usm_enhance.dir/depend:
-	cd /home/pepe/UCO/V3D/usm_enhance && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/usm_enhance /home/pepe/UCO/V3D/usm_enhance /home/pepe/UCO/V3D/usm_enhance /home/pepe/UCO/V3D/usm_enhance /home/pepe/UCO/V3D/usm_enhance/CMakeFiles/usm_enhance.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pepe/UCO/V3D/Semana1/usm_enhance && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/Semana1/usm_enhance /home/pepe/UCO/V3D/Semana1/usm_enhance /home/pepe/UCO/V3D/Semana1/usm_enhance /home/pepe/UCO/V3D/Semana1/usm_enhance /home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/usm_enhance.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/usm_enhance.dir/depend
 

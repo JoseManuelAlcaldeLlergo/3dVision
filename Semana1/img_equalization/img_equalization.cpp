@@ -71,7 +71,7 @@ main (int argc, char* const* argv)
 
       //TODO
 
-
+      fsiv_image_equalization(input, output, hold_median, radius);
 
 
 

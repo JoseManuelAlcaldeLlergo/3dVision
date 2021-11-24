@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pepe/UCO/V3D/img_equalization/common_code.cpp" "/home/pepe/UCO/V3D/img_equalization/build/CMakeFiles/test_common_code.dir/common_code.cpp.o"
-  "/home/pepe/UCO/V3D/img_equalization/test_common_code_obf.cpp" "/home/pepe/UCO/V3D/img_equalization/build/CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/img_equalization/common_code.cpp" "/home/pepe/UCO/V3D/Semana1/img_equalization/build/CMakeFiles/test_common_code.dir/common_code.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/img_equalization/test_common_code_obf.cpp" "/home/pepe/UCO/V3D/Semana1/img_equalization/build/CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

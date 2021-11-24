@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pepe/UCO/V3D/usm_enhance/common_code.cpp" "/home/pepe/UCO/V3D/usm_enhance/CMakeFiles/usm_enhance.dir/common_code.cpp.o"
-  "/home/pepe/UCO/V3D/usm_enhance/usm_enhance.cpp" "/home/pepe/UCO/V3D/usm_enhance/CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/usm_enhance/common_code.cpp" "/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/usm_enhance.dir/common_code.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/usm_enhance/usm_enhance.cpp" "/home/pepe/UCO/V3D/Semana1/usm_enhance/CMakeFiles/usm_enhance.dir/usm_enhance.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
