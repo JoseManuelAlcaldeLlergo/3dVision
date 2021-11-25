@@ -55,7 +55,6 @@ int main(int argc, char *const *argv)
         // showEpipolar(im1,im2,camK,F);
         while(cv::waitKey(0)!=27) ;
 
-
     }
     catch (std::exception &e)
     {
