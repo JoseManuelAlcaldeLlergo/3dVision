@@ -35,7 +35,7 @@ main (int argc, char* const* argv)
             return EXIT_SUCCESS;
         }
         if(argc != 4){
-            std::cerr<<"Se le deben pasar tres argumentos al programa:\n\t ./stereo_disparity stereo_image calibration.yml out.pcd"<<std::endl;
+            std::cerr<<"Se le deben pasar tres argumentos al programa:\n\t ./stereo_disparity image.jpg calibration.yml out.pcd"<<std::endl;
             return EXIT_FAILURE;
         }
         
@@ -61,46 +61,42 @@ main (int argc, char* const* argv)
             return EXIT_FAILURE;
         }
 
-        
-
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
         load_calibration_parameters(fs, camera_size, error, st_parameters.mtxL, st_parameters.mtxR, st_parameters.distL, st_parameters.distR, st_parameters.Rot, st_parameters.Trns, st_parameters.Emat, st_parameters.Fmat);
 
         //Imagen original
         cv::Mat img = cv::imread(img_name);
+   
 
-        
-
-        // // Dividimos la imagen en las dos que la componen
+        // Dividimos la imagen en las dos que la componen
         cv::Mat img_left = img(cv::Range(0, img.rows), cv::Range(0, round(img.cols / 2)));
         cv::Mat img_right = img(cv::Range(0, img.rows), cv::Range(round(img.cols / 2), img.cols));
 
         rectifyStereoImages(st_parameters,img_left,img_right);
 
-        //Imagen rectificada
-
+        //Imagen rectificada concantenadas
         cv::Mat img_rect;
         cv::hconcat(img_left,img_right, img_rect);
 
-        cv::namedWindow(wname_rect);
-        cv::imshow(wname_rect, img_rect);
+        // Descomentar para ver imagen rectificada
+        // cv::namedWindow(wname_rect, CV_WINDOW_NORMAL);
+        // cv::imshow(wname_rect, img_rect);
 
-        cv::waitKey(0);
+        // cv::waitKey(0);
 
         //Practica 3
 
         cv::Mat new_left;
         cv::Mat new_right;
 
+        //Converting images to gray scale
         cv::cvtColor(img_left,new_left, CV_BGR2GRAY);
-        // img_left.convertTo(new_left,CV_8UC1);
         
         cv::cvtColor(img_right,new_right, CV_BGR2GRAY);
-        // img_right.convertTo(new_right,CV_8UC1);
 
         cv::Ptr<cv::StereoBM> sbm = cv::StereoBM::create();
-        //cv::Mat disp(img_left.rows, img_left.cols, CV_8UC1), disparity;
+
         cv::Mat disp, disparity;
         sbm->compute(new_left,new_right,disp);
 
@@ -108,6 +104,7 @@ main (int argc, char* const* argv)
         disp.convertTo(disparity,CV_32F, 1.0);
         disparity=disparity/16.f;
 
+        // Obtaining values needed to triangulate
         float B = sqrt((float)pow(st_parameters.Trns.at<double>(0,0),2) + (float)pow(st_parameters.Trns.at<double>(1,0),2) + (float)pow(st_parameters.Trns.at<double>(2,0),2));
         float f = (float)st_parameters.mtxL.at<double>(0,0);
         float cx = (float)st_parameters.mtxL.at<double>(0,2);
@@ -117,7 +114,8 @@ main (int argc, char* const* argv)
         std::vector<cv::Point3f> _3dpoints;
 
         for(int x = 0; x<disparity.cols; x++){
-            for(int y = 0; y<disparity.rows; y++){            
+            for(int y = 0; y<disparity.rows; y++){
+                //When disparity is greater than 10, triangulate the point            
                 if(disparity.at<float>(y,x) > 10.0){
                     Z = B*f/disparity.at<float>(y,x);
                     X = (x-cx)*Z/f;
@@ -129,21 +127,6 @@ main (int argc, char* const* argv)
         }
 
         writeToPCD(output_file,_3dpoints);
-
-        // for (int c = 0; c < st_parameters.Trns.rows; c++)
-        // {
-        //     for (int d = 0; d < st_parameters.Trns.cols; d++)
-        //     {
-        //         std::cout << "row: " << c << " col: " << d << " " << st_parameters.Trns.at<double>(c, d) << std::endl;
-        //     }
-        // }
-        // // Scaling down the disparity values and normalizing them
-        // cv::Mat disparityNorm = (disparity/16.0f -
-        // (float)minDisparity)/((float)numDisparities);
-
-        // std::cout<<"HOLA"<<std::endl;
-
-
         
     }
     catch (std::exception& e)

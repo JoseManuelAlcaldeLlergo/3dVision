@@ -1,14 +1,4 @@
-/*!
-  Esto es un esqueleto de programa para usar en las prácticas
-  de Visión Artificial.
-
-  Se supone que se utilizará OpenCV.
-
-  Para compilar, puedes ejecutar:
-    g++ -Wall -o esqueleto esqueleto.cc `pkg-config opencv --cflags --libs`
-
-*/
-
+// ./stereo_checkundistorted ../calibration/m001.jpg ../my_calibration.yml
 #include <iostream>
 #include <exception>
 
@@ -28,6 +18,9 @@ const cv::String keys =
     "{@input        |<none>| path of the image.}"
     "{@calibration        |<none>| filename of the calibration file.}"    ;
 
+/*
+Muestra una linea horizontal en la ventana de la imagen a la altura del ratón
+*/
 void on_mouse( int event, int x, int y, int flags, void* param )
 {
     OnMouseParams *params = (OnMouseParams*)param;
@@ -49,6 +42,7 @@ void on_mouse( int event, int x, int y, int flags, void* param )
     
     }
 }
+
 int
 main (int argc, char* const* argv)
 {
@@ -63,7 +57,7 @@ main (int argc, char* const* argv)
             return EXIT_SUCCESS;
         }
         if(argc != 3){
-            std::cerr<<"Se le deben pasar dos argumentos al programa:\n\t ./stereo_calibrate directorio_imagenes fichero_salida"<<std::endl;
+            std::cerr<<"Se le deben pasar dos argumentos al programa:\n\t ./stereo_checkundistorted imagen.jpg fichero_calibracion.yml"<<std::endl;
             return EXIT_FAILURE;
         }
         
@@ -86,18 +80,18 @@ main (int argc, char* const* argv)
         if(!IsPathExist(calibration_file)){
             std::cerr<<"No existe el fichero de calibración <"<<calibration_file<<">"<<std::endl;
             return EXIT_FAILURE;
-        }
-
-        
+        }      
 
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
+
+        //Obtenemos todos los parámetros del fichero de calibración
         load_calibration_parameters(fs, camera_size, error, st_parameters.mtxL, st_parameters.mtxR, st_parameters.distL, st_parameters.distR, st_parameters.Rot, st_parameters.Trns, st_parameters.Emat, st_parameters.Fmat);
 
         //Imagen original
         cv::Mat img = cv::imread(img_name);
         // cv::namedWindow("STEREO", CV_WINDOW_NORMAL);
-        cv::namedWindow(wname_or);
+        cv::namedWindow(wname_or, CV_WINDOW_NORMAL);
         cv::imshow(wname_or, img);
         std::cout<<"PRESS ANY KEY TO CONTINUE..."<<std::endl;
         mouse_parameters_or.img = img.clone();
@@ -112,11 +106,10 @@ main (int argc, char* const* argv)
         rectifyStereoImages(st_parameters,img_left,img_right);
 
         //Imagen rectificada
-
         cv::Mat img_rect;
         cv::hconcat(img_left,img_right, img_rect);
 
-        cv::namedWindow(wname_rect);
+        cv::namedWindow(wname_rect, CV_WINDOW_NORMAL);
         cv::imshow(wname_rect, img_rect);
 
         mouse_parameters_rect.img = img_rect.clone();

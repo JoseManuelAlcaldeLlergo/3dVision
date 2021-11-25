@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named stereo_sparse
+# Target rules for targets named fundamental_matrix
 
 # Build rule for target.
-stereo_sparse: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stereo_sparse
-.PHONY : stereo_sparse
+fundamental_matrix: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fundamental_matrix
+.PHONY : fundamental_matrix
 
 # fast build rule for target.
-stereo_sparse/fast:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/build
-.PHONY : stereo_sparse/fast
+fundamental_matrix/fast:
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/build
+.PHONY : fundamental_matrix/fast
 
 common_code.o: common_code.cpp.o
 
@@ -129,7 +129,7 @@ common_code.o: common_code.cpp.o
 
 # target to build an object file
 common_code.cpp.o:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/common_code.cpp.o
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/common_code.cpp.o
 .PHONY : common_code.cpp.o
 
 common_code.i: common_code.cpp.i
@@ -138,7 +138,7 @@ common_code.i: common_code.cpp.i
 
 # target to preprocess a source file
 common_code.cpp.i:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/common_code.cpp.i
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/common_code.cpp.i
 .PHONY : common_code.cpp.i
 
 common_code.s: common_code.cpp.s
@@ -147,35 +147,35 @@ common_code.s: common_code.cpp.s
 
 # target to generate assembly for a file
 common_code.cpp.s:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/common_code.cpp.s
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/common_code.cpp.s
 .PHONY : common_code.cpp.s
 
-stereo_sparse.o: stereo_sparse.cpp.o
+fundamental_matrix.o: fundamental_matrix.cpp.o
 
-.PHONY : stereo_sparse.o
+.PHONY : fundamental_matrix.o
 
 # target to build an object file
-stereo_sparse.cpp.o:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/stereo_sparse.cpp.o
-.PHONY : stereo_sparse.cpp.o
+fundamental_matrix.cpp.o:
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/fundamental_matrix.cpp.o
+.PHONY : fundamental_matrix.cpp.o
 
-stereo_sparse.i: stereo_sparse.cpp.i
+fundamental_matrix.i: fundamental_matrix.cpp.i
 
-.PHONY : stereo_sparse.i
+.PHONY : fundamental_matrix.i
 
 # target to preprocess a source file
-stereo_sparse.cpp.i:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/stereo_sparse.cpp.i
-.PHONY : stereo_sparse.cpp.i
+fundamental_matrix.cpp.i:
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/fundamental_matrix.cpp.i
+.PHONY : fundamental_matrix.cpp.i
 
-stereo_sparse.s: stereo_sparse.cpp.s
+fundamental_matrix.s: fundamental_matrix.cpp.s
 
-.PHONY : stereo_sparse.s
+.PHONY : fundamental_matrix.s
 
 # target to generate assembly for a file
-stereo_sparse.cpp.s:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/stereo_sparse.cpp.s
-.PHONY : stereo_sparse.cpp.s
+fundamental_matrix.cpp.s:
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/fundamental_matrix.cpp.s
+.PHONY : fundamental_matrix.cpp.s
 
 # Help Target
 help:
@@ -185,13 +185,13 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... stereo_sparse"
+	@echo "... fundamental_matrix"
 	@echo "... common_code.o"
 	@echo "... common_code.i"
 	@echo "... common_code.s"
-	@echo "... stereo_sparse.o"
-	@echo "... stereo_sparse.i"
-	@echo "... stereo_sparse.s"
+	@echo "... fundamental_matrix.o"
+	@echo "... fundamental_matrix.i"
+	@echo "... fundamental_matrix.s"
 .PHONY : help
 
 

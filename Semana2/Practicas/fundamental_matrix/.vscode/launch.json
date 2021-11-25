@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/build/${fileBasenameNoExtension}",
-            "args": ["reconstruction/m001.jpg", "stereo_calibration.yml", "output.pcd"],
+            "args": ["./cam0/00-center.jpg", "./cam0/01-right.jpg", "./cam0/calibration.yml"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

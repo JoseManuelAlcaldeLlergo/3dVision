@@ -7,10 +7,8 @@
 
 //Structure that contains the Stereo Pair Calbration information.
 //This will be calculated using stereo_calibrate
-struct StereoParams{
-   cv::Mat mtxL,distL,R_L,T_L;
-   cv::Mat mtxR,distR,R_R,T_R;
-   cv::Mat Rot, Trns, Emat, Fmat;
+struct CP{
+   cv::Mat camera_matrix, dist_coefs;
 };
 
 struct OnMouseParams{
@@ -18,23 +16,19 @@ struct OnMouseParams{
    std::string wname;
 };
 
-void rectifyStereoImages(const StereoParams &sti,cv::Mat &left,cv::Mat &rigth);
 
 bool IsPathExist(const std::string &s);
 
-void
-load_calibration_parameters(cv::FileStorage &fs,
-                                 cv::Size &camera_size,
-                                 float& error,
-                                 cv::Mat& camera_matrix_left,
-                                 cv::Mat& camera_matrix_right,
-                                 cv::Mat& dist_coeffs_left,
-                                 cv::Mat& dist_coeffs_right,
-                                 cv::Mat& rvec,
-                                 cv::Mat& tvec,
-                                 cv::Mat& E,
-                                 cv::Mat& F);
+CP readCameraParams(cv::FileStorage &fs);
 
 void writeToPCD(std::string path,std::vector<cv::Point3f> points);
+
+void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F);
+
+cv::Mat removeDistortion(cv::Mat img, CP cam_params);
+
+void __imshow(std::string wn,const cv::Mat &im,cv::Size ss);
+
+void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F);
 
 

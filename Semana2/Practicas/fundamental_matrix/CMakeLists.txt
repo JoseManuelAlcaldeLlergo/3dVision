@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
-PROJECT(stereo_sparse)
+PROJECT(fundamental_matrix)
 ENABLE_LANGUAGE(CXX)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -10,5 +10,5 @@ FIND_PACKAGE(OpenCV 3.4	REQUIRED )
 LINK_LIBRARIES(${OpenCV_LIBS})
 include_directories ("${OpenCV_INCLUDE_DIRS}")
 
-add_executable(stereo_sparse stereo_sparse.cpp common_code.cpp common_code.hpp)
+add_executable(fundamental_matrix fundamental_matrix.cpp common_code.cpp common_code.hpp)
  

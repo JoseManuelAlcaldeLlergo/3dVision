@@ -44,16 +44,16 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/stereo_sparse.dir/all
+all: CMakeFiles/fundamental_matrix.dir/all
 
 .PHONY : all
 
@@ -63,36 +63,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/stereo_sparse.dir/clean
+clean: CMakeFiles/fundamental_matrix.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/stereo_sparse.dir
+# Target rules for target CMakeFiles/fundamental_matrix.dir
 
 # All Build rule for target.
-CMakeFiles/stereo_sparse.dir/all:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/depend
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles --progress-num=1,2,3 "Built target stereo_sparse"
-.PHONY : CMakeFiles/stereo_sparse.dir/all
+CMakeFiles/fundamental_matrix.dir/all:
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/depend
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles --progress-num=1,2,3 "Built target fundamental_matrix"
+.PHONY : CMakeFiles/fundamental_matrix.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/stereo_sparse.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/stereo_sparse.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles 0
-.PHONY : CMakeFiles/stereo_sparse.dir/rule
+CMakeFiles/fundamental_matrix.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fundamental_matrix.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles 0
+.PHONY : CMakeFiles/fundamental_matrix.dir/rule
 
 # Convenience name for target.
-stereo_sparse: CMakeFiles/stereo_sparse.dir/rule
+fundamental_matrix: CMakeFiles/fundamental_matrix.dir/rule
 
-.PHONY : stereo_sparse
+.PHONY : fundamental_matrix
 
 # clean rule for target.
-CMakeFiles/stereo_sparse.dir/clean:
-	$(MAKE) -f CMakeFiles/stereo_sparse.dir/build.make CMakeFiles/stereo_sparse.dir/clean
-.PHONY : CMakeFiles/stereo_sparse.dir/clean
+CMakeFiles/fundamental_matrix.dir/clean:
+	$(MAKE) -f CMakeFiles/fundamental_matrix.dir/build.make CMakeFiles/fundamental_matrix.dir/clean
+.PHONY : CMakeFiles/fundamental_matrix.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -212,12 +212,6 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 OpenCV_DIR:PATH=/usr/local/share/OpenCV
 
 //Value Computed by CMake
-calibrate_BINARY_DIR:STATIC=/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_calibration/build
-
-//Value Computed by CMake
-calibrate_SOURCE_DIR:STATIC=/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_calibration
-
-//Value Computed by CMake
 stereo_calibrate_BINARY_DIR:STATIC=/home/pepe/UCO/V3D/Semana2/Practicas/Stereo_calibration/build
 
 //Value Computed by CMake

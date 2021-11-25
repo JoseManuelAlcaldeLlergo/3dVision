@@ -1,3 +1,0 @@
-/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/stereo_sparse/build/CMakeFiles/stereo_sparse.dir

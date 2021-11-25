@@ -1,3 +1,0 @@
-/home/pepe/UCO/V3D/Semana2/Practicas/disparity/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/disparity/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/disparity/build/CMakeFiles/stereo_disparity.dir

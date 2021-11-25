@@ -1,13 +1,4 @@
-/*!
-  Esto es un esqueleto de programa para usar en las prácticas
-  de Visión Artificial.
-
-  Se supone que se utilizará OpenCV.
-
-  Para compilar, puedes ejecutar:
-    g++ -Wall -o esqueleto esqueleto.cc `pkg-config opencv --cflags --libs`
-
-*/
+// ./stereo_calibrate ../calibration/ my_calibration.yml
 
 #include <iostream>
 #include <exception>
@@ -70,6 +61,7 @@ main (int argc, char* const* argv)
         cv::Size camera_size = cv::Size(0,0);
         cv::Size camera_size_old = cv::Size(0,0);
 
+        //Obtenemos todas las imágenes del directorio especificado
         DirReader Dir;
         auto files=Dir.read(files_dir,".jpg",DirReader::Params(true));
         
@@ -112,9 +104,6 @@ main (int argc, char* const* argv)
         }
 
             cv::Mat cam_mat_left, cam_mat_right, dist_coef_left, dist_coef_right, R, T, E, F; 
-            // float error_left = calibrate_camera(_2d_points_left, _3d_points, camera_size, cam_mat_left, dist_coef_left);
-            // float error_right = calibrate_camera(_2d_points_right, _3d_points, camera_size, cam_mat_right, dist_coef_right);
-            // std::cout << "Error de reproyeccion: " << error << std::endl;
 
 
             float error = cv::stereoCalibrate(_3d_points, _2d_points_left, _2d_points_right, cam_mat_left, cam_mat_right, dist_coef_left, dist_coef_right, camera_size, R, T, E, F, 0.0, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 60, 1e-6));
@@ -122,8 +111,9 @@ main (int argc, char* const* argv)
             //E y F representan lo mismo pero de distinta manera. 
             //Dado un pixel en la cámara izquierda al multiplicar E por el pixel, obtendré los coeficientes de ax+b = c que representan la línea en la que caerá el punto en la cámara derecha
             //F es igual que E pero representando un punto en vez de en pixeles como una distancia entre el punto y el centro de la cámara ((A-Cx)/fx)
-            //F es en el espacio real y E en el pixelar
+            //F es para el espacio pixelar y E el real
 
+            //Almacenamos los parametros de calibracion en output
             auto fs = cv::FileStorage();
             fs.open(output_fname, cv::FileStorage::WRITE);
             save_calibration_parameters(fs, camera_size, error, cam_mat_left, dist_coef_left, cam_mat_right, dist_coef_right, R, T, E, F);

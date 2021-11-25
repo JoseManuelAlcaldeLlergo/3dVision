@@ -34,7 +34,7 @@ int main(int argc, char *const *argv)
         }
         if (argc != 4)
         {
-            std::cerr << "Se le deben pasar tres argumentos al programa:\n\t ./stereo_disparity stereo_image calibration.yml out.pcd" << std::endl;
+            std::cerr << "Se le deben pasar tres argumentos al programa:\n\t ./stereo_sparse image.jpg calibration.yml out.pcd" << std::endl;
             return EXIT_FAILURE;
         }
 
@@ -86,7 +86,6 @@ int main(int argc, char *const *argv)
         cv::Mat descriptors_query, descriptors_train;
         std::vector<cv::DMatch> matches, filter_matches;
         cv::Mat matches_image, filter_matches_image;
-        // std::vector<double> kp_distances;
         std::vector<cv::Point3f> points_3d;
 
         auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f);
@@ -95,17 +94,14 @@ int main(int argc, char *const *argv)
         auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
         matcher->match(descriptors_query, descriptors_train, matches, cv::Mat());
 
-        std::cout << matches.size() << " matches" << std::endl;
+        // Matches con fuerza bruta
+        // std::cout << matches.size() << " matches" << std::endl;
         cv::drawMatches(img_left, keypoints_query, img_right, keypoints_train, matches, matches_image);
 
         cv::namedWindow("Matches", CV_WINDOW_NORMAL);
         cv::imshow("Matches", matches_image);
         cv::waitKey(0);
-        // cv::imshow("DescQ", descriptors_query);
-        // cv::waitKey(0);
-        // cv::imshow("DescT", descriptors_train);
 
-        // cv::waitKey(0);
 
         //Triangulation
         float B = sqrt((float)pow(st_parameters.Trns.at<double>(0, 0), 2) + (float)pow(st_parameters.Trns.at<double>(1, 0), 2) + (float)pow(st_parameters.Trns.at<double>(2, 0), 2));
@@ -137,8 +133,9 @@ int main(int argc, char *const *argv)
                 }
             }
         }
-        std::cout << filter_matches.size() << std::endl;
-
+        // Matches en la misma linea horizontal
+        // std::cout << filter_matches.size() << std::endl;
+        
         cv::drawMatches(img_left, keypoints_query_filtered, img_right, keypoints_train_filtered, filter_matches, filter_matches_image);
 
         cv::namedWindow("Filtered Matches", CV_WINDOW_NORMAL);
@@ -146,6 +143,7 @@ int main(int argc, char *const *argv)
         cv::waitKey(0);
 
         writeToPCD(output_file, points_3d);
+        std::cout<<"Generado fichero "<<output_file<<std::endl;
     }
     catch (std::exception &e)
     {
