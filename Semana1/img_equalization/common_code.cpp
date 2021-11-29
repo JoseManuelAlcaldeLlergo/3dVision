@@ -13,7 +13,6 @@ fsiv_compute_histogram(const cv::Mat &in, cv::Mat &hist)
     //2- Usar la función cv::calcHist.
     //Sugerencia: implementa las dos para comparar.
 
-    // std::vector<float> hist(256,0);
 
     cv::Mat my_hist(256, 1, CV_32F, 0.0);
     for (int y = 0; y < in.rows; y++)
@@ -25,9 +24,7 @@ fsiv_compute_histogram(const cv::Mat &in, cv::Mat &hist)
     }
 
     hist = my_hist;
-    // std::cout<<my_hist<<std::endl;
 
-    //
 
     CV_Assert(hist.type() == CV_32FC1);
     CV_Assert(hist.rows == 256 && hist.cols == 1);
@@ -40,16 +37,9 @@ void fsiv_normalize_histogram(cv::Mat &hist)
     CV_Assert(hist.rows == 256 && hist.cols == 1);
 
     //TODO
-    // for(int i=0; i<256; i++){
-    // 	//cout<<"histogram["<<i<<"]= "<<histogram[i]<<endl;
-    // 	hist[i]=(hist[i]*255.)/(input.cols*input.rows);
-    // 	//cout<<"histogramN["<<i<<"]= "<<histogramN[i]<<endl;
-    //     	//suma+=histogramN[i];
 
-    // }
 
     normalize(hist, hist, 1, 0, cv::NORM_L1, -1, cv::Mat());
-    // std::cout<<"AQUI"<<cv::sum(hist)[0]<<std::endl;
 
     //
     CV_Assert(hist.type() == CV_32FC1);
@@ -154,26 +144,17 @@ fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
             for (int x = radius; x < in.cols - radius; x++)
             {
                 cv::Mat hist(256, 1, CV_32F, 0.0);
-                // radius=80;
                 cv::Mat partial_in = in(cv::Rect(x - radius, y - radius, (2 * radius) + 1, (2 * radius) + 1));
                 cv::Mat partial_out = cv::Mat::zeros(cv::Size(2 * radius + 1, 2 * radius + 1), CV_8UC1);
-                // cv::imshow("Prueba",partial_in);
-                // cv::waitKey(0);
+
                 fsiv_compute_histogram(partial_in, hist);
                 cv::Mat lkt = fsiv_create_equalization_lookup_table(hist);
                 fsiv_apply_lookup_table(partial_in, lkt, partial_out);
 
-                for (int r = 0; r < partial_out.rows; r++)
-                {
-                    for (int c = 0; c < partial_out.cols; c++)
-                    {
-                        out.at<uchar>(y - radius + r, x - radius + c) = partial_out.at<uchar>(r, c);
-                    }
-                }
+                // Se reemplaza solamente el pixel central
+                out.at<uchar>(y,x) = partial_out.at<uchar>(radius,radius);
             }
-            cv::namedWindow("Ecualización", CV_WINDOW_NORMAL);
-            cv::imshow("Ecualización", out);
-            cv::waitKey(0);
+
         }
     }
 

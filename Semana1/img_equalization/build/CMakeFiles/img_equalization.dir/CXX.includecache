@@ -22,19 +22,3 @@ opencv2/highgui/highgui.hpp
 opencv2/imgproc/imgproc.hpp
 -
 
-/home/pepe/UCO/V3D/Semana1/img_equalization/img_equalization.cpp
-iostream
--
-exception
--
-opencv2/core/core.hpp
--
-opencv2/core/utility.hpp
--
-opencv2/highgui/highgui.hpp
--
-opencv2/imgproc/imgproc.hpp
--
-common_code.hpp
-/home/pepe/UCO/V3D/Semana1/img_equalization/common_code.hpp
-
