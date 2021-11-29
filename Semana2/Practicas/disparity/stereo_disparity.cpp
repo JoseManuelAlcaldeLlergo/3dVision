@@ -1,4 +1,4 @@
-
+// ./stereo_disparity ../reconstruction/m001.jpg ../stereo_calibration.yml out.pcd
 #include <iostream>
 #include <exception>
 

@@ -40,6 +40,8 @@ int main(int argc, char *const *argv)
         cv::Mat im1=cv::imread(argv[1]);
         cv::Mat im2=cv::imread(argv[2]);
         std::string calibration_file = parser.get<cv::String>("@calibration");
+
+        
         
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
@@ -47,12 +49,12 @@ int main(int argc, char *const *argv)
         auto CP=readCameraParams(fs);
         cv::Mat und_im1 = removeDistortion(im1,CP).clone();
         cv::Mat und_im2 = removeDistortion(im2,CP).clone();
+        cv::Mat F=fundamental(und_im1,und_im2);
         __imshow("original1",im1,cv::Size(480,270));
         __imshow("und_1",und_im1,cv::Size(480,270));
         __imshow("original2",im2,cv::Size(480,270));
         __imshow("und_2",und_im2,cv::Size(480,270));
-        // cv::Mat F=fundamental(im1,im2);
-        // showEpipolar(im1,im2,camK,F);
+        showEpipolar(und_im1,und_im2,CP.camera_matrix,F);
         while(cv::waitKey(0)!=27) ;
 
         
