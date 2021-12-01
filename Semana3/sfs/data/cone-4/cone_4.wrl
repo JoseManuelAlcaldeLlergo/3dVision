@@ -1,0 +1,49 @@
+#VRML V2.0 utf8
+
+Transform {
+  translation 0 0 0.375
+  rotation 1 0 0 1.570796
+  children 
+    Shape {
+      appearance Appearance {
+			material Material {
+			  diffuseColor 1 1 1
+	  		}
+		}
+      geometry Cone { 
+  			bottomRadius 0.4        # (0,)
+			height       0.75        # (0,)
+  			side         TRUE
+  			bottom       TRUE
+		}
+    }
+  }
+
+#VRML V2.0 utf8
+#escena con con 3.0x3.0 m de suelo y 2.5m de altura.
+#vista por cuatro cámaras con fov=90 grados y posicionadas en las esquinas
+#superiories mirando hacia (0,0,0)
+Viewpoint {
+	 description "cam0"
+	 fieldOfView 1.570796
+	 position 1.500000 1.500000 2.500000
+	 orientation 0.141308 0.341148 0.929328 2.406679
+}
+Viewpoint {
+	 description "cam1"
+	 fieldOfView 1.570796
+	 position 1.500000 -1.500000 2.500000
+	 orientation 0.639558 0.264914 0.721655 1.042130
+}
+Viewpoint {
+	 description "cam2"
+	 fieldOfView 1.570796
+	 position -1.500000 -1.500000 2.500000
+	 orientation 0.639558 -0.264914 -0.721655 1.042130
+}
+Viewpoint {
+	 description "cam3"
+	 fieldOfView 1.570796
+	 position -1.500000 1.500000 2.500000
+	 orientation 0.141308 -0.341148 -0.929328 2.406679
+}
