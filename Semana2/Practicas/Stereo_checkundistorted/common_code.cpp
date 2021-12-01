@@ -4,7 +4,6 @@
 #include <sys/stat.h>
 #include "common_code.hpp"
 
-
 void rectifyStereoImages(const StereoParams &sti,cv::Mat &left,cv::Mat &rigth){
 
    cv::Mat rect_l, rect_r, proj_mat_l, proj_mat_r, Q;
