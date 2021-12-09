@@ -50,7 +50,6 @@ void __imshow(std::string wn,const cv::Mat &im,cv::Size ss)
         cv::imshow(wn,resized);
     }
 }
-
 void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F){
 
     if(F.empty())return;
@@ -75,7 +74,7 @@ void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F
     }
 
      cv::namedWindow("Fundamental");
-    __imshow("Fundamental",Mixed,cv::Size{800,300});
+    __imshow("Fundamental",Mixed,cv::Size{1600,600});
 
     cv::setMouseCallback("Fundamental",[](int event, int x, int y, int flags, void* _cbi)->void{
         if(x<800){
@@ -103,7 +102,7 @@ void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F
             imBcopy.copyTo(Mixed.colRange(cbi->imA.cols,2*cbi->imA.cols ));
 
             cv::namedWindow("Fundamental");
-            __imshow("Fundamental",Mixed,cv::Size{800,300});
+            __imshow("Fundamental",Mixed,cv::Size{1600,600});
         }else{
 
 

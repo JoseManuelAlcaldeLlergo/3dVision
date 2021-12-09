@@ -21,9 +21,9 @@ namespace fsiv
         cv::Mat center;
         //TODO
         //Supongo que cada fila es una de las coordenadas x y z
-        center.push_back((x_ + wx_) / 2);
-        center.push_back((y_ + wy_) / 2);
-        center.push_back((z_ + wz_) / 2);
+        center.push_back(x_ + wx_ / 2);
+        center.push_back(y_ + wy_ / 2);
+        center.push_back(z_ + wz_ / 2);
         //
         CV_Assert(center.rows = 3 && center.cols == 1 && center.type() == CV_32FC1);
         return center;
@@ -56,7 +56,7 @@ namespace fsiv
         ret.at<float>(1,3) = y_ + wy_;
         ret.at<float>(2,3) = z_ + wz_;
 
-        ret.at<float>(0,4) = x_;
+        ret.at<float>(0,4) = x_ + wx_;
         ret.at<float>(1,4) = y_;
         ret.at<float>(2,4) = z_;
 
@@ -89,22 +89,23 @@ namespace fsiv
         _x_size = bc.x_dim() / vsize;
         _y_size = bc.y_dim() / vsize;
         _z_size = bc.z_dim() / vsize;
+        _xy_size = _xy_size*_y_size;
 
-        // int x_size = static_cast<int>(_x_size);
-        // int y_size = static_cast<int>(_y_size);
-        // int z_size = static_cast<int>(_z_size);
+        // int sizes[] = {_x_size, _y_size, _z_size};
+        // _occupancy_map = cv::Mat::zeros(3,sizes,CV_8UC1);
 
-        int sizes[] = {_x_size, _y_size, _z_size};
-
-        _occupancy_map = cv::Mat::zeros(3,sizes,CV_8UC1);
+        if(init_occ_state)
+            _occupancy_map = cv::Mat::ones(1,_x_size*_y_size*_z_size,CV_8UC1);
+        else    
+            _occupancy_map = cv::Mat::zeros(1,_x_size*_y_size*_z_size,CV_8UC1);
         
-        for(size_t x; x < _x_size; x++){
-            for(size_t y; y < _y_size; y++){
-                for(size_t z; z < _z_size; z++){
-                    _occupancy_map.at<uchar>(x,y,z) = init_occ_state;
-                }
-            }
-        }
+        // for(size_t x; x < _x_size; x++){
+        //     for(size_t y; y < _y_size; y++){
+        //         for(size_t z; z < _z_size; z++){
+        //             _occupancy_map.at<uchar>(x,y,z) = init_occ_state;
+        //         }
+        //     }
+        // }
 
 
         //
@@ -120,7 +121,7 @@ namespace fsiv
         size_t idx = 0;
         //TODO
 
-        idx = x + y*x + z*y*x;
+        idx = z*x*_xy_size+y*x*_x_size+x;
 
         //
         CV_Assert(idx < size());
@@ -132,6 +133,10 @@ namespace fsiv
     {
         CV_Assert(index < size());
         //TODO
+        z = index /_xy_size;
+        size_t resto = index %_xy_size;
+        y = resto / _x_size;
+        x =  resto % _x_size;
 
         //
         CV_Assert(x < x_size());
@@ -148,6 +153,10 @@ namespace fsiv
         //Remember: A voxel is considered external if it is in the limits
         //of the voxelset or any of its neighbors voxels is not occupied.
         //Vamos, que si esta en la superficie de la figura
+
+        //Cada voxel tiene 8 vecinos
+
+
 
         //
         return is_external;

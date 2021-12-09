@@ -1,0 +1,18 @@
+- Depurar condificación gray en bc_scanning.
+
+- Modificar template <class T>
+std::shared_ptr<ScanningPatternSequence> load(const std::string& fname); a
+template <class T>
+std::shared_ptr<T> load(const std::string& fname);
+así cada load devuelve una instancia concreta de cada tipo de codificación.
+
+-Añadir codificación por desplazamiento de fase.
+
+-Hacer mas OOP las interfaces de las clases.
+
+-Añadir la clase CameraParameters y SLSParameters como una combinación de dos
+CameraParameters (camera y proyector).
+
+-Optimizar las funciones de triangulación recta-plano y recta-recta.
+
+-Revisar el concepto de axis a codificar en bc_scanning y ver que sea coherente.
