@@ -1,1 +1,1 @@
-Está todo menos lo del vídeo
+Está todo menos la distorsion que no sé donde aplicarla

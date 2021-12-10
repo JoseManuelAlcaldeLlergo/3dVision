@@ -40,8 +40,8 @@ bool fsiv_find_chessboard_corners(const cv::Mat& img, const cv::Size &board_size
  * @return the reprojection error of the calibration.
  */
 float fsiv_calibrate_camera(
-        const std::vector<std::vector<cv::Point2f>>& _2d_points,
-        const std::vector<std::vector<cv::Point3f>>& _3d_points,
+         std::vector<std::vector<cv::Point2f>> _2d_points,
+         std::vector<std::vector<cv::Point3f>> _3d_points,
         const cv::Size& camera_size,
         cv::Mat& camera_matrix,
         cv::Mat& dist_coeffs,
