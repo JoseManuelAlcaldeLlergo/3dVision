@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/build/${fileBasenameNoExtension}",
-            "args": ["./cam0/00-center.jpg", "./cam0/01-right.jpg", "./cam0/calibration.yml"],
+            "args": ["./cam0/00-center.jpg", "./cam0/01-right.jpg", "./cam0/calibration.yml", "out.pcd"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

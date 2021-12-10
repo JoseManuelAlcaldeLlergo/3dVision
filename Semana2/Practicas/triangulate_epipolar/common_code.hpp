@@ -8,7 +8,7 @@
 //Structure that contains the Stereo Pair Calbration information.
 //This will be calculated using stereo_calibrate
 struct CP{
-   cv::Mat camera_matrix, dist_coefs;
+   cv::Mat camera_matrix, dist_coefs, R, t;
 };
 
 struct OnMouseParams{
@@ -38,3 +38,5 @@ cv::Mat fundamental(cv::Mat im1,cv::Mat im2);
 std::vector<cv::DMatch>  KpMatch( std::vector<cv::KeyPoint> keypoints_query ,cv::Mat descriptors_query, std::vector<cv::KeyPoint> keypoints_train, cv::Mat descriptors_train , cv::Mat im1, cv::Mat im2, std::vector<cv::KeyPoint> &keypoints_query_filtered,std::vector<cv::KeyPoint> &keypoints_train_filtered,cv::Mat F);
 
 std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp);
+
+void __recoverPose(cv::Mat E,    std::vector<cv::Point2f> points_query, std::vector<cv::Point2f> points_train,cv::Mat camK,cv::Mat &R,cv::Mat &t);
