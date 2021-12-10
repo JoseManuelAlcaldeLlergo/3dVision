@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/color_balance
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana1/color_balance
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/color_balance/build
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana1/color_balance/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/color_balance.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/color_balance.dir/flags.make
 
 CMakeFiles/color_balance.dir/color_balance.cc.o: CMakeFiles/color_balance.dir/flags.make
 CMakeFiles/color_balance.dir/color_balance.cc.o: ../color_balance.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/color_balance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/color_balance.dir/color_balance.cc.o"
-	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/color_balance.dir/color_balance.cc.o -c /home/pepe/UCO/V3D/color_balance/color_balance.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/color_balance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/color_balance.dir/color_balance.cc.o"
+	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/color_balance.dir/color_balance.cc.o -c /home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc
 
 CMakeFiles/color_balance.dir/color_balance.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/color_balance.dir/color_balance.cc.i"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/color_balance/color_balance.cc > CMakeFiles/color_balance.dir/color_balance.cc.i
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc > CMakeFiles/color_balance.dir/color_balance.cc.i
 
 CMakeFiles/color_balance.dir/color_balance.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/color_balance.dir/color_balance.cc.s"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/color_balance/color_balance.cc -o CMakeFiles/color_balance.dir/color_balance.cc.s
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc -o CMakeFiles/color_balance.dir/color_balance.cc.s
 
 CMakeFiles/color_balance.dir/common_code.cpp.o: CMakeFiles/color_balance.dir/flags.make
 CMakeFiles/color_balance.dir/common_code.cpp.o: ../common_code.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/color_balance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/color_balance.dir/common_code.cpp.o"
-	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/color_balance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/color_balance/common_code.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/color_balance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/color_balance.dir/common_code.cpp.o"
+	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/color_balance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp
 
 CMakeFiles/color_balance.dir/common_code.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/color_balance.dir/common_code.cpp.i"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/color_balance/common_code.cpp > CMakeFiles/color_balance.dir/common_code.cpp.i
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp > CMakeFiles/color_balance.dir/common_code.cpp.i
 
 CMakeFiles/color_balance.dir/common_code.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/color_balance.dir/common_code.cpp.s"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/color_balance/common_code.cpp -o CMakeFiles/color_balance.dir/common_code.cpp.s
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp -o CMakeFiles/color_balance.dir/common_code.cpp.s
 
 # Object files for target color_balance
 color_balance_OBJECTS = \
@@ -112,7 +112,7 @@ color_balance: /usr/local/lib/libopencv_imgcodecs.so.3.4.16
 color_balance: /usr/local/lib/libopencv_imgproc.so.3.4.16
 color_balance: /usr/local/lib/libopencv_core.so.3.4.16
 color_balance: CMakeFiles/color_balance.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/color_balance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable color_balance"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/Semana1/color_balance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable color_balance"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/color_balance.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,6 +125,6 @@ CMakeFiles/color_balance.dir/clean:
 .PHONY : CMakeFiles/color_balance.dir/clean
 
 CMakeFiles/color_balance.dir/depend:
-	cd /home/pepe/UCO/V3D/color_balance/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/color_balance /home/pepe/UCO/V3D/color_balance /home/pepe/UCO/V3D/color_balance/build /home/pepe/UCO/V3D/color_balance/build /home/pepe/UCO/V3D/color_balance/build/CMakeFiles/color_balance.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pepe/UCO/V3D/Semana1/color_balance/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/Semana1/color_balance /home/pepe/UCO/V3D/Semana1/color_balance /home/pepe/UCO/V3D/Semana1/color_balance/build /home/pepe/UCO/V3D/Semana1/color_balance/build /home/pepe/UCO/V3D/Semana1/color_balance/build/CMakeFiles/color_balance.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/color_balance.dir/depend
 

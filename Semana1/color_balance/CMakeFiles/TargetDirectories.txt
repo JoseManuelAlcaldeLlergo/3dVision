@@ -1,4 +1,0 @@
-/home/pepe/UCO/V3D/color_balance/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/color_balance/CMakeFiles/test_common_code.dir
-/home/pepe/UCO/V3D/color_balance/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/color_balance/CMakeFiles/color_balance.dir

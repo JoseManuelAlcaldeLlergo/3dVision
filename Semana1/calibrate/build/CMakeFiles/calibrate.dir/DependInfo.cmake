@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pepe/UCO/V3D/calibrate/calibrate.cpp" "/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/calibrate.dir/calibrate.cpp.o"
-  "/home/pepe/UCO/V3D/calibrate/common_code.cpp" "/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/calibrate.dir/common_code.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/calibrate/calibrate.cpp" "/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/calibrate.dir/calibrate.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/calibrate/common_code.cpp" "/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/calibrate.dir/common_code.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

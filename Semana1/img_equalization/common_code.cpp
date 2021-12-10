@@ -36,8 +36,6 @@ void fsiv_normalize_histogram(cv::Mat &hist)
     CV_Assert(hist.type() == CV_32FC1);
     CV_Assert(hist.rows == 256 && hist.cols == 1);
 
-    //TODO
-
 
     normalize(hist, hist, 1, 0, cv::NORM_L1, -1, cv::Mat());
 
@@ -51,7 +49,6 @@ void fsiv_accumulate_histogram(cv::Mat &hist)
     CV_Assert(hist.type() == CV_32FC1);
     CV_Assert(hist.rows == 256 && hist.cols == 1);
 
-    //TODO
     for (int i = 0; i < 256; i++)
     {
         hist.at<float>(0, i) = hist.at<float>(0, i - 1) + hist.at<float>(i);
@@ -68,20 +65,17 @@ fsiv_create_equalization_lookup_table(const cv::Mat &hist,
     CV_Assert(hist.type() == CV_32FC1);
     CV_Assert(hist.rows == 256 && hist.cols == 1);
     cv::Mat lkt;
-    //TODO
+
     //Usa las funciones fsiv_normalize_histogram y fsiv_accumulate_histogram
     //para construir la tabla.
     lkt = hist.clone();
     fsiv_normalize_histogram(lkt);
-    // std::cout<<lkt<<std::endl;
+
     fsiv_accumulate_histogram(lkt);
     // Como tenemos valores entre 0 y 1, hay que volver a la escala 0 255
     lkt = lkt * 255;
-    // std::cout<<lkt<<std::endl;
-    lkt.convertTo(lkt, CV_8UC1);
-    // std::cout<<lkt<<std::endl;
 
-    //
+    lkt.convertTo(lkt, CV_8UC1);
 
     CV_Assert(lkt.type() == CV_8UC1);
     CV_Assert(lkt.rows == 256 && lkt.cols == 1);
@@ -121,7 +115,6 @@ fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
                         bool hold_median, int radius)
 {
     CV_Assert(in.type() == CV_8UC1);
-    //TODO
     //Utiliza las funciones fsiv_compute_histogram,
     //fsiv_create_equalization_lookup_table y fsiv_apply_lookup_table
     //
@@ -129,7 +122,6 @@ fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
     if (out.empty())
         out = in.clone();
 
-    // Si el radio es 0, aunque el resultado sea el mismo el bucle lo separamos para agilizar el proceso
     if (radius == 0)
     {
         cv::Mat hist(256, 1, CV_32F, 0.0);

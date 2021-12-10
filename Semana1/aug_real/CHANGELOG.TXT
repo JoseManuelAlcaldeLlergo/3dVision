@@ -1,0 +1,5 @@
+1.0
+- Versión inicial.
+* 1.1
+- Actualización al curso 21/22.
+

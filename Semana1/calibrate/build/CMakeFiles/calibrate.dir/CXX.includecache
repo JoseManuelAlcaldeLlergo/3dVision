@@ -6,23 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/pepe/UCO/V3D/calibrate/calibrate.cpp
-iostream
+/home/pepe/UCO/V3D/Semana1/calibrate/common_code.cpp
+opencv2/imgproc.hpp
 -
-exception
+opencv2/highgui.hpp
 -
-opencv2/core/core.hpp
--
-opencv2/core/utility.hpp
--
-opencv2/highgui/highgui.hpp
--
-opencv2/imgproc/imgproc.hpp
+opencv2/calib3d.hpp
 -
 common_code.hpp
-/home/pepe/UCO/V3D/calibrate/common_code.hpp
+/home/pepe/UCO/V3D/Semana1/calibrate/common_code.hpp
 
-/home/pepe/UCO/V3D/calibrate/common_code.hpp
+/home/pepe/UCO/V3D/Semana1/calibrate/common_code.hpp
 vector
 -
 opencv2/core.hpp

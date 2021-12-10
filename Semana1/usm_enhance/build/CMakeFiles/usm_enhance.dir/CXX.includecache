@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pepe/UCO/V3D/Semana1/usm_enhance/common_code.hpp
+opencv2/core.hpp
+-
+
+/home/pepe/UCO/V3D/Semana1/usm_enhance/usm_enhance.cpp
+iostream
+-
+exception
+-
+opencv2/core/core.hpp
+-
+opencv2/core/utility.hpp
+-
+opencv2/highgui/highgui.hpp
+-
+opencv2/imgproc/imgproc.hpp
+-
+common_code.hpp
+/home/pepe/UCO/V3D/Semana1/usm_enhance/common_code.hpp
+

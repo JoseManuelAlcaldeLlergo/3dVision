@@ -1,22 +1,22 @@
 [
 {
-  "directory": "/home/pepe/UCO/V3D/color_balance/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o -c /home/pepe/UCO/V3D/color_balance/test_common_code_obf.cpp",
-  "file": "/home/pepe/UCO/V3D/color_balance/test_common_code_obf.cpp"
+  "directory": "/home/pepe/UCO/V3D/Semana1/color_balance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/test_common_code.dir/test_common_code_obf.cpp.o -c /home/pepe/UCO/V3D/Semana1/color_balance/test_common_code_obf.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana1/color_balance/test_common_code_obf.cpp"
 },
 {
-  "directory": "/home/pepe/UCO/V3D/color_balance/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/test_common_code.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/color_balance/common_code.cpp",
-  "file": "/home/pepe/UCO/V3D/color_balance/common_code.cpp"
+  "directory": "/home/pepe/UCO/V3D/Semana1/color_balance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/test_common_code.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp"
 },
 {
-  "directory": "/home/pepe/UCO/V3D/color_balance/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/color_balance.dir/color_balance.cc.o -c /home/pepe/UCO/V3D/color_balance/color_balance.cc",
-  "file": "/home/pepe/UCO/V3D/color_balance/color_balance.cc"
+  "directory": "/home/pepe/UCO/V3D/Semana1/color_balance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/color_balance.dir/color_balance.cc.o -c /home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc",
+  "file": "/home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc"
 },
 {
-  "directory": "/home/pepe/UCO/V3D/color_balance/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/color_balance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/color_balance/common_code.cpp",
-  "file": "/home/pepe/UCO/V3D/color_balance/common_code.cpp"
+  "directory": "/home/pepe/UCO/V3D/Semana1/color_balance/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/local/include/opencv  -ggdb3 -O0 -Wall   -std=gnu++11 -o CMakeFiles/color_balance.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp",
+  "file": "/home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp"
 }
 ]

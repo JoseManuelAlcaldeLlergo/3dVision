@@ -80,9 +80,9 @@ cv::Mat fsiv_color_balance(cv::Mat const& in, float p)
     std::vector<float> hist(256,0);
     // Asumimos que la imagen de entrada está en BGR, no RGB
     cv::cvtColor(in,gray,cv::COLOR_BGR2GRAY);
-    int hist_len = 256;
-    float range[] = {0, 256};
-    const float * histRange = {range};
+    // int hist_len = 256;
+    // float range[] = {0, 256};
+    // const float * histRange = {range};
     
     // Obtengo el histograma y calculo el percentil y veo que tono es el que deja el porcentaje más brillante a la derecha y ya reescalo con ese tono
     // cv::calcHist(&gray, 1,0, cv::Mat() ,hist,1,&hist_len,&histRange, true, false );

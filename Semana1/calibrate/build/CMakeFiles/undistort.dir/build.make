@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/calibrate
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana1/calibrate
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/calibrate/build
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana1/calibrate/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/undistort.dir/depend.make
@@ -59,29 +59,29 @@ include CMakeFiles/undistort.dir/flags.make
 
 CMakeFiles/undistort.dir/undistort.cpp.o: CMakeFiles/undistort.dir/flags.make
 CMakeFiles/undistort.dir/undistort.cpp.o: ../undistort.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/calibrate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/undistort.dir/undistort.cpp.o"
-	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/undistort.dir/undistort.cpp.o -c /home/pepe/UCO/V3D/calibrate/undistort.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/undistort.dir/undistort.cpp.o"
+	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/undistort.dir/undistort.cpp.o -c /home/pepe/UCO/V3D/Semana1/calibrate/undistort.cpp
 
 CMakeFiles/undistort.dir/undistort.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/undistort.dir/undistort.cpp.i"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/calibrate/undistort.cpp > CMakeFiles/undistort.dir/undistort.cpp.i
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/calibrate/undistort.cpp > CMakeFiles/undistort.dir/undistort.cpp.i
 
 CMakeFiles/undistort.dir/undistort.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/undistort.dir/undistort.cpp.s"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/calibrate/undistort.cpp -o CMakeFiles/undistort.dir/undistort.cpp.s
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/calibrate/undistort.cpp -o CMakeFiles/undistort.dir/undistort.cpp.s
 
 CMakeFiles/undistort.dir/common_code.cpp.o: CMakeFiles/undistort.dir/flags.make
 CMakeFiles/undistort.dir/common_code.cpp.o: ../common_code.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/calibrate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/undistort.dir/common_code.cpp.o"
-	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/undistort.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/calibrate/common_code.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/undistort.dir/common_code.cpp.o"
+	/bin/x86_64-linux-gnu-g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/undistort.dir/common_code.cpp.o -c /home/pepe/UCO/V3D/Semana1/calibrate/common_code.cpp
 
 CMakeFiles/undistort.dir/common_code.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/undistort.dir/common_code.cpp.i"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/calibrate/common_code.cpp > CMakeFiles/undistort.dir/common_code.cpp.i
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pepe/UCO/V3D/Semana1/calibrate/common_code.cpp > CMakeFiles/undistort.dir/common_code.cpp.i
 
 CMakeFiles/undistort.dir/common_code.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/undistort.dir/common_code.cpp.s"
-	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/calibrate/common_code.cpp -o CMakeFiles/undistort.dir/common_code.cpp.s
+	/bin/x86_64-linux-gnu-g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pepe/UCO/V3D/Semana1/calibrate/common_code.cpp -o CMakeFiles/undistort.dir/common_code.cpp.s
 
 # Object files for target undistort
 undistort_OBJECTS = \
@@ -112,7 +112,7 @@ undistort: /usr/local/lib/libopencv_imgcodecs.so.3.4.16
 undistort: /usr/local/lib/libopencv_imgproc.so.3.4.16
 undistort: /usr/local/lib/libopencv_core.so.3.4.16
 undistort: CMakeFiles/undistort.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/calibrate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable undistort"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable undistort"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/undistort.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,6 +125,6 @@ CMakeFiles/undistort.dir/clean:
 .PHONY : CMakeFiles/undistort.dir/clean
 
 CMakeFiles/undistort.dir/depend:
-	cd /home/pepe/UCO/V3D/calibrate/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/calibrate /home/pepe/UCO/V3D/calibrate /home/pepe/UCO/V3D/calibrate/build /home/pepe/UCO/V3D/calibrate/build /home/pepe/UCO/V3D/calibrate/build/CMakeFiles/undistort.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pepe/UCO/V3D/Semana1/calibrate/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pepe/UCO/V3D/Semana1/calibrate /home/pepe/UCO/V3D/Semana1/calibrate /home/pepe/UCO/V3D/Semana1/calibrate/build /home/pepe/UCO/V3D/Semana1/calibrate/build /home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/undistort.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/undistort.dir/depend
 

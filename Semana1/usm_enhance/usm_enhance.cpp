@@ -59,9 +59,15 @@ main (int argc, char* const* argv)
         double g = 1.0;
         int r = 1;
         int filter_type=1;
-        bool circular =false;
-
-
+        
+        if(parser.has("gain"))
+            g = parser.get<double>("gain");
+        if(parser.has("radius"))
+            r = parser.get<int>("radius");
+        if(parser.has("filter") && (parser.get<int>("filter") == 0 || parser.get<int>("filter") == 1) )
+            filter_type= parser.get<int>("filter");
+        
+        bool circular =parser.has("circular");
 
         //
 
@@ -96,12 +102,13 @@ main (int argc, char* const* argv)
         }
 
 
-        out = fsiv_usm_enhance(in, g, r, filter_type, circular, &mask);
+        out = fsiv_usm_enhance(in_, g, r, filter_type, circular, &mask);
 
         if(in.channels() == 3){
             chs[2] = out;
             cv::Mat hsv;
-            /*ACABAR*/
+            cv::merge(chs,hsv);
+            cv::cvtColor(hsv,out,cv::COLOR_HSV2BGR);
         }
 
         cv::imshow ("INPUT", in);

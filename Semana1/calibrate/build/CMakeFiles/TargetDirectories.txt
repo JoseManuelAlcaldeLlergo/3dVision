@@ -1,5 +1,5 @@
-/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/test_common_code.dir
-/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/undistort.dir
-/home/pepe/UCO/V3D/calibrate/build/CMakeFiles/calibrate.dir
+/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/edit_cache.dir
+/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/test_common_code.dir
+/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/rebuild_cache.dir
+/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/undistort.dir
+/home/pepe/UCO/V3D/Semana1/calibrate/build/CMakeFiles/calibrate.dir

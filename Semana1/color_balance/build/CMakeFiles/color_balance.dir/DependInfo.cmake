@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pepe/UCO/V3D/color_balance/color_balance.cc" "/home/pepe/UCO/V3D/color_balance/build/CMakeFiles/color_balance.dir/color_balance.cc.o"
-  "/home/pepe/UCO/V3D/color_balance/common_code.cpp" "/home/pepe/UCO/V3D/color_balance/build/CMakeFiles/color_balance.dir/common_code.cpp.o"
+  "/home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc" "/home/pepe/UCO/V3D/Semana1/color_balance/build/CMakeFiles/color_balance.dir/color_balance.cc.o"
+  "/home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp" "/home/pepe/UCO/V3D/Semana1/color_balance/build/CMakeFiles/color_balance.dir/common_code.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
