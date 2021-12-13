@@ -160,10 +160,10 @@ std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query, cv::M
 
     for (unsigned int i = 0; i < matches.size(); i++)
     {
-        // Probar con 3 octaves
+        // std::cout<<epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F)<<std::endl;
         if (matches[i][0].distance < 80 &&
-            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) <= 2 &&
-            abs(matches[i][0].distance - matches[i][1].distance) >= 0.8 * matches[i][0].distance &&
+            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 3 &&
+            abs(matches[i][0].distance - matches[i][1].distance) > 0.8 * matches[i][0].distance &&
             epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F) <= 4)
         {
             // The current size of the filtered matches vector will define the index of te new match
@@ -339,7 +339,7 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     std::vector<cv::Point2f> points_query, points_train;
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
-    cv::Point3f p3d_temp;
+    
 
     auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
@@ -356,9 +356,13 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
 
     __recoverPose(E,points_query,points_train,cp.camera_matrix,cp.R, cp.t);
 
+    std::cout<<"R: "<<cp.R<<std::endl;
+    std::cout<<"t: "<<cp.t<<std::endl;
+
     //triangulate
     for(size_t i = 0; i<keypoints_query_filtered.size();i++){
-        if(TriangulatePoint(keypoints_query_filtered[i],keypoints_train_filtered[i],cp.camera_matrix,cp.R,cp.t,p3d_temp)){
+        cv::Point3f p3d_temp;
+        if(TriangulatePoint(keypoints_query_filtered[matches[i].queryIdx],keypoints_train_filtered[matches[i].trainIdx],cp.camera_matrix,cp.R,cp.t,p3d_temp)){
             _3dpoints.push_back(p3d_temp);
         }
     }

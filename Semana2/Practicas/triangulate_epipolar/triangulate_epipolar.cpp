@@ -37,8 +37,8 @@ int main(int argc, char *const *argv)
             std::cerr << "Se le deben pasar cinco argumentos al programa:\n\t ./fundamental_matrix img1.jpg img2.jpg calibraton.yml out.pcd" << std::endl;
             return EXIT_FAILURE;
         }
-        cv::Mat im1=cv::imread(argv[1]);
-        cv::Mat im2=cv::imread(argv[2]);
+        cv::Mat im1=cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat im2=cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
         std::string calibration_file = parser.get<cv::String>("@calibration");
 
         

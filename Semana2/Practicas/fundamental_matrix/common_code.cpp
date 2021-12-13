@@ -40,75 +40,84 @@ bool IsPathExist(const std::string &s)
 
 
 
-void __imshow(std::string wn,const cv::Mat &im,cv::Size ss)
+void __imshow(std::string wn, const cv::Mat &im, cv::Size ss)
 {
 
-    if( im.size()==ss) cv::imshow(wn,im);
-    else{
+    if (im.size() == ss)
+        cv::imshow(wn, im);
+    else
+    {
         cv::Mat resized;
-        cv::resize(im,resized,ss);
-        cv::imshow(wn,resized);
+        cv::resize(im, resized, ss);
+        cv::imshow(wn, resized);
     }
 }
-void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F){
+void showEpipolar(cv::Mat centralImage, cv::Mat otherImage, cv::Mat CamK, cv::Mat F)
+{
 
-    if(F.empty())return;
+    if (F.empty())
+        return;
 
     struct CallBackInfo
     {
-        cv::Mat imA,imB;
+        cv::Mat imA, imB;
         cv::Mat CamK;
         cv::Mat F;
     };
 
-    CallBackInfo *cbi=new CallBackInfo{centralImage,otherImage,CamK,F};
+    CallBackInfo *cbi = new CallBackInfo{centralImage, otherImage, CamK, F};
 
-    cv::Mat Mixed(centralImage.rows,centralImage.cols*2,CV_8UC3);
-    if( centralImage.channels()==1){
-        cv::cvtColor(centralImage,Mixed.colRange(0,centralImage.cols),cv::COLOR_GRAY2BGR);
-        cv::cvtColor(otherImage,Mixed.colRange(centralImage.cols,2*centralImage.cols ),cv::COLOR_GRAY2BGR);
+    cv::Mat Mixed(centralImage.rows, centralImage.cols * 2, CV_8UC3);
+    if (centralImage.channels() == 1)
+    {
+        cv::cvtColor(centralImage, Mixed.colRange(0, centralImage.cols), cv::COLOR_GRAY2BGR);
+        cv::cvtColor(otherImage, Mixed.colRange(centralImage.cols, 2 * centralImage.cols), cv::COLOR_GRAY2BGR);
     }
-    else{
-        centralImage.copyTo(Mixed.colRange(0,centralImage.cols));
-        otherImage.copyTo(Mixed.colRange(centralImage.cols,2*centralImage.cols));
+    else
+    {
+        centralImage.copyTo(Mixed.colRange(0, centralImage.cols));
+        otherImage.copyTo(Mixed.colRange(centralImage.cols, 2 * centralImage.cols));
     }
 
-     cv::namedWindow("Fundamental");
-    __imshow("Fundamental",Mixed,cv::Size{1600,600});
+    cv::namedWindow("Fundamental");
+    __imshow("Fundamental", Mixed, cv::Size{1600, 600});
 
-    cv::setMouseCallback("Fundamental",[](int event, int x, int y, int flags, void* _cbi)->void{
-        if(x<800){
-            CallBackInfo *cbi=(CallBackInfo*)_cbi;
+    cv::setMouseCallback(
+        "Fundamental", [](int event, int x, int y, int flags, void *_cbi) -> void
+        {
+            if (x < 800)
+            {
+                CallBackInfo *cbi = (CallBackInfo *)_cbi;
 
-            int sX=float(x)*float(cbi->imB.cols)/800.;
-            int sY=float(y)*(float(cbi->imB.rows)/600.);
+                int sX = float(x) * float(cbi->imB.cols) / 800.;
+                int sY = float(y) * (float(cbi->imB.rows) / 600.);
 
-            //find epipolar line
-            cv::Mat P= (cv::Mat_<double>(3,1) << sX, sY, 1);
-            cv::Mat L=cbi->F*P;//epipolar line
-            double a=L.at<double>(0,0);
-            double b=L.at<double>(0,1);
-            double c=L.at<double>(0,2);
-            int x0=0;
-            int y0=(a*x0+c)/-b;
-            int x1=cbi->imB.cols;
-            int y1=(a*x1+c)/-b;
-            cv::Mat imBcopy;
-            cv::cvtColor(cbi->imB,imBcopy,cv::COLOR_GRAY2BGR);
-            cv::line(imBcopy,cv::Point(x0,y0),cv::Point(x1,y1),{0,0,244},2);
+                //find epipolar line
+                cv::Mat P = (cv::Mat_<double>(3, 1) << sX, sY, 1);
+                cv::Mat L = cbi->F * P; //epipolar line
+                double a = L.at<double>(0, 0);
+                double b = L.at<double>(0, 1);
+                double c = L.at<double>(0, 2);
+                int x0 = 0;
+                int y0 = (a * x0 + c) / -b;
+                int x1 = cbi->imB.cols;
+                int y1 = (a * x1 + c) / -b;
+                cv::Mat imBcopy;
+                cv::cvtColor(cbi->imB, imBcopy, cv::COLOR_GRAY2BGR);
+                cv::line(imBcopy, cv::Point(x0, y0), cv::Point(x1, y1), {0, 0, 244}, 2);
 
-            cv::Mat Mixed(cbi->imA.rows,cbi->imA.cols*2,CV_8UC3);
-            cv::cvtColor(cbi->imA,Mixed.colRange(0,cbi->imA.cols),cv::COLOR_GRAY2BGR);
-            imBcopy.copyTo(Mixed.colRange(cbi->imA.cols,2*cbi->imA.cols ));
+                cv::Mat Mixed(cbi->imA.rows, cbi->imA.cols * 2, CV_8UC3);
+                cv::cvtColor(cbi->imA, Mixed.colRange(0, cbi->imA.cols), cv::COLOR_GRAY2BGR);
+                imBcopy.copyTo(Mixed.colRange(cbi->imA.cols, 2 * cbi->imA.cols));
 
-            cv::namedWindow("Fundamental");
-            __imshow("Fundamental",Mixed,cv::Size{1600,600});
-        }else{
-
-
-        }
-    },cbi
-    );
+                cv::namedWindow("Fundamental");
+                __imshow("Fundamental", Mixed, cv::Size{1600, 600});
+            }
+            else
+            {
+            }
+        },
+        cbi);
 }
 
 
@@ -129,11 +138,11 @@ std::vector<cv::DMatch> KpMatch( std::vector<cv::KeyPoint> keypoints_query ,cv::
     auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
     matcher->knnMatch(descriptors_query, descriptors_train, matches, 2);
 
-    for(unsigned int i=0; i<matches.size();i++){
+    for(size_t i=0; i<matches.size();i++){
         // Probar con 3 octaves
         if(matches[i][0].distance < 80 &&
-             abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) <= 1 &&
-                abs(matches[i][0].distance - matches[i][1].distance) >= 0.8*matches[i][0].distance )     
+             abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 3 &&
+                abs(matches[i][0].distance - matches[i][1].distance) > 0.8*matches[i][0].distance )     
         {
             // The current size of the filtered matches vector will define the index of te new match
             int current_size = static_cast<int>( keypoints_query_filtered.size());
@@ -167,7 +176,7 @@ cv::Mat fundamental(cv::Mat im1,cv::Mat im2){
 
     std::vector<cv::Point2f> points_query,points_train; //rellenar
 
-    for(int i = 0; i < keypoints_query_filtered.size(); i++){
+    for(size_t i = 0; i < keypoints_query_filtered.size(); i++){
         points_query.push_back(keypoints_query_filtered[i].pt);
         points_train.push_back(keypoints_train_filtered[i].pt);
     }
