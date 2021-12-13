@@ -162,9 +162,9 @@ std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query, cv::M
     {
         // std::cout<<epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F)<<std::endl;
         if (matches[i][0].distance < 80 &&
-            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 3 &&
-            abs(matches[i][0].distance - matches[i][1].distance) > 0.8 * matches[i][0].distance &&
-            epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F) <= 4)
+            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 2 &&
+            matches[i][0].distance / matches[i][1].distance <0.8 &&
+            epipolarLineSqDist(keypoints_train[matches[i][0].trainIdx].pt, keypoints_query[matches[i][0].queryIdx].pt, F) <= 4)
         {
             // The current size of the filtered matches vector will define the index of te new match
             int current_size = static_cast<int>(keypoints_query_filtered.size());
@@ -189,7 +189,7 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
 
-    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f);
+    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f,8);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
     Detector->detectAndCompute(im2, cv::Mat(), keypoints_train, descriptors_train);
 
@@ -209,7 +209,8 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
     cv::namedWindow("Matches", CV_WINDOW_NORMAL);
     cv::imshow("Matches", matches_image);
 
-    cv::Mat inliers, filt_inliers;
+    cv::Mat inliers;
+
     F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 300, inliers);
 
     for (size_t i = 0; i < inliers.total(); i++)
@@ -255,81 +256,86 @@ void __recoverPose(cv::Mat E, std::vector<cv::Point2f> points_query, std::vector
     cv::recoverPose(E, points_query, points_train, R, t);
 }
 
-
 //given two keypoints, the camera matrix K and the R|t transform from query to train
 //obtains the corresponding 3d point
 //returns true if the 3dpoint is correct and false otherwise
-bool  TriangulatePoint(const cv::KeyPoint &kp_query,const cv::KeyPoint & kp_train,
-                         const cv::Mat &kin,const cv::Mat &rin, const cv::Mat &tin,cv::Point3f &p3d){
-    auto getcosParallax=[](  cv::Point3d  p3d,const cv::Mat &R,const cv::Mat &t){
-        cv::Mat r64,t64;
-        R.convertTo(r64,CV_64F);
-        t.convertTo(t64,CV_64F);
-        cv::Mat O1 = cv::Mat::zeros(3,1,CV_64F);
-        cv::Mat O2 = -R.t()*t;
-        cv::Mat p3dC1(3,1,CV_64F,&p3d);
+bool TriangulatePoint(const cv::KeyPoint &kp_query, const cv::KeyPoint &kp_train,
+                      const cv::Mat &kin, const cv::Mat &rin, const cv::Mat &tin, cv::Point3f &p3d)
+{
+    auto getcosParallax = [](cv::Point3d p3d, const cv::Mat &R, const cv::Mat &t)
+    {
+        cv::Mat r64, t64;
+        R.convertTo(r64, CV_64F);
+        t.convertTo(t64, CV_64F);
+        cv::Mat O1 = cv::Mat::zeros(3, 1, CV_64F);
+        cv::Mat O2 = -R.t() * t;
+        cv::Mat p3dC1(3, 1, CV_64F, &p3d);
         cv::Mat normal1 = p3dC1 - O1;
         float dist1 = cv::norm(normal1);
 
         cv::Mat normal2 = p3dC1 - O2;
         float dist2 = cv::norm(normal2);
-        return normal1.dot(normal2)/(dist1*dist2);
+        return normal1.dot(normal2) / (dist1 * dist2);
     };
-    auto project=[](const cv::Point3f p,cv::Mat &P ){
+    auto project = [](const cv::Point3f p, cv::Mat &P)
+    {
         cv::Point3f res;
-        double *p34=P.ptr<double>(0);
-        res.x=p.x*p34[0]+p.y*p34[1]+p.z*p34[2]+p34[3];
-        res.y=p.x*p34[4]+p.y*p34[5]+p.z*p34[6]+p34[7];
-        res.z=p.x*p34[8]+p.y*p34[9]+p.z*p34[10]+p34[11];
-        res.x/=res.z;
-        res.y/=res.z;
-        return cv::Point2f(res.x,res.y);
+        double *p34 = P.ptr<double>(0);
+        res.x = p.x * p34[0] + p.y * p34[1] + p.z * p34[2] + p34[3];
+        res.y = p.x * p34[4] + p.y * p34[5] + p.z * p34[6] + p34[7];
+        res.z = p.x * p34[8] + p.y * p34[9] + p.z * p34[10] + p34[11];
+        res.x /= res.z;
+        res.y /= res.z;
+        return cv::Point2f(res.x, res.y);
     };
     //make it 64f
-    cv::Mat R,K,t;
-    if(R.total()==3)
-        cv::Rodrigues(rin,R);
-    else rin.convertTo(R,CV_64F);
-    R.convertTo(R,CV_64F);
-    kin.convertTo(K,CV_64F);
-    tin.convertTo(t,CV_64F);
-     // Camera 1 Projection Matrix K[I|0]
-    cv::Mat P1(3,4,CV_64F,cv::Scalar(0));
-    K.copyTo(P1.rowRange(0,3).colRange(0,3));
-
+    cv::Mat R, K, t;
+    if (R.total() == 3)
+        cv::Rodrigues(rin, R);
+    else
+        rin.convertTo(R, CV_64F);
+    R.convertTo(R, CV_64F);
+    kin.convertTo(K, CV_64F);
+    tin.convertTo(t, CV_64F);
+    // Camera 1 Projection Matrix K[I|0]
+    cv::Mat P1(3, 4, CV_64F, cv::Scalar(0));
+    K.copyTo(P1.rowRange(0, 3).colRange(0, 3));
 
     // Camera 2 Projection Matrix K[R|t]
-    cv::Mat P2(3,4,CV_64F);
-    R.copyTo(P2.rowRange(0,3).colRange(0,3));
-    t.copyTo(P2.rowRange(0,3).col(3));
-    P2 = K*P2;
+    cv::Mat P2(3, 4, CV_64F);
+    R.copyTo(P2.rowRange(0, 3).colRange(0, 3));
+    t.copyTo(P2.rowRange(0, 3).col(3));
+    P2 = K * P2;
 
+    cv::Mat A(4, 4, CV_64F);
 
-    cv::Mat A(4,4,CV_64F);
+    A.row(0) = kp_query.pt.x * P1.row(2) - P1.row(0);
+    A.row(1) = kp_query.pt.y * P1.row(2) - P1.row(1);
+    A.row(2) = kp_train.pt.x * P2.row(2) - P2.row(0);
+    A.row(3) = kp_train.pt.y * P2.row(2) - P2.row(1);
 
-    A.row(0) = kp_query.pt.x*P1.row(2)-P1.row(0);
-    A.row(1) = kp_query.pt.y*P1.row(2)-P1.row(1);
-    A.row(2) = kp_train.pt.x*P2.row(2)-P2.row(0);
-    A.row(3) = kp_train.pt.y*P2.row(2)-P2.row(1);
-
-    cv::Mat u,w,vt;
-    cv::SVD::compute(A,w,u,vt,cv::SVD::MODIFY_A| cv::SVD::FULL_UV);
+    cv::Mat u, w, vt;
+    cv::SVD::compute(A, w, u, vt, cv::SVD::MODIFY_A | cv::SVD::FULL_UV);
     cv::Mat x3D = vt.row(3).t();
-    x3D = x3D.rowRange(0,3)/x3D.at<double>(3);
+    x3D = x3D.rowRange(0, 3) / x3D.at<double>(3);
 
-    p3d= cv::Point3f(x3D.at<double>(0),x3D.at<double>(1),x3D.at<double>(2));;
+    p3d = cv::Point3f(x3D.at<double>(0), x3D.at<double>(1), x3D.at<double>(2));
+    ;
     //check the point
-    if( p3d.z<0) return false;//behind the camera
-    if( getcosParallax (p3d,R,t)<0.99) return false;//too little parallax
+    if (p3d.z < 0)
+        return false; //behind the camera
+    if (getcosParallax(p3d, R, t) < 0.99)
+        return false; //too little parallax
     //check the reprojection error is low
 
-    auto pp1=project(p3d,P1);
-    if( cv::norm(pp1-kp_query.pt )>1.5) return false;
-    auto pp2=project(p3d,P2);
-    if( cv::norm(pp2-kp_train.pt )>1.5) return false;
+    auto pp1 = project(p3d, P1);
+    if (cv::norm(pp1 - kp_query.pt) > 1.5)
+        return false;
+    auto pp2 = project(p3d, P2);
+    if (cv::norm(pp2 - kp_train.pt) > 1.5)
+        return false;
     return true;
 }
-
 
 std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
 {
@@ -339,33 +345,46 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     std::vector<cv::Point2f> points_query, points_train;
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
-    
 
-    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f);
+    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f,8);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
     Detector->detectAndCompute(im2, cv::Mat(), keypoints_train, descriptors_train);
 
     std::vector<cv::DMatch> matches = KpMatch(keypoints_query, descriptors_query, keypoints_train, descriptors_train, im1, im2, keypoints_query_filtered, keypoints_train_filtered, F);
 
-    cv::Mat E = cp.camera_matrix.t() * F * cp.camera_matrix;
+    cv::Mat E = (cp.camera_matrix.t() * F) * cp.camera_matrix;
 
-    for(size_t i = 0; i< keypoints_query_filtered.size(); i++){
-        points_query.push_back(keypoints_query_filtered[i].pt);
+    for (size_t i = 0; i < keypoints_query_filtered.size(); i++)
+    {
+        points_query.push_back(keypoints_query_filtered[i].pt); //627
         points_train.push_back(keypoints_train_filtered[i].pt);
     }
 
-    __recoverPose(E,points_query,points_train,cp.camera_matrix,cp.R, cp.t);
+    cv::Mat inliers;
 
-    std::cout<<"R: "<<cp.R<<std::endl;
-    std::cout<<"t: "<<cp.t<<std::endl;
+    F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 300, inliers);
+
+    std::vector<cv::Point2f> points_query_inliers, points_train_inliers;
+
+    for(size_t i= 0; i<inliers.total(); i++){
+        points_query_inliers.push_back(keypoints_query_filtered[matches[i].queryIdx].pt);
+        points_train_inliers.push_back(keypoints_train_filtered[matches[i].trainIdx].pt); //AQUI
+    }
+
+    __recoverPose(E, points_query_inliers, points_train_inliers, cp.camera_matrix, cp.R, cp.t);
+
+    std::cout << "R: " << cp.R << std::endl;
+    std::cout << "t: " << cp.t << std::endl;
 
     //triangulate
-    for(size_t i = 0; i<keypoints_query_filtered.size();i++){
+    for (size_t i = 0; i < keypoints_query_filtered.size(); i++)
+    {
         cv::Point3f p3d_temp;
-        if(TriangulatePoint(keypoints_query_filtered[matches[i].queryIdx],keypoints_train_filtered[matches[i].trainIdx],cp.camera_matrix,cp.R,cp.t,p3d_temp)){
+        if (TriangulatePoint(keypoints_query_filtered[matches[i].queryIdx], keypoints_train_filtered[matches[i].trainIdx], cp.camera_matrix, cp.R, cp.t, p3d_temp))
+        {
             _3dpoints.push_back(p3d_temp);
         }
     }
 
-    return _3dpoints;
+    return _3dpoints; //337
 }

@@ -46,6 +46,8 @@ int main(int argc, char *const *argv)
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
 
+        cv::Mat inliers;
+
         auto CP=readCameraParams(fs);
         cv::Mat und_im1 = removeDistortion(im1,CP).clone();
         cv::Mat und_im2 = removeDistortion(im2,CP).clone();

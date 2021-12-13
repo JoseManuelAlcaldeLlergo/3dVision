@@ -138,11 +138,12 @@ std::vector<cv::DMatch> KpMatch( std::vector<cv::KeyPoint> keypoints_query ,cv::
     auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
     matcher->knnMatch(descriptors_query, descriptors_train, matches, 2);
 
+    //abs(matches[i][0].distance - matches[i][1].distance) > 0.8*matches[i][0].distance )
     for(size_t i=0; i<matches.size();i++){
         // Probar con 3 octaves
         if(matches[i][0].distance < 80 &&
              abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 3 &&
-                abs(matches[i][0].distance - matches[i][1].distance) > 0.8*matches[i][0].distance )     
+            matches[i][0].distance / matches[i][1].distance)   
         {
             // The current size of the filtered matches vector will define the index of te new match
             int current_size = static_cast<int>( keypoints_query_filtered.size());
@@ -167,7 +168,7 @@ cv::Mat fundamental(cv::Mat im1,cv::Mat im2){
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
 
-    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f);
+    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f,8);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
     Detector->detectAndCompute(im2, cv::Mat(), keypoints_train, descriptors_train);
 
