@@ -188,7 +188,7 @@ cv::Mat fundamental(cv::Mat im1,cv::Mat im2){
     cv::imshow("Matches", matches_image);
 
     cv::Mat inliers, filt_inliers;
-    F = cv::findFundamentalMat(points_query,points_train,cv::FM_RANSAC,0.999,1.0,300,inliers);
+    F = cv::findFundamentalMat(points_query,points_train,cv::FM_RANSAC,0.999,1.0,1000,inliers);
 
     for(size_t i=0;i<inliers.total();i++){
        if( !inliers.ptr<uchar>(0)[i]){

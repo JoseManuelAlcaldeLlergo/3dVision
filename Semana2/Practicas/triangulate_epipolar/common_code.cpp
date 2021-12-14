@@ -162,8 +162,8 @@ std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query, cv::M
     {
         // std::cout<<epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F)<<std::endl;
         if (matches[i][0].distance < 80 &&
-            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 2 &&
-            matches[i][0].distance / matches[i][1].distance <0.8 &&
+            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) <= 2 &&
+            matches[i][0].distance / matches[i][1].distance < 0.8 &&
             epipolarLineSqDist(keypoints_train[matches[i][0].trainIdx].pt, keypoints_query[matches[i][0].queryIdx].pt, F) <= 4)
         {
             // The current size of the filtered matches vector will define the index of te new match
@@ -189,7 +189,7 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
 
-    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f,8);
+    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f, 8);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
     Detector->detectAndCompute(im2, cv::Mat(), keypoints_train, descriptors_train);
 
@@ -211,7 +211,7 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
 
     cv::Mat inliers;
 
-    F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 300, inliers);
+    F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 1000, inliers);
 
     for (size_t i = 0; i < inliers.total(); i++)
     {
@@ -232,16 +232,6 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
 
     cv::namedWindow("Good Matches", CV_WINDOW_NORMAL);
     cv::imshow("Good Matches", filter_matches_image);
-
-    // std::vector<uchar>::const_iterator itIn= inliers.begin();
-    // std::vector<cv::DMatch>::const_iterator   itM= matches.begin();
-    // for ( ;itIn!= inliers.end(); ++itIn, ++itM)
-    // {
-    //     if (*itIn)
-    //     {
-    //         goodMatches.push_back(*itM);
-    //     }
-    // }
 
     return F;
 }
@@ -346,12 +336,14 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
 
-    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f,8);
+    auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f, 8);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
     Detector->detectAndCompute(im2, cv::Mat(), keypoints_train, descriptors_train);
 
+    // Obtenemos los matches esta vez pasando F para mejores resultados
     std::vector<cv::DMatch> matches = KpMatch(keypoints_query, descriptors_query, keypoints_train, descriptors_train, im1, im2, keypoints_query_filtered, keypoints_train_filtered, F);
 
+    // Cálculo de la matriz esencial para poder obtener las matrices de rotación y translación en coordenadas reales
     cv::Mat E = (cp.camera_matrix.t() * F) * cp.camera_matrix;
 
     for (size_t i = 0; i < keypoints_query_filtered.size(); i++)
@@ -360,18 +352,23 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
         points_train.push_back(keypoints_train_filtered[i].pt);
     }
 
+    // __recoverpose necesita que se le filtren los outliers a los puntos, por lo que volvemos a calcularlos
     cv::Mat inliers;
 
-    F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 300, inliers);
+    F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 1000, inliers);
 
-    std::vector<cv::Point2f> points_query_inliers, points_train_inliers;
+    std::vector<cv::Point2f> points_query_filt_out, points_train_filt_out;
 
-    for(size_t i= 0; i<inliers.total(); i++){
-        points_query_inliers.push_back(keypoints_query_filtered[matches[i].queryIdx].pt);
-        points_train_inliers.push_back(keypoints_train_filtered[matches[i].trainIdx].pt); //AQUI
+    for (size_t i = 0; i < inliers.total(); i++)
+    {
+        if (inliers.ptr<uchar>(0)[i])
+        {
+            points_query_filt_out.push_back(keypoints_query_filtered[matches[i].queryIdx].pt);
+            points_train_filt_out.push_back(keypoints_train_filtered[matches[i].trainIdx].pt);
+        }
     }
 
-    __recoverPose(E, points_query_inliers, points_train_inliers, cp.camera_matrix, cp.R, cp.t);
+    __recoverPose(E, points_query_filt_out, points_train_filt_out, cp.camera_matrix, cp.R, cp.t);
 
     std::cout << "R: " << cp.R << std::endl;
     std::cout << "t: " << cp.t << std::endl;
