@@ -35,44 +35,42 @@ namespace fsiv
         //TODO
         // for (int x = 0; x < ret.cols; x++)
         // {
-        //     ret.at<float>(0,x) = 
-        //     ret.at<float>(1,x) = 
-        //     ret.at<float>(2,x) = 
+        //     ret.at<float>(0,x) =
+        //     ret.at<float>(1,x) =
+        //     ret.at<float>(2,x) =
         // }
         //
-        ret.at<float>(0,0) = x_;
-        ret.at<float>(1,0) = y_;
-        ret.at<float>(2,0) = z_;
+        ret.at<float>(0, 0) = x_;
+        ret.at<float>(1, 0) = y_;
+        ret.at<float>(2, 0) = z_;
 
-        ret.at<float>(0,1) = x_;
-        ret.at<float>(1,1) = y_ + wy_;
-        ret.at<float>(2,1) = z_;
+        ret.at<float>(0, 1) = x_;
+        ret.at<float>(1, 1) = y_ + wy_;
+        ret.at<float>(2, 1) = z_;
 
-        ret.at<float>(0,2) = x_;
-        ret.at<float>(1,2) = y_;
-        ret.at<float>(2,2) = z_ + wz_;
+        ret.at<float>(0, 2) = x_;
+        ret.at<float>(1, 2) = y_;
+        ret.at<float>(2, 2) = z_ + wz_;
 
-        ret.at<float>(0,3) = x_;
-        ret.at<float>(1,3) = y_ + wy_;
-        ret.at<float>(2,3) = z_ + wz_;
+        ret.at<float>(0, 3) = x_;
+        ret.at<float>(1, 3) = y_ + wy_;
+        ret.at<float>(2, 3) = z_ + wz_;
 
-        ret.at<float>(0,4) = x_ + wx_;
-        ret.at<float>(1,4) = y_;
-        ret.at<float>(2,4) = z_;
+        ret.at<float>(0, 4) = x_ + wx_;
+        ret.at<float>(1, 4) = y_;
+        ret.at<float>(2, 4) = z_;
 
-        ret.at<float>(0,5) = x_ + wx_;
-        ret.at<float>(1,5) = y_ + wy_;
-        ret.at<float>(2,5) = z_;
+        ret.at<float>(0, 5) = x_ + wx_;
+        ret.at<float>(1, 5) = y_ + wy_;
+        ret.at<float>(2, 5) = z_;
 
-        ret.at<float>(0,6) = x_ + wx_;
-        ret.at<float>(1,6) = y_;
-        ret.at<float>(2,6) = z_ + wz_;
+        ret.at<float>(0, 6) = x_ + wx_;
+        ret.at<float>(1, 6) = y_;
+        ret.at<float>(2, 6) = z_ + wz_;
 
-        ret.at<float>(0,7) = x_ + wx_;
-        ret.at<float>(1,7) = y_ + wy_;
-        ret.at<float>(2,7) = z_ + wz_;
-
-
+        ret.at<float>(0, 7) = x_ + wx_;
+        ret.at<float>(1, 7) = y_ + wy_;
+        ret.at<float>(2, 7) = z_ + wz_;
 
         CV_Assert(ret.type() == CV_32FC1 && ret.rows == 3 && ret.cols == 8);
         return ret;
@@ -89,16 +87,16 @@ namespace fsiv
         _x_size = bc.x_dim() / vsize;
         _y_size = bc.y_dim() / vsize;
         _z_size = bc.z_dim() / vsize;
-        _xy_size = _xy_size*_y_size;
+        _xy_size = _xy_size * _y_size;
 
         // int sizes[] = {_x_size, _y_size, _z_size};
         // _occupancy_map = cv::Mat::zeros(3,sizes,CV_8UC1);
 
-        if(init_occ_state)
-            _occupancy_map = cv::Mat::ones(1,_x_size*_y_size*_z_size,CV_8UC1);
-        else    
-            _occupancy_map = cv::Mat::zeros(1,_x_size*_y_size*_z_size,CV_8UC1);
-        
+        if (init_occ_state)
+            _occupancy_map = cv::Mat::ones(1, _x_size * _y_size * _z_size, CV_8UC1);
+        else
+            _occupancy_map = cv::Mat::zeros(1, _x_size * _y_size * _z_size, CV_8UC1);
+
         // for(size_t x; x < _x_size; x++){
         //     for(size_t y; y < _y_size; y++){
         //         for(size_t z; z < _z_size; z++){
@@ -106,7 +104,6 @@ namespace fsiv
         //         }
         //     }
         // }
-
 
         //
         CV_Assert(size() == x_size() * y_size() * z_size());
@@ -121,7 +118,7 @@ namespace fsiv
         size_t idx = 0;
         //TODO
 
-        idx = z*x*_xy_size+y*x*_x_size+x;
+        idx = z * x * _xy_size + y * x * _x_size + x;
 
         //
         CV_Assert(idx < size());
@@ -133,10 +130,10 @@ namespace fsiv
     {
         CV_Assert(index < size());
         //TODO
-        z = index /_xy_size;
-        size_t resto = index %_xy_size;
+        z = index / _xy_size;
+        size_t resto = index % _xy_size;
         y = resto / _x_size;
-        x =  resto % _x_size;
+        x = resto % _x_size;
 
         //
         CV_Assert(x < x_size());
@@ -154,9 +151,23 @@ namespace fsiv
         //of the voxelset or any of its neighbors voxels is not occupied.
         //Vamos, que si esta en la superficie de la figura
 
-        //Cada voxel tiene 8 vecinos
+        //Cada voxel tiene 26 vecinos
 
-
+        for (int i = 1; i <= 18; i++)
+        {
+            // En primer lugar será external si alguna de sus x, y, z valen 0, ya que esto indica que esta en una capa exterior
+            if (x == 0 || y == 0 || z == 0)
+            {
+                is_external = true;
+                break; // Si le falta un vecino ya es externo, no hay que seguir comprobando más
+            }
+            // Sera external si en las 18 posiciones anteriores y posteriores en occupancy no hay voxel (es 0)
+            if (this->_occupancy_map.at<uchar>(xyz2index(x, y, z) + i) == 0 || this->_occupancy_map.at<uchar>(xyz2index(x, y, z) - i) == 0)
+            {
+                is_external = true;
+                break; // Si le falta un vecino ya es externo, no hay que seguir comprobando más
+            }
+        }
 
         //
         return is_external;
@@ -182,10 +193,20 @@ namespace fsiv
         _cparams = cparams;
         //TODO
         //Compute the integral image from _fg_img.
+        cv::Mat integral_img = fg_img.clone();
         //First: we need use the fg_img with values 0|1.
-        //Second: use cv::integral.
-
         //Si es mayor que 0 ponemos 1, ya que aunque sea gris forma parte de la silueta
+        for (size_t y = 0; y<fg_img.rows;y++){
+            for (size_t x = 0; x<fg_img.rows;x++){
+                if(fg_img.at<uchar>(y,x) > 0){
+                    integral_img.at<uchar>(y,x) = 1;
+                }
+            }
+        }
+
+        //Second: use cv::integral.
+        cv::integral(integral_img,integral_img);
+        
 
         //
         CV_Assert(iimg().type() == CV_32S);
