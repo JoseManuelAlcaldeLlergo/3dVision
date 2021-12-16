@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/pepe/UCO/V3D/Semana3/sfs/camera_parameters.cpp
-camera_parameters.hpp
-/home/pepe/UCO/V3D/Semana3/sfs/camera_parameters.hpp
-opencv2/calib3d.hpp
--
-
 /home/pepe/UCO/V3D/Semana3/sfs/camera_parameters.hpp
 iostream
 -
@@ -31,10 +25,6 @@ opencv2/calib3d.hpp
 -
 opencv2/highgui.hpp
 -
-
-/home/pepe/UCO/V3D/Semana3/sfs/octree.cpp
-octree.hpp
-/home/pepe/UCO/V3D/Semana3/sfs/octree.hpp
 
 /home/pepe/UCO/V3D/Semana3/sfs/octree.hpp
 memory
@@ -56,10 +46,6 @@ view.hpp
 octree.hpp
 /home/pepe/UCO/V3D/Semana3/sfs/octree.hpp
 
-/home/pepe/UCO/V3D/Semana3/sfs/view.cpp
-view.hpp
-/home/pepe/UCO/V3D/Semana3/sfs/view.hpp
-
 /home/pepe/UCO/V3D/Semana3/sfs/view.hpp
 iostream
 -
@@ -68,23 +54,11 @@ opencv2/core.hpp
 camera_parameters.hpp
 /home/pepe/UCO/V3D/Semana3/sfs/camera_parameters.hpp
 
-/home/pepe/UCO/V3D/Semana3/sfs/voxel.cpp
-voxel.hpp
-/home/pepe/UCO/V3D/Semana3/sfs/voxel.hpp
-
 /home/pepe/UCO/V3D/Semana3/sfs/voxel.hpp
 iostream
 -
 opencv2/core.hpp
 -
-
-/home/pepe/UCO/V3D/Semana3/sfs/voxelset.cpp
-zlib.h
--
-valarray
--
-voxelset.hpp
-/home/pepe/UCO/V3D/Semana3/sfs/voxelset.hpp
 
 /home/pepe/UCO/V3D/Semana3/sfs/voxelset.hpp
 iostream

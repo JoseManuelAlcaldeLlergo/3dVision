@@ -231,11 +231,13 @@ namespace fsiv
     {
         cv::Rect bbox;
         //TODO
-        //Remenber: Find the bounding box that circumscribes the projections of the
+        //Remember: Find the bounding box that circumscribes the projections of the
         //3D points in the image plane.
         //The bounding box must be clipped using regarding image dimensions.
         //For that, use the overloaded operator '&' for the cv::Rect class.
 
+        // RectA & RectB devuelve la intersección de ambos Rect
+        // bbox = _3dPoints    
         //
         return bbox;
     }
