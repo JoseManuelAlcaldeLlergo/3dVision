@@ -250,7 +250,7 @@ namespace fsiv
         //TODO
         //Hint: use the integral image of the foreground to do this with O(1).
         //See documentation of cv::integral
-
+        cv::integral(integral_img,integral_img);
         //
         return area;
     }

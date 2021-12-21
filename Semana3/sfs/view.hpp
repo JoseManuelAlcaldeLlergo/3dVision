@@ -56,7 +56,7 @@ public:
    */
     cv::Mat project_points(const cv::Mat& _3dPoints) const;
 
-    /*!\brief Given a sequence of 3D points, compute the projected 3D boinding box.
+    /*!\brief Given a sequence of 3D points, compute the projected 3D bounding box.
    * If the bbox area is zero means the points are projected out of the image frame.
    * \warning the bbox is clipped to the image frame.
    */
