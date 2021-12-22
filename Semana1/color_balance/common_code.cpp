@@ -104,7 +104,7 @@ cv::Mat fsiv_color_balance(cv::Mat const &in, float p)
         suma += hist[tono_divisor_brillantes];
     }
 
-    std::cout << "El tono que divide los puntos más brillantes es el " << tono_divisor_brillantes << std::endl;
+    // std::cout << "El tono que divide los puntos más brillantes es el " << tono_divisor_brillantes << std::endl;
 
     cv::Mat mask = (gray < tono_divisor_brillantes) / 255;
 

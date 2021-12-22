@@ -25,13 +25,11 @@ const cv::String keys =
     "{help h usage ? |      | print this message   }"
     "{i interactive  |      | use interactive mode.}"
     "{p              |0     | 0<=P<=100 is the percentage of brightest points used. "
-                             "Default value 0 means use the WhitPatch method. "
-                             "Value 100 means use the GrayWorld method. "
-                             "Other values mean scale the mean of p% brightness points.}"
+    "Default value 0 means use the WhitPatch method. "
+    "Value 100 means use the GrayWorld method. "
+    "Other values mean scale the mean of p% brightness points.}"
     "{@input         |<none>| input image.}"
-    "{@output        |<none>| output image.}"
-    ;
-
+    "{@output        |<none>| output image.}";
 
 /**
  * @brief Application State.
@@ -54,9 +52,9 @@ struct UserData
  * @arg flags give some keyboard state.
  * @arg user_data allow to pass user data to the callback.
  */
-void on_mouse (int event, int x, int y, int flags, void * user_data_)
+void on_mouse(int event, int x, int y, int flags, void *user_data_)
 {
-    UserData *user_data = static_cast<UserData*>(user_data_);
+    UserData *user_data = static_cast<UserData *>(user_data_);
     if (event == cv::EVENT_LBUTTONDOWN)
     {
         //TODO
@@ -64,6 +62,10 @@ void on_mouse (int event, int x, int y, int flags, void * user_data_)
         //punto y re-escalar el color de la imagen de forma que el color
         //seleccionado sea el nuevo blanco.
 
+        user_data->output = fsiv_color_rescaling(user_data->input, cv::Scalar::all(user_data->input.at<uchar>(y, x)), cv::Scalar::all(255.0));
+
+        cv::imshow("INPUT", user_data->input);
+        cv::imshow("OUTPUT", user_data->output);
         //
     }
 }
@@ -75,9 +77,9 @@ void on_mouse (int event, int x, int y, int flags, void * user_data_)
  * @arg v give the trackbar position.
  * @arg user_data allow to pass user data to the callback.
  */
-void on_change(int v, void * user_data_)
+void on_change(int v, void *user_data_)
 {
-    UserData * user_data = static_cast<UserData*>(user_data_);
+    UserData *user_data = static_cast<UserData *>(user_data_);
 
     //TODO
     //Si el usuario mueve el deslizador, en función del valor aplica
@@ -87,16 +89,32 @@ void on_change(int v, void * user_data_)
     //  Para valores intermedios usar el nivel médio de los p% valores
     //  más brillantes para escalar a blanco puro.
 
+    if (v == 0)
+    {
+        user_data->output = fsiv_wp_color_balance(user_data->input);
+    }
+    else if (v == 100)
+    {
+        user_data->output = fsiv_gw_color_balance(user_data->input);
+    }
+    else
+    {
+        user_data->output = fsiv_color_balance(user_data->input, v);
+    }
+
+    cv::imshow("INPUT", user_data->input);
+    cv::imshow("OUTPUT", user_data->output);
+    // cv::waitKey(0);
 
     //
 }
 
-int
-main (int argc, char* const* argv)
+int main(int argc, char *const *argv)
 {
-    int retCode=EXIT_SUCCESS;
+    int retCode = EXIT_SUCCESS;
 
-    try {
+    try
+    {
 
         cv::CommandLineParser parser(argc, argv, keys);
         parser.about("Apply a color balance to an image.");
@@ -107,7 +125,7 @@ main (int argc, char* const* argv)
         }
         bool interactive_mode = parser.has("i");
         int p = parser.get<int>("p");
-        if (p<0 || p>100)
+        if (p < 0 || p > 100)
         {
             std::cerr << "Error: p is out of range [0, 100]." << std::endl;
             return EXIT_FAILURE;
@@ -126,8 +144,9 @@ main (int argc, char* const* argv)
         //Carga la imagen de entrada;
         input = cv::imread(input_n);
 
-        if(input.empty()){
-            std::cerr <<"Error: "<<std::endl;
+        if (input.empty())
+        {
+            std::cerr << "Error: " << std::endl;
             return EXIT_FAILURE;
         }
 
@@ -136,16 +155,16 @@ main (int argc, char* const* argv)
         cv::Mat output = input.clone(); //solo para inicializar.
 
         cv::namedWindow("INPUT", cv::WINDOW_GUI_EXPANDED);
-        cv::namedWindow("OUTPUT",cv::WINDOW_GUI_EXPANDED);
+        cv::namedWindow("OUTPUT", cv::WINDOW_GUI_EXPANDED);
 
         UserData user_data;
         if (interactive_mode)
         {
-            user_data.input=input;
-            user_data.output=output;
+            user_data.input = input;
+            user_data.output = output;
             cv::setMouseCallback("INPUT", on_mouse, &user_data);
             cv::createTrackbar("P", "INPUT", &p, 100, on_change,
-                           &user_data);
+                               &user_data);
         }
         else
         {
@@ -157,29 +176,37 @@ main (int argc, char* const* argv)
             //  Para valores intermedios usar el nivel médio de los P% valores
             //  más brillantes para escalar a blanco puro.
 
-            if(p==0){
+            if (p == 0)
+            {
+                std::cout << "Salida generada con WhitePatch" << std::endl;
                 output = fsiv_wp_color_balance(input);
-
             }
-            else{
+            else if (p == 100)
+            {
+                std::cout << "Salida generada con GrayWorld" << std::endl;
                 output = fsiv_gw_color_balance(input);
+            }
+            else
+            {
+                std::cout << "Salida generada con p = " << p << std::endl;
+                output = fsiv_color_balance(input, p);
             }
             //
         }
 
-        cv::imshow ("INPUT", input);
+        cv::imshow("INPUT", input);
         cv::imshow("OUTPUT", output);
-        int k = cv::waitKey(0)&0xff;
+        int k = cv::waitKey(0) & 0xff;
 
-        if (k!=27)
+        if (k != 27)
         {
             //TODO
             //Almacena la imagen.
-            cv::imwrite(output_n,output);
+            cv::imwrite(output_n, output);
             //
         }
     }
-    catch (std::exception& e)
+    catch (std::exception &e)
     {
         std::cerr << "Capturada excepcion: " << e.what() << std::endl;
         retCode = EXIT_FAILURE;

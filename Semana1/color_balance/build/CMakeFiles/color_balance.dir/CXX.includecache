@@ -6,13 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/pepe/UCO/V3D/Semana1/color_balance/common_code.cpp
-common_code.hpp
-/home/pepe/UCO/V3D/Semana1/color_balance/common_code.hpp
-opencv2/imgproc/imgproc.hpp
--
+/home/pepe/UCO/V3D/Semana1/color_balance/color_balance.cc
 iostream
 -
+exception
+-
+opencv2/core/core.hpp
+-
+opencv2/core/utility.hpp
+-
+opencv2/highgui/highgui.hpp
+-
+opencv2/imgproc/imgproc.hpp
+-
+common_code.hpp
+/home/pepe/UCO/V3D/Semana1/color_balance/common_code.hpp
 
 /home/pepe/UCO/V3D/Semana1/color_balance/common_code.hpp
 opencv2/core/core.hpp
