@@ -141,12 +141,11 @@ fsiv_image_equalization(const cv::Mat &in, cv::Mat &out,
 
                 fsiv_compute_histogram(partial_in, hist);
                 cv::Mat lkt = fsiv_create_equalization_lookup_table(hist);
-                fsiv_apply_lookup_table(partial_in, lkt, partial_out);
 
-                // Se reemplaza solamente el pixel central
-                out.at<uchar>(y,x) = partial_out.at<uchar>(radius,radius);
+                // Se reemplaza solamente el pixel central, por lo que lo cambiamos directamente ya que nuestra función
+                // cambia una imagen entera y los asertos definidos no dejan pasar un único pixel
+                out.at<uchar>(y,x) = lkt.at<uchar>(0, partial_in.at<uchar>(radius, radius));
             }
-
         }
     }
 

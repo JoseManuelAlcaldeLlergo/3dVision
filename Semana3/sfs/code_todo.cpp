@@ -206,6 +206,11 @@ namespace fsiv
 
         //Second: use cv::integral.
         cv::integral(integral_img,integral_img);
+
+        // //Fran
+        // cv::Mat integral_img = fg_img.clone();
+        // integral_img = (integral_img>0)/255;
+        // cv::integral(integral_img,integral_img);
         
 
         //

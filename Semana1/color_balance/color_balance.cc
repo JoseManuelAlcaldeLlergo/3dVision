@@ -162,8 +162,8 @@ int main(int argc, char *const *argv)
         {
             user_data.input = input;
             user_data.output = output;
-            cv::setMouseCallback("INPUT", on_mouse, &user_data);
-            cv::createTrackbar("P", "INPUT", &p, 100, on_change,
+            cv::setMouseCallback("OUTPUT", on_mouse, &user_data);
+            cv::createTrackbar("P", "OUTPUT", &p, 100, on_change,
                                &user_data);
         }
         else

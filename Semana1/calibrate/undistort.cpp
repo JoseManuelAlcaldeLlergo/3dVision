@@ -58,25 +58,68 @@ main (int argc, char* const* argv)
         cv::Size camera_size;
         cv::Mat K, dist_coeffs, rvec, tvec;
 
-        //TODO: First load the calibration parameters.
+        auto fs = cv::FileStorage();
+        fs.open(calib_fname, cv::FileStorage::READ);
 
+        //TODO: First load the calibration parameters.
+        fsiv_load_calibration_parameters(fs,camera_size,error, K, dist_coeffs, rvec, tvec);
         //
 
         cv::namedWindow("INPUT", cv::WINDOW_GUI_EXPANDED+cv::WINDOW_AUTOSIZE);
         cv::namedWindow("OUTPUT", cv::WINDOW_GUI_EXPANDED+cv::WINDOW_AUTOSIZE);
         //TODO
+       
 
         //
         if (is_video)
         {
             //TODO
+            cv::Mat new_K, out_map1, out_map2;
+            cv::initUndistortRectifyMap(K, dist_coeffs, cv::Mat(), new_K, cv::Size(640, 480), CV_32FC1, out_map1, out_map2 );
+            
+            
 
+            cv::VideoCapture capture;
+            capture.open(cv::samples::findFileOrKeep(input_fname));
+            auto v_writer = cv::VideoWriter(output_fname, CV_FOURCC('F','M','P','4'), 15.0, cv::Size(640, 480), true);
+
+            while(true){
+                cv::Mat view, new_view;
+                //bool blink = false;
+
+                if( capture.isOpened() )
+                {
+                    cv::Mat view0;
+                    capture >> view0;
+                    view0.copyTo(view);
+                    //camera_size = cv::Size(view.cols, view.rows);
+                    //std::cout<<"cam_siz= "<<camera_size<<std::endl;
+                    
+                }
+
+                if(view.empty())
+                {
+                    
+                    break;//Fin while
+                }
+                cv::remap(view, new_view, out_map1, out_map2, cv::INTER_LINEAR);
+                cv::imshow("Undistort",new_view);
+                cv::waitKey(0);
+
+                if(v_writer.isOpened()){
+                    v_writer.write(new_view);
+                }
+            }
             //
         }
         else
         {
             //TODO
+            cv::Mat input = cv::imread(input_fname);
+            cv::Mat output;
 
+            fsiv_undistort_image(input, output, K, dist_coeffs);
+            cv::imwrite(output_fname ,output);
             //
         }
     }

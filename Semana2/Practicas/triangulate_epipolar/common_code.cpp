@@ -146,8 +146,11 @@ float epipolarLineSqDist(const cv::Point2f &kp1, const cv::Point2f &kp2, const c
     return num * num / den;
 }
 
-std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query, cv::Mat descriptors_query, std::vector<cv::KeyPoint> keypoints_train,
-                                cv::Mat descriptors_train, cv::Mat im1, cv::Mat im2, std::vector<cv::KeyPoint> &keypoints_query_filtered, std::vector<cv::KeyPoint> &keypoints_train_filtered,
+std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query,
+                                cv::Mat descriptors_query, std::vector<cv::KeyPoint> keypoints_train,
+                                cv::Mat descriptors_train, cv::Mat im1, cv::Mat im2,
+                                std::vector<cv::KeyPoint> &keypoints_query_filtered,
+                                std::vector<cv::KeyPoint> &keypoints_train_filtered,
                                 cv::Mat F = cv::Mat())
 {
 
@@ -158,7 +161,7 @@ std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query, cv::M
     auto matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
     matcher->knnMatch(descriptors_query, descriptors_train, matches, 2);
 
-    for (unsigned int i = 0; i < matches.size(); i++)
+    for (size_t i = 0; i < matches.size(); i++)
     {
         // std::cout<<epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F)<<std::endl;
         if (matches[i][0].distance < 80 &&
@@ -215,11 +218,7 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
 
     for (size_t i = 0; i < inliers.total(); i++)
     {
-        if (!inliers.ptr<uchar>(0)[i])
-        {
-            //ES OUTLIER
-        }
-        else
+        if (inliers.ptr<uchar>(0)[i])
         {
             int current_size = static_cast<int>(kp_query_filt_out.size());
             goodMatches.push_back(cv::DMatch(current_size, current_size, 0));

@@ -35,7 +35,7 @@ void showEpipolar(cv::Mat centralImage,cv::Mat otherImage,cv::Mat CamK,cv::Mat F
 
 cv::Mat fundamental(cv::Mat im1,cv::Mat im2);
 
-std::vector<cv::DMatch>  KpMatch( std::vector<cv::KeyPoint> keypoints_query ,cv::Mat descriptors_query, std::vector<cv::KeyPoint> keypoints_train, cv::Mat descriptors_train , cv::Mat im1, cv::Mat im2, std::vector<cv::KeyPoint> &keypoints_query_filtered,std::vector<cv::KeyPoint> &keypoints_train_filtered,cv::Mat F);
+std::vector<cv::DMatch>  KpMatch( std::vector<cv::KeyPoint> keypoints_query ,cv::Mat descriptors_query, std::vector<cv::KeyPoint> keypoints_train, cv::Mat descriptors_train , cv::Mat im1, cv::Mat im2, std::vector<cv::KeyPoint> &keypoints_query_filtered,std::vector<cv::KeyPoint> &keypoints_train_filtered,std::vector<cv::Point2f> &points_query, std::vector<cv::Point2f> &points_train,cv::Mat F);
 
 std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp);
 

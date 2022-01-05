@@ -37,27 +37,26 @@ int main(int argc, char *const *argv)
             std::cerr << "Se le deben pasar cinco argumentos al programa:\n\t ./fundamental_matrix img1.jpg img2.jpg calibraton.yml out.pcd" << std::endl;
             return EXIT_FAILURE;
         }
-        cv::Mat im1=cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
-        cv::Mat im2=cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
+
+        cv::Mat im1 = cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat im2 = cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
         std::string calibration_file = parser.get<cv::String>("@calibration");
 
-        
-        
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
 
         cv::Mat inliers;
 
-        auto CP=readCameraParams(fs);
-        cv::Mat und_im1 = removeDistortion(im1,CP).clone();
-        cv::Mat und_im2 = removeDistortion(im2,CP).clone();
-        cv::Mat F=fundamental(und_im1,und_im2);
-        std::cout<<F<<std::endl;
-        // showEpipolar(und_im1,und_im2,CP.camera_matrix,F);
-        std::vector<cv::Point3f> vpoints=Triangulate(und_im1,und_im2,F,CP);
-        writeToPCD(argv[4],vpoints);
-        while(cv::waitKey(0)!=27) ;
-        
+        auto CP = readCameraParams(fs);
+        cv::Mat und_im1 = removeDistortion(im1, CP).clone();
+        cv::Mat und_im2 = removeDistortion(im2, CP).clone();
+        cv::Mat F = fundamental(und_im1, und_im2);
+        // std::cout << F << std::endl;
+
+        std::vector<cv::Point3f> vpoints = Triangulate(und_im1, und_im2, F, CP);
+        writeToPCD(argv[4], vpoints);
+        while (cv::waitKey(0) != 27)
+            ;
     }
     catch (std::exception &e)
     {

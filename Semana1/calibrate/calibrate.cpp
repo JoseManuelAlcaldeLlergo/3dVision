@@ -9,6 +9,9 @@
 
 */
 
+// ./calibrate -verbose -c=6  -r=5  -s=0.04 out.yml ../data/logitech_000_001.png  ../data/logitech_000_002.png  ../data/logitech_000_003.png
+// ./calibrate -verbose -c=6  -r=5  -s=0.04 out.yml -v=../data/
+
 #include <iostream>
 #include <exception>
 
@@ -17,7 +20,7 @@
 #include <opencv2/core/utility.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-//#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
 
 #include "common_code.hpp"
 
@@ -78,9 +81,38 @@ main (int argc, char* const* argv)
             //TODO
             //Make extrinsic calibration.
             //Remenber: only one view is needed.
+            std::string calib_fname = parser.get<std::string>("i");
+            float error;
+            cv::Size camera_size;
+            cv::Mat K, dist_coeffs, rvec, tvec;
+            std::string wname = "TABLERO";
+            auto board_Size = cv::Size(cols-1,rows-1);
+            std::vector<std::vector<cv::Point2f>> _2dpoints;
+            std::vector<std::vector<cv::Point3f>> _3dpoints;
+            std::vector<cv::Point3f> _3d_corners = fsiv_generate_3d_calibration_points(board_Size, square_size);
 
+            auto fs = cv::FileStorage();
+            fs.open(calib_fname, cv::FileStorage::READ);
 
+            fsiv_load_calibration_parameters(fs,camera_size,error, K, dist_coeffs, rvec, tvec);
 
+            //Solo necesita una vista, por lo que cogemos la primera
+            cv::Mat img = cv::imread(input_fnames[0]);
+            camera_size=cv::Size(img.cols,img.rows);
+
+            //comprobar si se puede cargar
+            //comprobar si todas las imagene son del mismo tamaño
+
+            std::vector<cv::Point2f> corners;
+            if (fsiv_find_chessboard_corners(img, board_Size, corners, wname.c_str())){
+                _2dpoints.push_back(corners);
+                _3dpoints.push_back(_3d_corners);
+            }
+
+            //solvePnP(_3dpoints, _2dpoints, K, dist_coeffs, rvec, tvec);
+            cv::solvePnP(_3dpoints, _2dpoints, K, dist_coeffs, rvec, tvec);
+
+            //REVISAR
 
 
             //
@@ -158,7 +190,7 @@ main (int argc, char* const* argv)
 
                 while(true){
                     cv::Mat view, viewGray;
-                    bool blink = false;
+                    //bool blink = false;
 
                     if( capture.isOpened() )
                     {
@@ -182,6 +214,18 @@ main (int argc, char* const* argv)
                         _2dpoints.push_back(corners);
                         _3dpoints.push_back(_3d_corners);
                     }
+
+                    cv::Mat cameraMatrix, dist_coeffs;
+                    float error = fsiv_calibrate_camera(_2dpoints,_3dpoints, camera_size, cameraMatrix, dist_coeffs, &rvecs, &tvecs);
+                    std::cout<<"Error de reproyección: "<<error<<std::endl;
+                    
+
+                    auto fs = cv::FileStorage();
+                    fs.open(output_fname, cv::FileStorage::WRITE);
+                    // (fs,camera_size,);
+
+                    fsiv_save_calibration_parameters(fs,camera_size,error,cameraMatrix, dist_coeffs, rvecs[0], tvecs[0]);
+                    //
                 }
             }
         }
