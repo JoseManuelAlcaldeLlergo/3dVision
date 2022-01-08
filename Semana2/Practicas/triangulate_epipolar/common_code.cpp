@@ -164,10 +164,14 @@ std::vector<cv::DMatch> KpMatch(std::vector<cv::KeyPoint> keypoints_query,
     for (size_t i = 0; i < matches.size(); i++)
     {
         // std::cout<<epipolarLineSqDist(keypoints_query[matches[i][0].queryIdx].pt, keypoints_train[matches[i][0].trainIdx].pt, F)<<std::endl;
-        if (matches[i][0].distance < 80 &&
-            abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) <= 2 &&
-            matches[i][0].distance / matches[i][1].distance < 0.8 &&
-            epipolarLineSqDist(keypoints_train[matches[i][0].trainIdx].pt, keypoints_query[matches[i][0].queryIdx].pt, F) <= 4)
+        // if ((matches[i][0].distance < 80) &&
+        //     (abs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) <= 2) &&
+        //     matches[i][0].distance / matches[i][1].distance < 0.8 &&
+        //     (epipolarLineSqDist(keypoints_train[matches[i][0].trainIdx].pt, keypoints_query[matches[i][0].queryIdx].pt, F) <= 4))
+        if ((matches[i][0].distance < 80) &&
+            (std::fabs(keypoints_query[matches[i][0].queryIdx].octave - keypoints_train[matches[i][0].trainIdx].octave) < 2.0) &&
+            ((matches[i][0].distance / matches[i][1].distance) <= 0.8) &&
+            (epipolarLineSqDist(keypoints_train[matches[i][0].trainIdx].pt, keypoints_query[matches[i][0].queryIdx].pt, F) <= 4.0))
         {
             // The current size of the filtered matches vector will define the index of te new match
             int current_size = static_cast<int>(keypoints_query_filtered.size());

@@ -17,7 +17,7 @@
 #include <opencv2/core/utility.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-//#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
 
 #include "common_code.hpp"
 
@@ -75,13 +75,14 @@ main (int argc, char* const* argv)
         {
             //TODO
             cv::Mat new_K, out_map1, out_map2;
-            cv::initUndistortRectifyMap(K, dist_coeffs, cv::Mat(), new_K, cv::Size(640, 480), CV_32FC1, out_map1, out_map2 );
+            camera_size = cv::Size(640, 480); // El video que tenemos
+            cv::initUndistortRectifyMap(K, dist_coeffs, cv::getOptimalNewCameraMatrix(K, dist_coeffs, camera_size, 1, camera_size, 0), new_K, camera_size, CV_32FC1, out_map1, out_map2 );
             
             
 
             cv::VideoCapture capture;
             capture.open(cv::samples::findFileOrKeep(input_fname));
-            auto v_writer = cv::VideoWriter(output_fname, CV_FOURCC('F','M','P','4'), 15.0, cv::Size(640, 480), true);
+            auto v_writer = cv::VideoWriter(output_fname, CV_FOURCC('H','2','6','4'), 15.0, camera_size, true);
 
             while(true){
                 cv::Mat view, new_view;

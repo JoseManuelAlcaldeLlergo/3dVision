@@ -29,6 +29,8 @@ opencv2/highgui/highgui.hpp
 -
 opencv2/imgproc/imgproc.hpp
 -
+opencv2/calib3d/calib3d.hpp
+-
 common_code.hpp
 /home/pepe/UCO/V3D/Semana1/calibrate/common_code.hpp
 

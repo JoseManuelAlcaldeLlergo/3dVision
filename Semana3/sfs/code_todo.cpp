@@ -87,23 +87,12 @@ namespace fsiv
         _x_size = bc.x_dim() / vsize;
         _y_size = bc.y_dim() / vsize;
         _z_size = bc.z_dim() / vsize;
-        _xy_size = _xy_size * _y_size;
-
-        // int sizes[] = {_x_size, _y_size, _z_size};
-        // _occupancy_map = cv::Mat::zeros(3,sizes,CV_8UC1);
+        _xy_size = _x_size * _y_size;
 
         if (init_occ_state)
             _occupancy_map = cv::Mat::ones(1, _x_size * _y_size * _z_size, CV_8UC1);
         else
             _occupancy_map = cv::Mat::zeros(1, _x_size * _y_size * _z_size, CV_8UC1);
-
-        // for(size_t x; x < _x_size; x++){
-        //     for(size_t y; y < _y_size; y++){
-        //         for(size_t z; z < _z_size; z++){
-        //             _occupancy_map.at<uchar>(x,y,z) = init_occ_state;
-        //         }
-        //     }
-        // }
 
         //
         CV_Assert(size() == x_size() * y_size() * z_size());
@@ -118,7 +107,8 @@ namespace fsiv
         size_t idx = 0;
         //TODO
 
-        idx = z * x * _xy_size + y * x * _x_size + x;
+        idx = z * _xy_size + y * _x_size + x;
+        // idx = z * x * _xy_size + y * x * _x_size + x;
 
         //
         CV_Assert(idx < size());
@@ -193,25 +183,24 @@ namespace fsiv
         _cparams = cparams;
         //TODO
         //Compute the integral image from _fg_img.
-        cv::Mat integral_img = fg_img.clone();
+        // cv::Mat integral_img = fg_img.clone();
         //First: we need use the fg_img with values 0|1.
         //Si es mayor que 0 ponemos 1, ya que aunque sea gris forma parte de la silueta
-        for (size_t y = 0; y<fg_img.rows;y++){
-            for (size_t x = 0; x<fg_img.rows;x++){
-                if(fg_img.at<uchar>(y,x) > 0){
-                    integral_img.at<uchar>(y,x) = 1;
-                }
-            }
-        }
+        // for (size_t y = 0; y<fg_img.rows;y++){
+        //     for (size_t x = 0; x<fg_img.rows;x++){
+        //         if(fg_img.at<uchar>(y,x) > 0){
+        //             integral_img.at<uchar>(y,x) = 1;
+        //         }
+        //     }
+        // }
 
-        //Second: use cv::integral.
-        cv::integral(integral_img,integral_img);
+        // //Second: use cv::integral.
+        // cv::integral(integral_img,integral_img);
 
         // //Fran
-        // cv::Mat integral_img = fg_img.clone();
-        // integral_img = (integral_img>0)/255;
-        // cv::integral(integral_img,integral_img);
-        
+        cv::Mat integral_img = fg_img.clone();
+        integral_img = (integral_img > 0) / 255;
+        cv::integral(integral_img, _iimg_fg);
 
         //
         CV_Assert(iimg().type() == CV_32S);
@@ -241,8 +230,12 @@ namespace fsiv
         //The bounding box must be clipped using regarding image dimensions.
         //For that, use the overloaded operator '&' for the cv::Rect class.
 
+        cv::Mat points_2d = this->project_points(_3dPoints);
+
+        bbox = cv::boundingRect(points_2d);
+
         // RectA & RectB devuelve la intersección de ambos Rect
-        // bbox = _3dPoints    
+        // bbox = _3dPoints
         //
         return bbox;
     }
@@ -255,7 +248,7 @@ namespace fsiv
         //TODO
         //Hint: use the integral image of the foreground to do this with O(1).
         //See documentation of cv::integral
-        cv::integral(integral_img,integral_img);
+        area = this->iimg().at<uchar>(this->iimg().rows-1,this->iimg().cols-1);
         //
         return area;
     }

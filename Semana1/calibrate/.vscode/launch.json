@@ -11,7 +11,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/build/${fileBasenameNoExtension}",
-            "args": ["./data/elp-intrinsics.xml", "./data/tablero_000_000.avi", "out.avi", "-v"],            
+            "args": ["./data/elp-intrinsics.xml", "./data/tablero_000_000.avi", "out.mp4", "-v"],            
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

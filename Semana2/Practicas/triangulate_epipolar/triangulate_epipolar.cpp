@@ -17,7 +17,8 @@ const cv::String keys =
     "{help h usage ? |      | print this message.}"
     "{@im1        |<none>| path of the image.}"
     "{@im2        |<none>| path of the image.}"
-    "{@calibration        |<none>| filename of the calibration file.}";
+    "{@calibration        |<none>| filename of the calibration file.}"
+    "{@output           |<none>|    output filename}";
 
 int main(int argc, char *const *argv)
 {
@@ -26,7 +27,7 @@ int main(int argc, char *const *argv)
     try
     {
         cv::CommandLineParser parser(argc, argv, keys);
-        parser.about("Stereo Calibration");
+        parser.about("Triangulate epipolar");
         if (parser.has("help"))
         {
             parser.printMessage();
@@ -38,20 +39,30 @@ int main(int argc, char *const *argv)
             return EXIT_FAILURE;
         }
 
-        cv::Mat im1 = cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
-        cv::Mat im2 = cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
+        std::string im1_file = parser.get<cv::String>("@im1");
+        std::string im2_file = parser.get<cv::String>("@im2");
+        std::string output_file = parser.get<cv::String>("@output");
+        std::string cal_file = parser.get<cv::String>("@calibration");
+
+        cv::Mat im1 = cv::imread(im1_file, CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat im2 = cv::imread(im2_file, CV_LOAD_IMAGE_GRAYSCALE);
         std::string calibration_file = parser.get<cv::String>("@calibration");
 
         auto fs = cv::FileStorage();
         fs.open(calibration_file, cv::FileStorage::READ);
 
-        cv::Mat inliers;
 
         auto CP = readCameraParams(fs);
+
+        // std::cout<<CP.camera_matrix<<std::endl;
+        // std::cout<<CP.dist_coefs<<std::endl;
+        // std::cout<<CP.R<<std::endl;
+        // std::cout<<CP.t<<std::endl;
+
         cv::Mat und_im1 = removeDistortion(im1, CP).clone();
         cv::Mat und_im2 = removeDistortion(im2, CP).clone();
         cv::Mat F = fundamental(und_im1, und_im2);
-        // std::cout << F << std::endl;
+        std::cout << F << std::endl;
 
         std::vector<cv::Point3f> vpoints = Triangulate(und_im1, und_im2, F, CP);
         writeToPCD(argv[4], vpoints);
