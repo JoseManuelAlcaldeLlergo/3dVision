@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/build/mk_voxelset",
-            "args": ["--scene=-1.5:-1.5:0.0:3:3:2", "--vsize=0.02","--output=my_out.wrl", "--nviews=4", "./data/cone-4/ext_4-0.yml", "./data/cone-4/ext_4-1.yml", "./data/cone-4/ext_4-2.yml", "./data/cone-4/ext_4-3.yml", "./data/cone-4/cone_4-0.png", "./data/cone-4/cone_4-1.png", "./data/cone-4/cone_4-2.png", "./data/cone-4/cone_4-0.png" ],
+            "args": ["--scene=-1.5:-1.5:0.0:3:3:2", "--vsize=0.02","--output=my_voxelset", "--nviews=4", "./data/cone-4/ext_4-0.yml", "./data/cone-4/ext_4-1.yml", "./data/cone-4/ext_4-2.yml", "./data/cone-4/ext_4-3.yml", "./data/cone-4/cone_4-0.png", "./data/cone-4/cone_4-1.png", "./data/cone-4/cone_4-2.png", "./data/cone-4/cone_4-0.png" ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

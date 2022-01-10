@@ -181,8 +181,9 @@ namespace fsiv
     {
         CV_Assert(fg_img.type() == CV_8UC1);
         _id = id;
-        _foreground = fg_img;
+        _foreground = fg_img.clone();
         _cparams = cparams;
+        _view = fg_img.clone();
         //TODO
         //Compute the integral image from _fg_img.
         // cv::Mat integral_img = fg_img.clone();
@@ -200,12 +201,14 @@ namespace fsiv
         // cv::integral(integral_img,integral_img);
 
         // Más corto
-        cv::Mat integral_img = fg_img.clone();
-        integral_img = (integral_img > 0) / 255;
-        cv::integral(integral_img, _iimg_fg);
+        _foreground = (_foreground > 0) / 255;
 
-        std::cout<<"integral_size: "<<_iimg_fg.size()<<std::endl;
-        std::cout<<"fgimg_size: "<<fg_img.size()<<std::endl;
+        // std::cout<<_foreground<<std::endl;
+
+        cv::integral(_foreground, _iimg_fg);
+
+        // std::cout<<"integral_size: "<<_iimg_fg.size()<<std::endl;
+        // std::cout<<"fgimg_size: "<<fg_img.size()<<std::endl;
 
         //
         CV_Assert(iimg().type() == CV_32S);
@@ -242,7 +245,7 @@ namespace fsiv
         double min_x_value, max_x_value, min_y_value, max_y_value;
         cv::Mat col_x, col_y;
 
-        for (size_t i = 0; i < points_2d.rows; i++)
+        for (int i = 0; i < points_2d.rows; i++)
         {
             col_x.push_back(points_2d.at<float>(i, 0));
             col_y.push_back(points_2d.at<float>(i, 1));
@@ -263,7 +266,7 @@ namespace fsiv
         cv::minMaxLoc(col_x, &min_x_value, &max_x_value, 0, 0);
         cv::minMaxLoc(col_y, &min_y_value, &max_y_value, 0, 0);
 
-        bbox = cv::Rect(max_x_value,max_y_value,min_x_value,min_y_value);
+        bbox = cv::Rect(max_x_value, max_y_value, min_x_value, min_y_value);
         //bbox = cv::boundingRect(points_2d);
 
         // Para que el rectángulo no se salga de lam imagen
@@ -272,6 +275,9 @@ namespace fsiv
         // RectA & RectB devuelve la intersección de ambos Rect
         // bbox = _3dPoints
         //
+
+        // std::cout<<bbox<<std::endl;
+
         return bbox;
     }
 
@@ -281,14 +287,16 @@ namespace fsiv
         CV_Assert(bbox.area() >= 0);
         int area = 0;
 
-        std::cout<<iimg().at<uchar>(0,0)<<std::endl;
 
-        int tl= iimg().at<uchar>((bbox.y),(bbox.x));
-        int tr= iimg().at<uchar>((bbox.y),(bbox.x+bbox.width+1));
-        int bl= iimg().at<uchar>((bbox.y+bbox.height+1),(bbox.x));
-        int br= iimg().at<uchar>((bbox.y+bbox.height+1),(bbox.x+bbox.width+1));
+        // std::cout << iimg() << std::endl;
+        // std::cout << iimg().at<uchar>(0, 0) << std::endl;
 
-        area = br-bl-tr+tl;
+        int tl = this->iimg().at<uchar>((bbox.y), (bbox.x));
+        int tr = this->iimg().at<uchar>((bbox.y), (bbox.x + bbox.width + 1));
+        int bl = this->iimg().at<uchar>((bbox.y + bbox.height + 1), (bbox.x));
+        int br = this->iimg().at<uchar>((bbox.y + bbox.height + 1), (bbox.x + bbox.width + 1));
+
+        area = br - bl - tr + tl;
 
         //TODO
         //Hint: use the integral image of the foreground to do this with O(1).
@@ -309,12 +317,13 @@ namespace fsiv
         //Not take into account a view if the projection is out of the image frame (bbox.area()==0).
         for (size_t i = 0; i < views.size(); i++)
         {
-            std::cout << "Vertices:\n"
-                      << voxel.vertices() << std::endl;
+            // std::cout << "Vertices:\n"
+            //           << voxel.vertices() << std::endl;
             cv::Rect bbox = views[i].compute_bounding_box(voxel.vertices());
-            // A compute_ccupied_area se le pasa el bbox pero no lo usamos, aunque le veo sentido porque es el area del foreground
-            if (views[i].compute_occupied_area(bbox) <= bbox.area())
+
+            if (views[i].compute_occupied_area(bbox) <= 0)
             {
+                return false;
             }
         }
 
@@ -328,14 +337,14 @@ namespace fsiv
     {
         vs.reset(scene, vsize);
         //TODO
-        std::cout << vs.size() << std::endl;
+        // std::cout << vs.size() << std::endl;
         //Apply the SFS algorithm.
         //Do a projection test for each voxel.
         //Hint: use "#pragma omp parallel for" to parallelize the loop.
 #pragma omp parallel for
         for (size_t voxel_idx = 0; voxel_idx < vs.size(); ++voxel_idx)
         {
-            std::cout << "VOXEL:" << vs.voxel(voxel_idx) << std::endl;
+            // std::cout << "VOXEL:" << vs.voxel(voxel_idx) << std::endl;
             bool is_occupied = voxelset_projection_test(vs.voxel(voxel_idx),
                                                         views, OAR_th);
             vs.set_occupancy(voxel_idx, is_occupied);
