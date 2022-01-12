@@ -1,0 +1,188 @@
+#VRML V2.0 utf8
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  diffuseColor 0 0 0
+	  emissiveColor 1 1 1
+	  }
+	}
+      geometry       Box 
+	{
+	size 0.400000 0.150000 0.500000
+	}
+      }
+    ]
+  translation 0.250000 0.250000 0.500000
+  }
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  emissiveColor 1 1 1
+	  }
+	}
+      geometry       Sphere 
+	{
+	radius 0.150000
+	}
+      }
+    ]
+  translation 0.250000 0.250000 0.899999
+  }
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  emissiveColor 1 1 1
+	  }
+	}
+      geometry       Box 
+	{
+	size 0.300000 0.100000 0.100000
+	}
+      }
+    ]
+  translation -0.100000 0.250000 0.699998
+  }
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  emissiveColor 1 1 1
+	  }
+	}
+      geometry       Box 
+	{
+	size 0.300000 0.100000 0.100000
+	}
+      }
+    ]
+  translation 0.600000 0.250000 0.699998
+  }
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  emissiveColor 1 1 1
+	  }
+	}
+      geometry       Box 
+	{
+	size 0.100000 0.100000 0.400000
+	}
+      }
+    ]
+  translation 0.150000 0.250000 5.117686e-2
+  }
+
+Transform 
+  {
+  children 
+    [
+    Shape 
+      {
+      appearance       Appearance 
+	{
+	material 	Material 
+	  {
+	  emissiveColor 1 1 1
+	  }
+	}
+      geometry       Box 
+	{
+	size 0.100000 0.100000 0.400000
+	}
+      }
+    ]
+  translation 0.349999 0.250000 5.092032e-2
+  }
+
+#VRML V2.0 utf8
+#escena con con 3.0x3.0 m de suelo y 2.5m de altura.
+#vista por 8 cámaras con fov=90 grados y posicionadas 4
+#en las esquinas del techo mirando hacia (0,0,0)
+#y cuatro a media altura en el centro de las paredes mirando a (0,0,0)
+Viewpoint {
+	 description "cam0"
+	 fieldOfView 1.570796
+	 position 1.500000 1.500000 2.500000
+	 orientation 0.141308 0.341148 0.929328 2.406679
+}
+Viewpoint {
+	 description "cam1"
+	 fieldOfView 1.570796
+	 position 1.500000 -1.500000 2.500000
+	 orientation 0.639558 0.264914 0.721655 1.042130
+}
+Viewpoint {
+	 description "cam2"
+	 fieldOfView 1.570796
+	 position -1.500000 -1.500000 2.500000
+	 orientation 0.639558 -0.264914 -0.721655 1.042130
+}
+Viewpoint {
+	 description "cam3"
+	 fieldOfView 1.570796
+	 position -1.500000 1.500000 2.500000
+	 orientation 0.141308 -0.341148 -0.929328 2.406679
+}
+Viewpoint {
+	 description "cam4"
+	 fieldOfView 1.570796
+	 position 2.120000 0.000000 1.250000
+	 orientation 0.444366 0.444366 0.777867 1.819395
+}
+Viewpoint {
+	 description "cam5"
+	 fieldOfView 1.570796
+	 position 0.000000 -2.120000 1.250000
+	 orientation 1.000000 -0.000150 0.000262 1.038042
+}
+Viewpoint {
+	 description "cam6"
+	 fieldOfView 1.570796
+	 position -2.120000 0.000000 1.250000
+	 orientation 0.444366 -0.444366 -0.777867 1.819395
+}
+Viewpoint {
+	 description "cam7"
+	 fieldOfView 1.570796
+	 position 0.000000 2.120000 1.250000
+	 orientation -0.000074 -0.496030 -0.868305 3.141333
+}

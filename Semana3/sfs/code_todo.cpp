@@ -399,17 +399,19 @@ namespace fsiv
             cv::Mat copia = views[i].colored_view().clone();
             cv::rectangle(copia,bbox,cv::Scalar(255,0,0));
 
-            cv::imshow("Octree", copia);
-            cv::waitKey(0);
+            // cv::imshow("Octree", copia);
+            // cv::waitKey(0);
 
 
             if (bbox.area() > 0)
             {
-                const float OAR = float(views[i].compute_occupied_area(bbox) / bbox.area());
-                std::cout<<"area ocupada= "<<views[i].compute_occupied_area(bbox)<<std::endl;
-                std::cout<<"area bbox= "<<bbox.area()<<std::endl;
-                std::cout<<"OAR= "<<OAR<<std::endl;
-                std::cout<<"OAR= "<<views[i].compute_occupied_area(bbox) / bbox.area()<<std::endl;
+                const float area_ocupada =  views[i].compute_occupied_area(bbox);
+                const float area_bbox =  bbox.area();
+                const float OAR = area_ocupada / area_bbox;
+                // std::cout<<"area ocupada= "<<views[i].compute_occupied_area(bbox)<<std::endl;
+                // std::cout<<"area bbox= "<<bbox.area()<<std::endl;
+                // std::cout<<"OAR= "<<OAR<<std::endl;
+                // std::cout<<"OAR= "<<area_ocupada / area_bbox<<std::endl;
 
                 // Porque empezamos con 0
                 if(level == max_levels){

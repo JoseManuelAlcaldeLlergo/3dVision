@@ -1,0 +1,94 @@
+#VRML V2.0 utf8
+
+Transform {
+  translation -0.25 0 0.5 #height/2
+  rotation 1 0 0 1.570796
+  children Shape {
+      appearance Appearance {
+			material Material {
+			  diffuseColor 1 1 1
+			}
+		}
+		geometry Cylinder {
+			radius 0.5
+			height 1.0
+			side TRUE
+			bottom TRUE
+			top TRUE
+		}       
+	}
+}
+
+Transform
+  {
+  translation 0.25 0 0.25
+  children 
+    Shape
+      {
+      appearance Appearance
+	{
+	material Material
+	  {
+	  diffuseColor 1 1 1
+	  }
+	}
+      geometry Box
+	{
+	size 0.5 0.5 0.5
+	}
+      }
+  }
+
+#VRML V2.0 utf8
+#escena con con 3.0x3.0 m de suelo y 2.5m de altura.
+#vista por 8 cámaras con fov=90 grados y posicionadas 4
+#en las esquinas del techo mirando hacia (0,0,0)
+#y cuatro a media altura en el centro de las paredes mirando a (0,0,0)
+Viewpoint {
+	 description "cam0"
+	 fieldOfView 1.570796
+	 position 1.500000 1.500000 2.500000
+	 orientation 0.141308 0.341148 0.929328 2.406679
+}
+Viewpoint {
+	 description "cam1"
+	 fieldOfView 1.570796
+	 position 1.500000 -1.500000 2.500000
+	 orientation 0.639558 0.264914 0.721655 1.042130
+}
+Viewpoint {
+	 description "cam2"
+	 fieldOfView 1.570796
+	 position -1.500000 -1.500000 2.500000
+	 orientation 0.639558 -0.264914 -0.721655 1.042130
+}
+Viewpoint {
+	 description "cam3"
+	 fieldOfView 1.570796
+	 position -1.500000 1.500000 2.500000
+	 orientation 0.141308 -0.341148 -0.929328 2.406679
+}
+Viewpoint {
+	 description "cam4"
+	 fieldOfView 1.570796
+	 position 2.120000 0.000000 1.250000
+	 orientation 0.444366 0.444366 0.777867 1.819395
+}
+Viewpoint {
+	 description "cam5"
+	 fieldOfView 1.570796
+	 position 0.000000 -2.120000 1.250000
+	 orientation 1.000000 -0.000150 0.000262 1.038042
+}
+Viewpoint {
+	 description "cam6"
+	 fieldOfView 1.570796
+	 position -2.120000 0.000000 1.250000
+	 orientation 0.444366 -0.444366 -0.777867 1.819395
+}
+Viewpoint {
+	 description "cam7"
+	 fieldOfView 1.570796
+	 position 0.000000 2.120000 1.250000
+	 orientation -0.000074 -0.496030 -0.868305 3.141333
+}

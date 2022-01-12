@@ -64,6 +64,7 @@ main (int argc, char* const* argv)
       }
       size_t n_views = parser.get<int>("nviews");
       std::ofstream output (parser.get<std::string>("output"));
+      std::ofstream output_wrl(parser.get<std::string>("output")+".wrl");
       if (!output)
       {
           std::cerr << "Error: could not open file ["
@@ -108,6 +109,8 @@ main (int argc, char* const* argv)
       fsiv::compute_visual_hull(views, octree, scene, max_levels, max_errors,
                                 parser.get<float>("oar_th"));
       output << octree;
+
+      fsiv::save_as_cubes_WRML(output_wrl, octree);
   }
   catch (std::exception& e)
   {
