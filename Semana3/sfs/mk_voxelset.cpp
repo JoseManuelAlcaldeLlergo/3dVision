@@ -1,3 +1,5 @@
+// "args": ["--scene=-1.5:-1.5:0.0:3:3:2", "--vsize=0.02","--output=my_voxelset", "--nviews=4", "./data/cone-4/ext_4-0.yml", "./data/cone-4/ext_4-1.yml", "./data/cone-4/ext_4-2.yml", "./data/cone-4/ext_4-3.yml", "./data/cone-4/cone_4-0.png", "./data/cone-4/cone_4-1.png", "./data/cone-4/cone_4-2.png", "./data/cone-4/cone_4-0.png" ]
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -77,6 +79,9 @@ int main(int argc, char *const *argv)
                 return EXIT_FAILURE;
             }
             cv::Mat fg_img = cv::imread(argv[first_arg + n_views + v], cv::IMREAD_GRAYSCALE);
+            // std::cout<<"nombre vista: "<<argv[first_arg + n_views + v]<<std::endl;
+            // cv::imshow("VISTA",fg_img);
+            // cv::waitKey(0);
             if (fg_img.empty())
             {
                 std::cerr << "Error: could not load forground image form file["
@@ -90,7 +95,7 @@ int main(int argc, char *const *argv)
                                   parser.get<float>("oar_th"));
         output << vs;
 
-        fsiv::save_as_cubes_WRML(output_wrl, vs);
+        fsiv::save_as_pointcloud_WRML(output_wrl, vs);
     }
     catch (std::exception &e)
     {

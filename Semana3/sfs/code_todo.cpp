@@ -180,6 +180,10 @@ namespace fsiv
     View::View(const std::string id, const cv::Mat &fg_img, const CameraParameters &cparams)
     {
         CV_Assert(fg_img.type() == CV_8UC1);
+
+        // cv::imshow("FOREGROUND", fg_img);
+        // cv::waitKey(0);
+
         _id = id;
         _foreground = fg_img.clone();
         _cparams = cparams;
@@ -201,11 +205,17 @@ namespace fsiv
         // cv::integral(integral_img,integral_img);
 
         // Más corto
-        _foreground = (_foreground > 0) / 255;
+        _foreground = (_foreground > 0) / 255.0;
 
         // std::cout<<_foreground<<std::endl;
 
-        cv::integral(_foreground, _iimg_fg);
+        // cv::imshow("FOREGROUND", _foreground);
+        // cv::waitKey(0);
+
+        cv::Mat integral;
+        cv::integral(_foreground, integral, CV_32S);
+
+        _iimg_fg = integral.clone();
 
         // std::cout<<"integral_size: "<<_iimg_fg.size()<<std::endl;
         // std::cout<<"fgimg_size: "<<fg_img.size()<<std::endl;
@@ -266,7 +276,7 @@ namespace fsiv
         cv::minMaxLoc(col_x, &min_x_value, &max_x_value, 0, 0);
         cv::minMaxLoc(col_y, &min_y_value, &max_y_value, 0, 0);
 
-        bbox = cv::Rect(max_x_value, max_y_value, min_x_value, min_y_value);
+        bbox = cv::Rect(min_x_value, min_y_value, max_x_value - min_x_value, max_y_value - min_y_value);
         //bbox = cv::boundingRect(points_2d);
 
         // Para que el rectángulo no se salga de lam imagen
@@ -287,16 +297,20 @@ namespace fsiv
         CV_Assert(bbox.area() >= 0);
         int area = 0;
 
-
         // std::cout << iimg() << std::endl;
+
         // std::cout << iimg().at<uchar>(0, 0) << std::endl;
 
-        int tl = this->iimg().at<uchar>((bbox.y), (bbox.x));
-        int tr = this->iimg().at<uchar>((bbox.y), (bbox.x + bbox.width + 1));
-        int bl = this->iimg().at<uchar>((bbox.y + bbox.height + 1), (bbox.x));
-        int br = this->iimg().at<uchar>((bbox.y + bbox.height + 1), (bbox.x + bbox.width + 1));
+        int tl = this->iimg().at<cv::int32_t>((bbox.y), (bbox.x));
+        int tr = this->iimg().at<cv::int32_t>((bbox.y), (bbox.x + bbox.width));
+        int bl = this->iimg().at<cv::int32_t>((bbox.y + bbox.height), (bbox.x));
+        int br = this->iimg().at<cv::int32_t>((bbox.y + bbox.height), (bbox.x + bbox.width));
 
         area = br - bl - tr + tl;
+
+        // if(area>0){
+        //     std::cout<<area<<std::endl;
+        // }
 
         //TODO
         //Hint: use the integral image of the foreground to do this with O(1).
@@ -315,15 +329,25 @@ namespace fsiv
         //TODO:
         //Remember: for each view test if the projected bbox has enough foreground area.
         //Not take into account a view if the projection is out of the image frame (bbox.area()==0).
-        for (size_t i = 0; i < views.size(); i++)
+        for (size_t i = 0; i < views.size() && is_occupied; i++)
         {
             // std::cout << "Vertices:\n"
             //           << voxel.vertices() << std::endl;
             cv::Rect bbox = views[i].compute_bounding_box(voxel.vertices());
 
-            if (views[i].compute_occupied_area(bbox) <= 0)
+            // if(bbox.contains(cv::Point(400,300)) && bbox.area()<=2000){
+            //     std::cout<<"Entra";
+            // }
+
+
+            if (bbox.area() > 0)
             {
-                return false;
+                const float OAR = (views[i].compute_occupied_area(bbox) / bbox.area());
+                // std::cout<<"area ocupada= "<<views[i].compute_occupied_area(bbox)<<std::endl;
+                // std::cout<<"area bbox= "<<bbox.area()<<std::endl;
+                // std::cout<<"OAR= "<<OAR<<std::endl;
+                // std::cout<<"OAR= "<<views[i].compute_occupied_area(bbox) / bbox.area()<<std::endl;
+                is_occupied = (OAR >= OAR_th);
             }
         }
 
@@ -359,12 +383,69 @@ namespace fsiv
     {
         OctantState st = BLACK;
         //TODO
-        //Aply the Projection Test for each view.
+        //Apply the Projection Test for each view.
         //Remeber: the inner nodes have three states:
         //       WHITE (OAR==0 && errors<max_errors),
         //           GREY((OAR==0 && errors<max_errors)||0<OAR<1), BLACK(OAR==1).
         //while leaf nodes (at the last level) only have two states:
         //       WHITE (OAR<OAR_th), BLACK(OAR>=OAR_th).
+
+        // Si un octante es white, siempre sera white por eso no hay que comprobar más y salimos del bucle
+        for (size_t i = 0; i < views.size() && (st != WHITE); i++)
+        {
+
+            cv::Rect bbox = views[i].compute_bounding_box(voxel.vertices());
+
+            cv::Mat copia = views[i].colored_view().clone();
+            cv::rectangle(copia,bbox,cv::Scalar(255,0,0));
+
+            cv::imshow("Octree", copia);
+            cv::waitKey(0);
+
+
+            if (bbox.area() > 0)
+            {
+                const float OAR = float(views[i].compute_occupied_area(bbox) / bbox.area());
+                std::cout<<"area ocupada= "<<views[i].compute_occupied_area(bbox)<<std::endl;
+                std::cout<<"area bbox= "<<bbox.area()<<std::endl;
+                std::cout<<"OAR= "<<OAR<<std::endl;
+                std::cout<<"OAR= "<<views[i].compute_occupied_area(bbox) / bbox.area()<<std::endl;
+
+                // Porque empezamos con 0
+                if(level == max_levels){
+                    if(OAR < OAR_th){
+                        st = WHITE;
+                    }
+                }
+    
+                
+                else
+                {
+                    switch (st)
+                    {
+                    case BLACK :
+                        if(OAR == 0.0f)
+                            st = WHITE;
+                        else if(OAR < 1.0f)
+                            st = GREY;
+                        
+                        break;
+                    
+                    case GREY:
+                        if(OAR == 0.0f)
+                            st = WHITE;
+                        break;
+                    
+                    default:
+                        st = WHITE; // No va a llegar
+                        break;
+                    }
+
+                }
+                
+            }
+        }
+        
 
         //
         return st;
@@ -380,10 +461,17 @@ namespace fsiv
         //First compute the its state using the projection test.
         //Second if the state is GREY, split and do recursion to go down in the tree.
         //Remenber to actualize level var in the recursion(level+1).
+        
+        oct.set_state(octree_projection_test(oct.voxel(), views, level, max_levels, max_errors, OAR_th));
+        
+        if(oct.state() == GREY){
+            oct.split();
+            for(size_t i = 0; i < 8; i++){
+                process_octant(oct.child(i), views, level+1, max_levels, max_errors, OAR_th);
+            }
 
-        //no usar max errors(si no tenemos tiempo). Si todas dicen que si, esta ocupado, si solo una dice que esta vacio, esta vacio
-        //max_error sería el número de vistas que permito que digan que no está ocupado y considero que sí
-        //
+        }
+
     }
 
     void
@@ -396,6 +484,9 @@ namespace fsiv
         //Apply the SFS algorithm.
         //First, Create a root octant and processed.
         //Second, set the octant as the root node of the octree.
+        octree.set_root(Octant(scene));
+
+        process_octant(octree.root(),views, 0, max_levels, max_errors, OAR_th );
 
         //
     }
