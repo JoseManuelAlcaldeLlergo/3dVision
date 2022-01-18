@@ -145,7 +145,7 @@ namespace fsiv
 
         //Cada voxel tiene 26 vecinos
 
-        for (int i = 1; i <= 18; i++)
+        for (int i = 1; i <= 13; i++)
         {
             // En primer lugar será external si alguna de sus x, y, z valen 0, ya que esto indica que esta en una capa exterior
             if (x == 0 || y == 0 || z == 0)
@@ -153,7 +153,7 @@ namespace fsiv
                 is_external = true;
                 break; // Si le falta un vecino ya es externo, no hay que seguir comprobando más
             }
-            // Sera external si en las 18 posiciones anteriores y posteriores en occupancy no hay voxel (es 0)
+            // Sera external si en las 13 posiciones anteriores y posteriores en occupancy no hay voxel (es 0)
             if (this->_occupancy_map.at<uchar>(xyz2index(x, y, z) + i) == 0 || this->_occupancy_map.at<uchar>(xyz2index(x, y, z) - i) == 0)
             {
                 is_external = true;

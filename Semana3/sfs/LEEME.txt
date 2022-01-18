@@ -1,0 +1,18 @@
+José Manuel Alcalde Llergo
+
+Se ha incorporado para que se genere automáticamente el fichero wrl (figura de puntos par voxelset y de cubos para octree) a parte de almacenar los objetos por comodidad.
+
+Para usar las líneas de ejecución situar la carpeta data en el directorio anterior al ejecutable.
+
+Líneas de ejecución cono: 
+
+./mk_voxelset --scene=-1.5:-1.5:0.0:3:3:2  --vsize=0.02 --output=my_voxelset  --nviews=4  ../data/cone-4/ext_4-0.yml  ../data/cone-4/ext_4-1.yml  ../data/cone-4/ext_4-2.yml  ../data/cone-4/ext_4-3.yml  ../data/cone-4/cone_4-0.png  ../data/cone-4/cone_4-1.png  ../data/cone-4/cone_4-2.png  ../data/cone-4/cone_4-0.png 
+
+./mk_octree --scene=-1.5:-1.5:0.0:3:3:2  --vsize=0.02 --output=my_octree  --nviews=4  ../data/cone-4/ext_4-0.yml  ../data/cone-4/ext_4-1.yml  ../data/cone-4/ext_4-2.yml  ../data/cone-4/ext_4-3.yml  ../data/cone-4/cone_4-0.png  ../data/cone-4/cone_4-1.png  ../data/cone-4/cone_4-2.png  ../data/cone-4/cone_4-0.png 
+
+Líneas ejecución cilindro-cubo:
+
+./mk_voxelset --scene=-1.5:-1.5:0.0:3:3:2  --vsize=0.02 --output=my_voxelset  --nviews=8  ../data/box-cylinder-4-4/ext_4_4-0.yml  ../data/box-cylinder-4-4/ext_4_4-1.yml  ../data/box-cylinder-4-4/ext_4_4-2.yml  ../data/box-cylinder-4-4/ext_4_4-3.yml ../data/box-cylinder-4-4/ext_4_4-4.yml ../data/box-cylinder-4-4/ext_4_4-5.yml ../data/box-cylinder-4-4/ext_4_4-6.yml ../data/box-cylinder-4-4/ext_4_4-7.yml  ../data/box-cylinder-4-4/box-cylinder-4_4-0.png  ../data/box-cylinder-4-4/box-cylinder-4_4-1.png  ../data/box-cylinder-4-4/box-cylinder-4_4-2.png  ../data/box-cylinder-4-4/box-cylinder-4_4-3.png ../data/box-cylinder-4-4/box-cylinder-4_4-4.png ../data/box-cylinder-4-4/box-cylinder-4_4-5.png ../data/box-cylinder-4-4/box-cylinder-4_4-6.png ../data/box-cylinder-4-4/box-cylinder-4_4-7.png  
+
+./mk_octree --scene=-1.5:-1.5:0.0:3:3:2  --vsize=0.02 --output=my_octree  --nviews=8  ../data/box-cylinder-4-4/ext_4_4-0.yml  ../data/box-cylinder-4-4/ext_4_4-1.yml  ../data/box-cylinder-4-4/ext_4_4-2.yml  ../data/box-cylinder-4-4/ext_4_4-3.yml ../data/box-cylinder-4-4/ext_4_4-4.yml ../data/box-cylinder-4-4/ext_4_4-5.yml ../data/box-cylinder-4-4/ext_4_4-6.yml ../data/box-cylinder-4-4/ext_4_4-7.yml  ../data/box-cylinder-4-4/box-cylinder-4_4-0.png  ../data/box-cylinder-4-4/box-cylinder-4_4-1.png  ../data/box-cylinder-4-4/box-cylinder-4_4-2.png  ../data/box-cylinder-4-4/box-cylinder-4_4-3.png ../data/box-cylinder-4-4/box-cylinder-4_4-4.png ../data/box-cylinder-4-4/box-cylinder-4_4-5.png ../data/box-cylinder-4-4/box-cylinder-4_4-6.png ../data/box-cylinder-4-4/box-cylinder-4_4-7.png  
+
