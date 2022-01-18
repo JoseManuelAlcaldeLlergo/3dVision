@@ -112,18 +112,6 @@ main (int argc, char* const* argv)
             //solvePnP(_3dpoints, _2dpoints, K, dist_coeffs, rvec, tvec);
             cv::solvePnP(_3dpoints, _2dpoints, K, dist_coeffs, rvec, tvec);
 
-            //REVISAR
-
-
-            //
-            if (verbose)
-            {
-                //TODO
-                //Show WCS axis.
-
-
-                //
-            }
         }
         else
         {
@@ -146,8 +134,6 @@ main (int argc, char* const* argv)
                 for(size_t v; v<input_fnames.size(); v++){
                     cv::Mat img = cv::imread(input_fnames[v]);
                     camera_size=cv::Size(img.cols,img.rows);
-                    //comprobar si se puede cargar
-                    //comprobar si todas las imagene son del mismo tamaño
 
                     std::vector<cv::Point2f> corners;
                     if (fsiv_find_chessboard_corners(img, board_Size, corners, wname.c_str())){
@@ -206,8 +192,6 @@ main (int argc, char* const* argv)
                     }
 
                     camera_size=cv::Size(view.cols,view.rows);
-                    //comprobar si se puede cargar
-                    //comprobar si todas las imagene son del mismo tamaño
 
                     std::vector<cv::Point2f> corners;
                     if (fsiv_find_chessboard_corners(view, board_Size, corners, wname.c_str())){

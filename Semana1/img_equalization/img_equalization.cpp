@@ -80,7 +80,10 @@ main (int argc, char* const* argv)
       cv::imshow("ORIGINAL", input);
       cv::imshow("PROCESADA", output);
 
+      std::cout<<"Pulse ESC para cerrar sin guardar o cualquier otra tecla para cerrar y guardar la imagen..."<<std::endl;
+      
       int key = cv::waitKey(0) & 0xff;
+
 
       if (key != 27)
       {
@@ -91,6 +94,8 @@ main (int argc, char* const* argv)
                 return EXIT_FAILURE;
             }
       }
+
+      std::cout<<"\nFIN DEL PROGRAMA"<<std::endl;
   }
   catch (std::exception& e)
   {

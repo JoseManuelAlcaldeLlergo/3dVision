@@ -45,7 +45,12 @@ struct UserData
     double g;
     int filter_type;
     bool circular;
+    std::string trackbar;
 };
+
+float g_int;
+int r_int;
+int G;
 
 /** @brief Standard trackbar callback
  * Use this function an argument for cv::createTrackbar to control
@@ -60,12 +65,24 @@ void on_change(int v, void *user_data_)
 
     cv::Mat in, out;
 
-    user_data->r = v;
+    in = user_data->input.clone();
+    out = user_data->output.clone();
 
-    in = user_data->input;
-    out = user_data->output;
+    // if(user_data->trackbar == "r"){
+    //     std::cout<<"En r"<<std::endl;
+    //     r_int = v;
+    // }
+    // else if (user_data->trackbar == "g"){
+    //     std::cout<<"En g"<<std::endl;
+    //     g_int = v/100;
+    // }
 
-    in.convertTo(in, CV_32F, 1.0 / 255.0);
+    g_int = G/100.0;
+    
+    std::cout<<"r= "<<r_int<<std::endl;
+    std::cout<<"g= "<<g_int<<std::endl;
+
+    // user_data->input.convertTo(user_data->input, CV_32F, 1.0 / 255.0);
     std::vector<cv::Mat> chs;
     cv::Mat in_;
 
@@ -78,14 +95,14 @@ void on_change(int v, void *user_data_)
     }
     else
     {
-        in_ = in;
+        in_ = user_data->input.clone();
     }
 
-    out = fsiv_usm_enhance(in_, user_data->g, user_data->r, user_data->filter_type, user_data->circular, &user_data->mask);
+    out = fsiv_usm_enhance(in_, g_int, r_int, user_data->filter_type, user_data->circular, &user_data->mask);
 
     if (in.channels() == 3)
     {
-        chs[2] = out;
+        chs[2] = out.clone();
         cv::Mat hsv;
         cv::merge(chs, hsv);
         cv::cvtColor(hsv, out, cv::COLOR_HSV2BGR);
@@ -156,52 +173,78 @@ int main(int argc, char *const *argv)
         UserData user_data;
 
         /**/
+        user_data.input = in.clone();
+        user_data.output = out.clone();
+        user_data.r = r;
+        user_data.g = g;
+        user_data.filter_type = filter_type;
+        user_data.circular = circular;
+        user_data.input.convertTo(user_data.input, CV_32F, 1.0 / 255.0);
         if (interactive)
         {
-            user_data.input = in;
-            user_data.output = out;
-            user_data.r = r;
-            user_data.g = g;
-            user_data.filter_type = filter_type;
-            user_data.circular = circular;
-            cv::createTrackbar("Radius", "INPUT", &r, 100, on_change, &user_data);
+            r_int = r;
+            g_int = g;
+            user_data.trackbar = "r";
+            cv::createTrackbar("Radius", "OUTPUT", &r_int, 100, on_change, &user_data);
+            user_data.trackbar = "g";
+            G = g_int*100;
+            cv::createTrackbar("Gain", "OUTPUT", &G, 200, on_change, &user_data);
+            // user_data.trackbar = "f";
+            // cv::createTrackbar("Filter", "OUTPUT", &filter_type, 2, on_change, &user_data);
+            // user_data.trackbar = "c";
+            // int C = (int)circular;
+            // cv::createTrackbar("Circular", "OUTPUT", &(int)circular, 1, on_change, &user_data);
+        }
+        // else
+        // {
+        //user_data.input.convertTo(user_data.input, CV_32F, 1.0 / 255.0);
+        std::vector<cv::Mat> chs;
+        cv::Mat in_;
+
+        if (user_data.input.channels() == 3)
+        {
+            cv::Mat hsv;
+            cv::cvtColor(user_data.input, hsv, cv::COLOR_BGR2HSV);
+            cv::split(hsv, chs);
+            in_ = chs[2];
         }
         else
         {
-            in.convertTo(in, CV_32F, 1.0 / 255.0);
-            std::vector<cv::Mat> chs;
-            cv::Mat in_;
+            in_ = user_data.input;
+        }
 
-            if (in.channels() == 3)
-            {
-                cv::Mat hsv;
-                cv::cvtColor(in, hsv, cv::COLOR_BGR2HSV);
-                cv::split(hsv, chs);
-                in_ = chs[2];
-            }
-            else
-            {
-                in_ = in;
-            }
+        user_data.output = fsiv_usm_enhance(in_, user_data.g, user_data.r, user_data.filter_type, user_data.circular, &mask);
 
-            out = fsiv_usm_enhance(in_, g, r, filter_type, circular, &mask);
+        if (in.channels() == 3)
+        {
+            chs[2] = user_data.output;
+            cv::Mat hsv;
+            cv::merge(chs, hsv);
+            cv::cvtColor(hsv, user_data.output, cv::COLOR_HSV2BGR);
+        }
+        //}
 
-            if (in.channels() == 3)
+        cv::imshow("INPUT", user_data.input);
+        cv::imshow("OUTPUT", user_data.output);
+        cv::imshow("UNSHARP MASK", mask);
+
+        std::cout << "Pulse ESC para cerrar sin guardar o cualquier otra tecla para cerrar y guardar la imagen..." << std::endl;
+
+        int key = cv::waitKey(0) & 0xff;
+
+        if (key != 27)
+        {
+            //imwrite trabaja con escala 0-255. Para guardar bien la imagen:
+            user_data.output.convertTo(user_data.output, CV_8UC3, 255.0);
+            if (!cv::imwrite(output_n, user_data.output))
             {
-                chs[2] = out;
-                cv::Mat hsv;
-                cv::merge(chs, hsv);
-                cv::cvtColor(hsv, out, cv::COLOR_HSV2BGR);
+                std::cerr << "Error: could not save the result in file '"
+                          << output_n << "'." << std::endl;
+                return EXIT_FAILURE;
             }
         }
 
-        cv::imshow("INPUT", in);
-        cv::imshow("OUTPUT", out);
-        cv::imshow("UNSHARP MASK", mask);
-
-        int k = cv::waitKey(0) & 0xff;
-        if (k != 27)
-            cv::imwrite(output_n, out);
+        std::cout << "\nFIN DEL PROGRAMA" << std::endl;
     }
     catch (std::exception &e)
     {

@@ -158,53 +158,61 @@ int main(int argc, char *const *argv)
         cv::namedWindow("OUTPUT", cv::WINDOW_GUI_EXPANDED);
 
         UserData user_data;
+
+        // Trabajaremos con las imagenes de user_data para que se apliquen los cambios del modo interactivo al guardar la imagen
+        user_data.input = input.clone();
+        user_data.output = output.clone();
         if (interactive_mode)
         {
-            user_data.input = input;
-            user_data.output = output;
             cv::setMouseCallback("OUTPUT", on_mouse, &user_data);
             cv::createTrackbar("P", "OUTPUT", &p, 100, on_change,
                                &user_data);
         }
+        // else
+        // {
+        //TODO
+        //Procesa en función del valor del parámetro P.
+        //Recuerda:
+        //  P==0 significa aplicar el criterio WhitePatch
+        //  P==100 sería aplicar el criterio GrayWorld.
+        //  Para valores intermedios usar el nivel médio de los P% valores
+        //  más brillantes para escalar a blanco puro.
+
+        if (p == 0)
+        {
+            std::cout << "Salida generada con WhitePatch" << std::endl;
+            user_data.output = fsiv_wp_color_balance(user_data.input);
+        }
+        else if (p == 100)
+        {
+            std::cout << "Salida generada con GrayWorld" << std::endl;
+            user_data.output = fsiv_gw_color_balance(user_data.input);
+        }
         else
         {
-            //TODO
-            //Procesa en función del valor del parámetro P.
-            //Recuerda:
-            //  P==0 significa aplicar el criterio WhitePatch
-            //  P==100 sería aplicar el criterio GrayWorld.
-            //  Para valores intermedios usar el nivel médio de los P% valores
-            //  más brillantes para escalar a blanco puro.
-
-            if (p == 0)
-            {
-                std::cout << "Salida generada con WhitePatch" << std::endl;
-                output = fsiv_wp_color_balance(input);
-            }
-            else if (p == 100)
-            {
-                std::cout << "Salida generada con GrayWorld" << std::endl;
-                output = fsiv_gw_color_balance(input);
-            }
-            else
-            {
-                std::cout << "Salida generada con p = " << p << std::endl;
-                output = fsiv_color_balance(input, p);
-            }
-            //
+            std::cout << "Salida generada con p = " << p << std::endl;
+            user_data.output = fsiv_color_balance(user_data.input, p);
         }
+        //
+        cv::imshow("INPUT", user_data.input);
+        cv::imshow("OUTPUT", user_data.output);
+       // }
 
-        cv::imshow("INPUT", input);
-        cv::imshow("OUTPUT", output);
-        int k = cv::waitKey(0) & 0xff;
+        std::cout<<"Pulse ESC para cerrar sin guardar o cualquier otra tecla para cerrar y guardar la imagen..."<<std::endl;
+      
+        int key = cv::waitKey(0) & 0xff;
 
-        if (k != 27)
+        if (key != 27)
         {
-            //TODO
-            //Almacena la imagen.
-            cv::imwrite(output_n, output);
-            //
+            if (!cv::imwrite(output_n, user_data.output))
+            {
+                std::cerr << "Error: could not save the result in file '"
+                            << output_n << "'."<< std::endl;
+                    return EXIT_FAILURE;
+                }
         }
+
+        std::cout<<"\nFIN DEL PROGRAMA"<<std::endl;
     }
     catch (std::exception &e)
     {

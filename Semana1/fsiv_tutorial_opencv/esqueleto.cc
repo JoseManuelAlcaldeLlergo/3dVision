@@ -53,7 +53,7 @@ void print_min_max(cv::Mat img){
   
   double min, max;
 
-  std::cout<<"La imagen tiene "<<img.channels()<<" canales."<<std::endl;
+  std::cout<<"La imagen tiene "<<img.channels()<<" canal(es)."<<std::endl;
 
   for(int i=0; i<img.channels(); i++){
     std::string color = "";
@@ -110,6 +110,8 @@ main (int argc, char* const* argv)
       cv::Mat img = cv::imread(img_name, cv::IMREAD_ANYCOLOR);
 
       print_min_max(img);
+
+      std::cout<<"\nFIN DEL PROGRAMA"<<std::endl;
       
 
     

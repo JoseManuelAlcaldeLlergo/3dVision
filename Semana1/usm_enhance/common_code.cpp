@@ -21,7 +21,7 @@ fsiv_create_gaussian_filter(const int r)
 {
     CV_Assert(r>0);
     cv::Mat ret_v;
-    //TODO: Remenber 6*sigma is approx 99,73% of the distribution.
+    //TODO: Remember 6*sigma is approx 99,73% of the distribution.
     float sigma = (2*r+1.0)/6.0;
     ret_v = cv::Mat(2*r+1.0, 2*r+1.0, CV_32FC1);
 

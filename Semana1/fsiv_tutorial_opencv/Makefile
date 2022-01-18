@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/fsiv_tutorial_opencv
+CMAKE_SOURCE_DIR = /home/pepe/UCO/V3D/Semana1/fsiv_tutorial_opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/fsiv_tutorial_opencv
+CMAKE_BINARY_DIR = /home/pepe/UCO/V3D/Semana1/fsiv_tutorial_opencv
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles /home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana1/fsiv_tutorial_opencv/CMakeFiles /home/pepe/UCO/V3D/Semana1/fsiv_tutorial_opencv/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pepe/UCO/V3D/Semana1/fsiv_tutorial_opencv/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -109,6 +109,19 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named pruebas
+
+# Build rule for target.
+pruebas: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pruebas
+.PHONY : pruebas
+
+# fast build rule for target.
+pruebas/fast:
+	$(MAKE) -f CMakeFiles/pruebas.dir/build.make CMakeFiles/pruebas.dir/build
+.PHONY : pruebas/fast
 
 #=============================================================================
 # Target rules for targets named show_video
@@ -216,6 +229,33 @@ esqueleto.cc.s:
 	$(MAKE) -f CMakeFiles/esqueleto.dir/build.make CMakeFiles/esqueleto.dir/esqueleto.cc.s
 .PHONY : esqueleto.cc.s
 
+pruebas.o: pruebas.cpp.o
+
+.PHONY : pruebas.o
+
+# target to build an object file
+pruebas.cpp.o:
+	$(MAKE) -f CMakeFiles/pruebas.dir/build.make CMakeFiles/pruebas.dir/pruebas.cpp.o
+.PHONY : pruebas.cpp.o
+
+pruebas.i: pruebas.cpp.i
+
+.PHONY : pruebas.i
+
+# target to preprocess a source file
+pruebas.cpp.i:
+	$(MAKE) -f CMakeFiles/pruebas.dir/build.make CMakeFiles/pruebas.dir/pruebas.cpp.i
+.PHONY : pruebas.cpp.i
+
+pruebas.s: pruebas.cpp.s
+
+.PHONY : pruebas.s
+
+# target to generate assembly for a file
+pruebas.cpp.s:
+	$(MAKE) -f CMakeFiles/pruebas.dir/build.make CMakeFiles/pruebas.dir/pruebas.cpp.s
+.PHONY : pruebas.cpp.s
+
 show_img.o: show_img.cc.o
 
 .PHONY : show_img.o
@@ -278,6 +318,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... pruebas"
 	@echo "... show_video"
 	@echo "... show_img"
 	@echo "... comp_stats"
@@ -288,6 +329,9 @@ help:
 	@echo "... esqueleto.o"
 	@echo "... esqueleto.i"
 	@echo "... esqueleto.s"
+	@echo "... pruebas.o"
+	@echo "... pruebas.i"
+	@echo "... pruebas.s"
 	@echo "... show_img.o"
 	@echo "... show_img.i"
 	@echo "... show_img.s"

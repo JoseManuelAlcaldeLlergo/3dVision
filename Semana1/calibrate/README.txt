@@ -1,1 +1,3 @@
-Está todo menos la distorsion que no sé donde aplicarla
+José Manuel Alcalde Llergo
+
+Falta undistort video

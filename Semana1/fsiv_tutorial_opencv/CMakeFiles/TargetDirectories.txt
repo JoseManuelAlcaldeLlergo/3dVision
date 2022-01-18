@@ -1,6 +1,0 @@
-/home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/show_video.dir
-/home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/show_img.dir
-/home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/comp_stats.dir
-/home/pepe/UCO/V3D/fsiv_tutorial_opencv/CMakeFiles/esqueleto.dir

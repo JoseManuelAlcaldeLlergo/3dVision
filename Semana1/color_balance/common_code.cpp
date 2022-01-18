@@ -106,19 +106,15 @@ cv::Mat fsiv_color_balance(cv::Mat const &in, float p)
 
     // std::cout << "El tono que divide los puntos más brillantes es el " << tono_divisor_brillantes << std::endl;
 
+
+    // Luego con eso calculo en la imagen qué valores son más brillantes que ese tono y creo una máscara para obtener la media de esos valores   
     cv::Mat mask = (gray >= tono_divisor_brillantes) / 255;
 
+    // Ahora calculo la media a con la máscara obtenida
     cv::Scalar mean_c = cv::mean(in, mask);
 
     out = fsiv_color_rescaling(in, mean_c, cv::Scalar::all(255.0));
 
-    //Print hist
-    // for (int it=0; it<hist_len; it++){
-    //     std::cout<<"AQUI i="<<it<<" "<<hist[it]<<std::endl;
-    // }
-
-    // Luego con eso calculo en la imagen qué valores son más brillantes que ese tono y creo una máscara para obtener la media de esos valores
-    // Ahora calculo la medi a con la máscara obtenida
 
     //
     CV_Assert(out.type() == in.type());
