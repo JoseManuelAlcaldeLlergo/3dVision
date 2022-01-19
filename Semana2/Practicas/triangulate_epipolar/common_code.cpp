@@ -347,7 +347,9 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     std::vector<cv::DMatch> matches = KpMatch(keypoints_query, descriptors_query, keypoints_train, descriptors_train, im1, im2, keypoints_query_filtered, keypoints_train_filtered, F);
 
     // Cálculo de la matriz esencial para poder obtener las matrices de rotación y translación en coordenadas reales
-    cv::Mat E = (cp.camera_matrix.t() * F) * cp.camera_matrix;
+    //cv::Mat E = (cp.camera_matrix.t() * F) * cp.camera_matrix;
+    
+    
 
     for (size_t i = 0; i < keypoints_query_filtered.size(); i++)
     {
@@ -359,6 +361,8 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     cv::Mat inliers;
 
     F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 1000, inliers);
+
+    cv::Mat E  = cv::findEssentialMat(points_query, points_train, cp.camera_matrix, 8, 0.999, 1.0, 14, inliers);
 
     std::vector<cv::Point2f> points_query_filt_out, points_train_filt_out;
 

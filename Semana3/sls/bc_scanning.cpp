@@ -137,6 +137,8 @@ BinaryCodeScanning::decode_scanning(cv::Mat& x_codes, cv::Mat& y_codes) const
     cv::Mat mean_img, pos_img, neg_img;
     //TODO
     //Revisa los atributos de la clase que son necesarios para decodificar.
+    pos_img = seq[0].clone();
+    neg_img = seq[1].clone();
 
     //TODO
     //Primero, si la propiedad use_inverse no es cierta, calcula la imagen
@@ -144,7 +146,8 @@ BinaryCodeScanning::decode_scanning(cv::Mat& x_codes, cv::Mat& y_codes) const
     //
     if (!use_inverse)
     {
-
+        //Sumar sep[0]+sep[1] y dividir entre 2?
+        mean_img = (pos_img + neg_img)/2
 
 
     }
