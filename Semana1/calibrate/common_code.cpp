@@ -203,6 +203,54 @@ fsiv_undistort_video_stream(cv::VideoCapture&input_stream,
     //(one time only at the beginning using cv::initUndistortRectifyMap)
     // and then only remap (cv::remap) the input frame with the computed maps.
 
+    cv::Mat R, new_K, frame;
+    cv::Mat map1, map2;
+
+    cv::namedWindow(input_wname);
+    cv::namedWindow(output_wname);
+
+    input_stream >> frame;
+
+    cv::initUndistortRectifyMap(camera_matrix, dist_coeffs, R, new_K,
+                                frame.size(), CV_16SC2,
+                                map1, map2);
+
+    cv::Mat rect_frame;
+
+    cv::remap(frame, rect_frame, map1, map2,
+              cv::INTER_LANCZOS4, cv::BORDER_CONSTANT, 0);
+
+    output_stream.write(rect_frame);
+
+    cv::imshow(input_wname, frame);
+    cv::imshow(output_wname, rect_frame);
+
+    for (;;)
+    {
+        // wait for a new frame from camera and store it into 'frame'
+        input_stream.read(frame);
+
+        if (!input_stream.read(frame))
+            break;
+
+        cv::Mat frame_rectified;
+        cv::remap(frame, frame_rectified, map1, map2,
+                  cv::INTER_LANCZOS4, cv::BORDER_CONSTANT, 0);
+
+        CV_Assert(input_stream.isOpened());
+        CV_Assert(output_stream.isOpened());
+
+        output_stream.write(frame_rectified); 
+        char key = cvWaitKey(30);
+        if (key == 27){
+            break;
+        } 
+
+        cv::imshow(input_wname, frame);
+        cv::imshow(output_wname, frame_rectified);
+    }
+
+
     //
     CV_Assert(input_stream.isOpened());
     CV_Assert(output_stream.isOpened());

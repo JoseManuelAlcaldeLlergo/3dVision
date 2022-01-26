@@ -27,14 +27,11 @@ const cv::String keys =
     "{fourcc         |      | output video codec used, for example \"MJPG\". Default same as input.}"
     "{@intrinsics    |<none>| intrinsics parameters file.}"
     "{@input         |<none>| input image|video.}"
-    "{@output        |<none>| output image|video.}"
-    ;
+    "{@output        |<none>| output image|video.}";
 
-
-int
-main (int argc, char* const* argv)
+int main(int argc, char *const *argv)
 {
-    int retCode=EXIT_SUCCESS;
+    int retCode = EXIT_SUCCESS;
     cv::CommandLineParser parser(argc, argv, keys);
     parser.about("Undistort an image or video file.");
     if (parser.has("help"))
@@ -46,13 +43,15 @@ main (int argc, char* const* argv)
     auto calib_fname = parser.get<std::string>("@intrinsics");
     auto input_fname = parser.get<std::string>("@input");
     auto output_fname = parser.get<std::string>("@output");
+    auto fourcc = parser.get<std::string>("fourcc");
     if (!parser.check())
     {
         parser.printErrors();
         return EXIT_FAILURE;
     }
 
-    try {
+    try
+    {
 
         float error;
         cv::Size camera_size;
@@ -62,55 +61,42 @@ main (int argc, char* const* argv)
         fs.open(calib_fname, cv::FileStorage::READ);
 
         //TODO: First load the calibration parameters.
-        fsiv_load_calibration_parameters(fs,camera_size,error, K, dist_coeffs, rvec, tvec);
+        fsiv_load_calibration_parameters(fs, camera_size, error, K, dist_coeffs, rvec, tvec);
         //
 
-        cv::namedWindow("INPUT", cv::WINDOW_GUI_EXPANDED+cv::WINDOW_AUTOSIZE);
-        cv::namedWindow("OUTPUT", cv::WINDOW_GUI_EXPANDED+cv::WINDOW_AUTOSIZE);
+        cv::namedWindow("INPUT", cv::WINDOW_GUI_EXPANDED + cv::WINDOW_AUTOSIZE);
+        cv::namedWindow("OUTPUT", cv::WINDOW_GUI_EXPANDED + cv::WINDOW_AUTOSIZE);
         //TODO
-       
 
         //
         if (is_video)
         {
             //TODO
-            cv::Mat new_K, out_map1, out_map2;
-            camera_size = cv::Size(640, 480); // El video que tenemos
-            cv::initUndistortRectifyMap(K, dist_coeffs, cv::getOptimalNewCameraMatrix(K, dist_coeffs, camera_size, 1, camera_size, 0), new_K, camera_size, CV_32FC1, out_map1, out_map2 );
-            
-            
 
+            int codec;
             cv::VideoCapture capture;
             capture.open(cv::samples::findFileOrKeep(input_fname));
-            auto v_writer = cv::VideoWriter(output_fname, CV_FOURCC('H','2','6','4'), 15.0, camera_size, true);
 
-            while(true){
-                cv::Mat view, new_view;
-                //bool blink = false;
-
-                if( capture.isOpened() )
-                {
-                    cv::Mat view0;
-                    capture >> view0;
-                    view0.copyTo(view);
-                    //camera_size = cv::Size(view.cols, view.rows);
-                    //std::cout<<"cam_siz= "<<camera_size<<std::endl;
-                    
-                }
-
-                if(view.empty())
-                {
-                    
-                    break;//Fin while
-                }
-                cv::remap(view, new_view, out_map1, out_map2, cv::INTER_LINEAR);
-                cv::imshow("Undistort",new_view);
-                cv::waitKey(0);
-
-                if(v_writer.isOpened()){
-                    v_writer.write(new_view);
-                }
+            if (parser.has("fourcc") == true)
+            {
+                codec = cv::VideoWriter::fourcc(fourcc[0], fourcc[1], fourcc[2], fourcc[3]);
             }
+            // Por defecto el codec del video de entrada
+            else
+            {
+                int ex = static_cast<int>(capture.get(CV_CAP_PROP_FOURCC));
+                char EXT[] = {ex & 0XFF , (ex & 0XFF00) >> 8,(ex & 0XFF0000) >> 16,(ex & 0XFF000000) >> 24, 0};
+                std::cout<<"codec: "<<EXT<<std::endl;
+                // codec = cv::VideoWriter::fourcc();
+                codec = cv::VideoWriter::fourcc(EXT[0], EXT[1], EXT[2], EXT[3]);
+            }
+
+            cv::VideoWriter v_writer(output_fname, codec, 20, cv::Size(capture.get(CV_CAP_PROP_FRAME_WIDTH), capture.get(CV_CAP_PROP_FRAME_HEIGHT)), true);
+
+            fsiv_undistort_video_stream(capture, v_writer, K, dist_coeffs, cv::INTER_LANCZOS4, "INPUT", "OUTPUT", 15);
+            
+            capture.release();
+            v_writer.release();
             //
         }
         else
@@ -120,11 +106,11 @@ main (int argc, char* const* argv)
             cv::Mat output;
 
             fsiv_undistort_image(input, output, K, dist_coeffs);
-            cv::imwrite(output_fname ,output);
+            cv::imwrite(output_fname, output);
             //
         }
     }
-    catch (std::exception& e)
+    catch (std::exception &e)
     {
         std::cerr << "Capturada excepcion: " << e.what() << std::endl;
         retCode = EXIT_FAILURE;

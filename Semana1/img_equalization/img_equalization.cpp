@@ -26,78 +26,96 @@ const cv::String keys =
     "{r radius       |0     | radius used to local processing.}"
     "{m hold_median  |      | the histogram's median will not be transformed.}"
     "{@input         |<none>| input image.}"
-    "{@output        |<none>| output image.}"
-    ;
+    "{@output        |<none>| output image.}";
 
-int
-main (int argc, char* const* argv)
+int main(int argc, char *const *argv)
 {
-  int retCode=EXIT_SUCCESS;
-  
-  try {    
+  int retCode = EXIT_SUCCESS;
 
-      cv::CommandLineParser parser(argc, argv, keys);
-      parser.about("Apply an histogram equalization to the image. (ver 1.0.0)");
-      if (parser.has("help"))
+  try
+  {
+
+    cv::CommandLineParser parser(argc, argv, keys);
+    parser.about("Apply an histogram equalization to the image. (ver 1.0.0)");
+    if (parser.has("help"))
+    {
+      parser.printMessage();
+      return 0;
+    }
+
+    cv::String input_name = parser.get<cv::String>(0);
+    cv::String output_name = parser.get<cv::String>(1);
+    int radius = parser.get<int>("r");
+    bool hold_median = parser.has("m");
+
+    if (!parser.check())
+    {
+      parser.printErrors();
+      return 0;
+    }
+
+    cv::namedWindow("ORIGINAL", cv::WINDOW_GUI_EXPANDED);
+    cv::namedWindow("PROCESADA", cv::WINDOW_GUI_EXPANDED);
+
+    cv::Mat input = cv::imread(input_name);
+    cv::Mat in_;
+    std::vector<cv::Mat> chs;
+
+
+    if (input.empty())
+    {
+      std::cerr << "Error: could not open the input image '"
+                << input_name << "'." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    // Si la imagen es en color procesamos solo el canal V
+    if (input.channels() == 3)
+    {
+      cv::Mat hsv;
+      cv::cvtColor(input, hsv, cv::COLOR_BGR2HSV);
+      cv::split(hsv, chs);
+      in_ = chs[2];
+    }
+    else
+    {
+      in_ = input.clone();
+    }
+
+    cv::Mat output = in_.clone();
+
+    fsiv_image_equalization(in_, output, hold_median, radius);
+
+    if (input.channels() == 3)
+    {
+        chs[2] = output.clone();
+        cv::Mat hsv;
+        cv::merge(chs, hsv);
+        cv::cvtColor(hsv, output, cv::COLOR_HSV2BGR);
+    }
+
+    //
+
+    cv::imshow("ORIGINAL", input);
+    cv::imshow("PROCESADA", output);
+
+    std::cout << "Pulse ESC para cerrar sin guardar o cualquier otra tecla para cerrar y guardar la imagen..." << std::endl;
+
+    int key = cv::waitKey(0) & 0xff;
+
+    if (key != 27)
+    {
+      if (!cv::imwrite(output_name, output))
       {
-          parser.printMessage();
-          return 0;
+        std::cerr << "Error: could not save the result in file '"
+                  << output_name << "'." << std::endl;
+        return EXIT_FAILURE;
       }
+    }
 
-      cv::String input_name = parser.get<cv::String>(0);
-      cv::String output_name = parser.get<cv::String>(1);
-      int radius = parser.get<int>("r");
-      bool hold_median = parser.has("m");
-
-      if (!parser.check())
-      {
-          parser.printErrors();
-          return 0;
-      }
-
-      cv::namedWindow("ORIGINAL", cv::WINDOW_GUI_EXPANDED);
-      cv::namedWindow("PROCESADA", cv::WINDOW_GUI_EXPANDED);
-
-      cv::Mat input = cv::imread(input_name, cv::IMREAD_GRAYSCALE);
-
-      if (input.empty())
-      {
-          std::cerr << "Error: could not open the input image '"
-                    << input_name << "'." << std::endl;
-          return EXIT_FAILURE;
-      }
-
-      cv::Mat output = input.clone();
-
-      //TODO
-
-      fsiv_image_equalization(input, output, hold_median, radius);
-
-
-
-      //
-
-      cv::imshow("ORIGINAL", input);
-      cv::imshow("PROCESADA", output);
-
-      std::cout<<"Pulse ESC para cerrar sin guardar o cualquier otra tecla para cerrar y guardar la imagen..."<<std::endl;
-      
-      int key = cv::waitKey(0) & 0xff;
-
-
-      if (key != 27)
-      {
-          if (!cv::imwrite(output_name, output))
-          {
-              std::cerr << "Error: could not save the result in file '"
-                        << output_name << "'."<< std::endl;
-                return EXIT_FAILURE;
-            }
-      }
-
-      std::cout<<"\nFIN DEL PROGRAMA"<<std::endl;
+    std::cout << "\nFIN DEL PROGRAMA" << std::endl;
   }
-  catch (std::exception& e)
+  catch (std::exception &e)
   {
     std::cerr << "Capturada excepcion: " << e.what() << std::endl;
     retCode = EXIT_FAILURE;
@@ -109,5 +127,3 @@ main (int argc, char* const* argv)
   }
   return retCode;
 }
-
-
