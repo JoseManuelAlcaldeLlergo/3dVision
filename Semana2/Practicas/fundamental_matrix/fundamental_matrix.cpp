@@ -54,7 +54,7 @@ int main(int argc, char *const *argv)
         // __imshow("und_1",und_im1,cv::Size(480,270));
         // __imshow("original2",im2,cv::Size(480,270));
         // __imshow("und_2",und_im2,cv::Size(480,270));
-        std::cout<<F<<std::endl;
+        // std::cout<<F<<std::endl;
         showEpipolar(und_im1,und_im2,CP.camera_matrix,F);
         while(cv::waitKey(0)!=27) ;
 

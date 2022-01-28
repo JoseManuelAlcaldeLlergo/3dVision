@@ -233,8 +233,8 @@ cv::Mat fundamental(cv::Mat im1, cv::Mat im2)
 
     cv::drawMatches(im1, kp_query_filt_out, im2, kp_train_filt_out, goodMatches, filter_matches_image);
 
-    cv::namedWindow("Good Matches", CV_WINDOW_NORMAL);
-    cv::imshow("Good Matches", filter_matches_image);
+    cv::namedWindow("Good Matches Fundamental", CV_WINDOW_NORMAL);
+    cv::imshow("Good Matches Fundamental", filter_matches_image);
 
     return F;
 }
@@ -338,6 +338,7 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     std::vector<cv::Point2f> points_query, points_train;
     cv::Mat descriptors_query, descriptors_train;
     cv::Mat matches_image, filter_matches_image;
+    std::vector<cv::DMatch> goodMatches;
 
     auto Detector = cv::AKAZE::create(cv::AKAZE::DESCRIPTOR_MLDB, 0, 3, 1e-4f, 8);
     Detector->detectAndCompute(im1, cv::Mat(), keypoints_query, descriptors_query);
@@ -348,12 +349,10 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
 
     // Cálculo de la matriz esencial para poder obtener las matrices de rotación y translación en coordenadas reales
     //cv::Mat E = (cp.camera_matrix.t() * F) * cp.camera_matrix;
-    
-    
 
     for (size_t i = 0; i < keypoints_query_filtered.size(); i++)
     {
-        points_query.push_back(keypoints_query_filtered[i].pt); //627
+        points_query.push_back(keypoints_query_filtered[i].pt);
         points_train.push_back(keypoints_train_filtered[i].pt);
     }
 
@@ -362,7 +361,9 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
 
     F = cv::findFundamentalMat(points_query, points_train, cv::FM_RANSAC, 0.999, 1.0, 1000, inliers);
 
-    cv::Mat E  = cv::findEssentialMat(points_query, points_train, cp.camera_matrix, 8, 0.999, 1.0, 14, inliers);
+    // Si usaba la ecuación para E me daba distintos resultados dependiendo de la máquina donde ejecutase, por ello
+    // tras consultarlo con algunos compañeros decidí usar findEssential, mejorando mucho el resultado final
+    cv::Mat E = cv::findEssentialMat(points_query, points_train, cp.camera_matrix, 8, 0.999, 1.0, 14, inliers);
 
     std::vector<cv::Point2f> points_query_filt_out, points_train_filt_out;
 
@@ -370,15 +371,24 @@ std::vector<cv::Point3f> Triangulate(cv::Mat im1, cv::Mat im2, cv::Mat F, CP cp)
     {
         if (inliers.ptr<uchar>(0)[i])
         {
+            int current_size = static_cast<int>(kp_query_filt_out.size());
+            goodMatches.push_back(cv::DMatch(current_size, current_size, 0));
             points_query_filt_out.push_back(keypoints_query_filtered[matches[i].queryIdx].pt);
             points_train_filt_out.push_back(keypoints_train_filtered[matches[i].trainIdx].pt);
+            kp_query_filt_out.push_back(keypoints_query_filtered[matches[i].queryIdx]);
+            kp_train_filt_out.push_back(keypoints_train_filtered[matches[i].trainIdx]);
         }
     }
 
     __recoverPose(E, points_query_filt_out, points_train_filt_out, cp.camera_matrix, cp.R, cp.t);
 
-    std::cout << "R: " << cp.R << std::endl;
-    std::cout << "t: " << cp.t << std::endl;
+    // std::cout << "R: " << cp.R << std::endl;
+    // std::cout << "t: " << cp.t << std::endl;
+
+    cv::drawMatches(im1, kp_query_filt_out, im2, kp_train_filt_out, goodMatches, filter_matches_image);
+
+    cv::namedWindow("Good Matches Final", CV_WINDOW_NORMAL);
+    cv::imshow("Good Matches Final", filter_matches_image);
 
     //triangulate
     for (size_t i = 0; i < keypoints_query_filtered.size(); i++)

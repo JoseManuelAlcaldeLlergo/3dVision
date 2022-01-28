@@ -1,3 +1,0 @@
-/home/pepe/UCO/V3D/Semana2/Practicas/triangulate_epipolar/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/triangulate_epipolar/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/triangulate_epipolar/build/CMakeFiles/triangulate_epipolar.dir

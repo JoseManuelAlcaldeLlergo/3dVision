@@ -62,7 +62,7 @@ int main(int argc, char *const *argv)
         cv::Mat und_im1 = removeDistortion(im1, CP).clone();
         cv::Mat und_im2 = removeDistortion(im2, CP).clone();
         cv::Mat F = fundamental(und_im1, und_im2);
-        std::cout << F << std::endl;
+        // std::cout << F << std::endl;
 
         std::vector<cv::Point3f> vpoints = Triangulate(und_im1, und_im2, F, CP);
         writeToPCD(argv[4], vpoints);

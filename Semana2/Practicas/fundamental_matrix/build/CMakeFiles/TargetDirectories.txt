@@ -1,3 +1,0 @@
-/home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/Semana2/Practicas/fundamental_matrix/build/CMakeFiles/fundamental_matrix.dir
