@@ -48,9 +48,10 @@ struct UserData
     std::string trackbar;
 };
 
-float g_int;
-int r_int;
+float g_interactve;
+int r_interactive;
 int G;
+cv::Mat in, out;
 
 /** @brief Standard trackbar callback
  * Use this function an argument for cv::createTrackbar to control
@@ -63,24 +64,14 @@ void on_change(int v, void *user_data_)
 {
     UserData *user_data = static_cast<UserData *>(user_data_);
 
-    cv::Mat in, out;
-
     in = user_data->input.clone();
     out = user_data->output.clone();
 
-    // if(user_data->trackbar == "r"){
-    //     std::cout<<"En r"<<std::endl;
-    //     r_int = v;
-    // }
-    // else if (user_data->trackbar == "g"){
-    //     std::cout<<"En g"<<std::endl;
-    //     g_int = v/100;
-    // }
-
-    g_int = G/100.0;
+    //
+    g_interactve = G/100.0;
     
-    std::cout<<"r= "<<r_int<<std::endl;
-    std::cout<<"g= "<<g_int<<std::endl;
+    // std::cout<<"r= "<<r_interactive<<std::endl;
+    // std::cout<<"g= "<<g_interactve<<std::endl;
 
     // user_data->input.convertTo(user_data->input, CV_32F, 1.0 / 255.0);
     std::vector<cv::Mat> chs;
@@ -98,7 +89,7 @@ void on_change(int v, void *user_data_)
         in_ = user_data->input.clone();
     }
 
-    out = fsiv_usm_enhance(in_, g_int, r_int, user_data->filter_type, user_data->circular, &user_data->mask);
+    out = fsiv_usm_enhance(in_, g_interactve, r_interactive, user_data->filter_type, user_data->circular, &user_data->mask);
 
     if (in.channels() == 3)
     {
@@ -155,11 +146,11 @@ int main(int argc, char *const *argv)
 
         //
 
-        cv::Mat in = cv::imread(input_n, cv::IMREAD_UNCHANGED);
-        cv::Mat out = in.clone();
+        cv::Mat origin_in = cv::imread(input_n, cv::IMREAD_UNCHANGED);
+        cv::Mat origin_out = in.clone();
         cv::Mat mask = in.clone();
 
-        if (in.empty())
+        if (origin_in.empty())
         {
             std::cerr << "Error: could not open input image '" << input_n
                       << "'." << std::endl;
@@ -172,9 +163,9 @@ int main(int argc, char *const *argv)
 
         UserData user_data;
 
-        /**/
-        user_data.input = in.clone();
-        user_data.output = out.clone();
+        /*Pasamos al modo interactivo todas las variables que puede necesitar*/
+        user_data.input = origin_in.clone();
+        user_data.output = origin_out.clone();
         user_data.r = r;
         user_data.g = g;
         user_data.filter_type = filter_type;
@@ -182,22 +173,17 @@ int main(int argc, char *const *argv)
         user_data.input.convertTo(user_data.input, CV_32F, 1.0 / 255.0);
         if (interactive)
         {
-            r_int = r;
-            g_int = g;
+            r_interactive = r;
+            g_interactve = g;
             user_data.trackbar = "r";
-            cv::createTrackbar("Radius", "OUTPUT", &r_int, 100, on_change, &user_data);
+            cv::createTrackbar("Radius", "OUTPUT", &r_interactive, 100, on_change, &user_data);
             user_data.trackbar = "g";
-            G = g_int*100;
+            //Reescalamos la G para poder usarla como entero en el trackbar
+            G = g_interactve*100;
             cv::createTrackbar("Gain", "OUTPUT", &G, 200, on_change, &user_data);
-            // user_data.trackbar = "f";
-            // cv::createTrackbar("Filter", "OUTPUT", &filter_type, 2, on_change, &user_data);
-            // user_data.trackbar = "c";
-            // int C = (int)circular;
-            // cv::createTrackbar("Circular", "OUTPUT", &(int)circular, 1, on_change, &user_data);
+
         }
-        // else
-        // {
-        //user_data.input.convertTo(user_data.input, CV_32F, 1.0 / 255.0);
+
         std::vector<cv::Mat> chs;
         cv::Mat in_;
 
@@ -215,7 +201,7 @@ int main(int argc, char *const *argv)
 
         user_data.output = fsiv_usm_enhance(in_, user_data.g, user_data.r, user_data.filter_type, user_data.circular, &mask);
 
-        if (in.channels() == 3)
+        if (origin_in.channels() == 3)
         {
             chs[2] = user_data.output;
             cv::Mat hsv;
@@ -224,8 +210,16 @@ int main(int argc, char *const *argv)
         }
         //}
 
-        cv::imshow("INPUT", user_data.input);
-        cv::imshow("OUTPUT", user_data.output);
+        //Mostramos con in y out para que se guarden los cambios del modo interactivo
+        // Inicializamos para que de primeras no estén vacias
+        in = user_data.input.clone();
+        out = user_data.output.clone();
+
+        if(interactive){
+
+        }
+        cv::imshow("INPUT", in);
+        cv::imshow("OUTPUT", out);
         cv::imshow("UNSHARP MASK", mask);
 
         std::cout << "Pulse ESC para cerrar sin guardar o cualquier otra tecla para cerrar y guardar la imagen..." << std::endl;
@@ -235,8 +229,8 @@ int main(int argc, char *const *argv)
         if (key != 27)
         {
             //imwrite trabaja con escala 0-255. Para guardar bien la imagen:
-            user_data.output.convertTo(user_data.output, CV_8UC3, 255.0);
-            if (!cv::imwrite(output_n, user_data.output))
+            out.convertTo(out, CV_8UC3, 255.0);
+            if (!cv::imwrite(output_n, out))
             {
                 std::cerr << "Error: could not save the result in file '"
                           << output_n << "'." << std::endl;

@@ -2,6 +2,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/calib3d.hpp>
 #include "common_code.hpp"
+#include <iostream>
 
 std::vector<cv::Point3f>
 fsiv_generate_3d_calibration_points(const cv::Size& board_size,
@@ -209,6 +210,7 @@ fsiv_undistort_video_stream(cv::VideoCapture&input_stream,
     cv::namedWindow(input_wname);
     cv::namedWindow(output_wname);
 
+    //Primer frame
     input_stream >> frame;
 
     cv::initUndistortRectifyMap(camera_matrix, dist_coeffs, R, new_K,
@@ -225,29 +227,30 @@ fsiv_undistort_video_stream(cv::VideoCapture&input_stream,
     cv::imshow(input_wname, frame);
     cv::imshow(output_wname, rect_frame);
 
-    for (;;)
+    std::cout<<"Press ESC to exit..."<<std::endl;
+    while(1)
     {
-        // wait for a new frame from camera and store it into 'frame'
+        // leemos frame a frame
         input_stream.read(frame);
 
         if (!input_stream.read(frame))
             break;
 
-        cv::Mat frame_rectified;
-        cv::remap(frame, frame_rectified, map1, map2,
+        cv::remap(frame, rect_frame, map1, map2,
                   cv::INTER_LANCZOS4, cv::BORDER_CONSTANT, 0);
 
         CV_Assert(input_stream.isOpened());
         CV_Assert(output_stream.isOpened());
 
-        output_stream.write(frame_rectified); 
-        char key = cvWaitKey(30);
+        output_stream.write(rect_frame); 
+        
+        char key = cv::waitKey(30);
         if (key == 27){
             break;
         } 
 
         cv::imshow(input_wname, frame);
-        cv::imshow(output_wname, frame_rectified);
+        cv::imshow(output_wname, rect_frame);
     }
 
 

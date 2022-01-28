@@ -86,8 +86,7 @@ int main(int argc, char *const *argv)
             {
                 int ex = static_cast<int>(capture.get(CV_CAP_PROP_FOURCC));
                 char EXT[] = {ex & 0XFF , (ex & 0XFF00) >> 8,(ex & 0XFF0000) >> 16,(ex & 0XFF000000) >> 24, 0};
-                std::cout<<"codec: "<<EXT<<std::endl;
-                // codec = cv::VideoWriter::fourcc();
+                // std::cout<<"codec: "<<EXT<<std::endl;
                 codec = cv::VideoWriter::fourcc(EXT[0], EXT[1], EXT[2], EXT[3]);
             }
 
@@ -106,6 +105,10 @@ int main(int argc, char *const *argv)
             cv::Mat output;
 
             fsiv_undistort_image(input, output, K, dist_coeffs);
+
+            cv::imshow("INPUT", input);
+            cv::imshow("OUTPUT", output);
+            cv::waitKey(0);
             cv::imwrite(output_fname, output);
             //
         }

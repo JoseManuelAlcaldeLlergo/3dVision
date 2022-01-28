@@ -31,19 +31,17 @@ const cv::String keys =
     "{s size         |<none>| square size.}"
     "{r rows         |<none>| number of board's rows.}"
     "{c cols         |<none>| number of board's cols.}"
-    "{v video        |<none>| uses a video instead of a set of images.}"
     "{@output        |<none>| filename for output intrinsics file.}"
     "{@input1        |<none>| first board's view.}"
     "{@input2        |      | second board's view.}"
-    "{@inputn        |      | ... n-idx board's view.}"
-    ;
+    "{@inputn        |      | ... n-idx board's view.}";
 
-int
-main (int argc, char* const* argv)
+int main(int argc, char *const *argv)
 {
-    int retCode=EXIT_SUCCESS;
+    int retCode = EXIT_SUCCESS;
 
-    try {        
+    try
+    {
         cv::CommandLineParser parser(argc, argv, keys);
         parser.about("Calibrate the intrinsics parameters of a camera.");
         if (parser.has("help"))
@@ -66,155 +64,111 @@ main (int argc, char* const* argv)
         //find the second argument without '-' at begin.
         int input = 1;
         bool found = false;
-        while (input<argc && !found)
+        while (input < argc && !found)
             found = argv[input++][0] != '-';
-        //CV_Assert(input<argc);
-        std::vector<std::string> input_fnames;        
-        for (; input<argc; ++input)
+
+        std::vector<std::string> input_fnames;
+        for (; input < argc; ++input)
             input_fnames.push_back(std::string(argv[input]));
 
+        float error;
+        cv::Size camera_size;
+        cv::Mat K, dist_coeffs, rvec, tvec;
+        std::string wname = "TABLERO";
+        auto board_Size = cv::Size(cols - 1, rows - 1);
+        std::vector<std::vector<cv::Point2f>> _2dpoints;
+        std::vector<std::vector<cv::Point3f>> _3dpoints;
+        std::vector<cv::Point2f> corners;
 
-
+        std::vector<cv::Point3f> _3d_corners = fsiv_generate_3d_calibration_points(board_Size, square_size);
 
         if (parser.has("i"))
         {
             //TODO
             //Make extrinsic calibration.
-            //Remenber: only one view is needed.
+
             std::string calib_fname = parser.get<std::string>("i");
-            float error;
-            cv::Size camera_size;
-            cv::Mat K, dist_coeffs, rvec, tvec;
-            std::string wname = "TABLERO";
-            auto board_Size = cv::Size(cols-1,rows-1);
-            std::vector<std::vector<cv::Point2f>> _2dpoints;
-            std::vector<std::vector<cv::Point3f>> _3dpoints;
-            std::vector<cv::Point3f> _3d_corners = fsiv_generate_3d_calibration_points(board_Size, square_size);
 
-            auto fs = cv::FileStorage();
-            fs.open(calib_fname, cv::FileStorage::READ);
+            auto fs_r = cv::FileStorage();
+            fs_r.open(calib_fname, cv::FileStorage::READ);
 
-            fsiv_load_calibration_parameters(fs,camera_size,error, K, dist_coeffs, rvec, tvec);
+            fsiv_load_calibration_parameters(fs_r, camera_size, error, K, dist_coeffs, rvec, tvec);
 
             //Solo necesita una vista, por lo que cogemos la primera
             cv::Mat img = cv::imread(input_fnames[0]);
-            camera_size=cv::Size(img.cols,img.rows);
+            camera_size = cv::Size(img.cols, img.rows);
 
-            //comprobar si se puede cargar
-            //comprobar si todas las imagene son del mismo tamaño
-
-            std::vector<cv::Point2f> corners;
-            if (fsiv_find_chessboard_corners(img, board_Size, corners, wname.c_str())){
-                _2dpoints.push_back(corners);
-                _3dpoints.push_back(_3d_corners);
+            if (fsiv_find_chessboard_corners(img, board_Size, corners, wname.c_str()))
+            {
+                fsiv_compute_camera_pose(_3d_corners, corners, K, dist_coeffs, rvec, tvec);
             }
 
-            //solvePnP(_3dpoints, _2dpoints, K, dist_coeffs, rvec, tvec);
-            cv::solvePnP(_3dpoints, _2dpoints, K, dist_coeffs, rvec, tvec);
+            auto fs_w = cv::FileStorage();
+            fs_w.open(output_fname, cv::FileStorage::WRITE);
+            fsiv_save_calibration_parameters(fs_w, camera_size, error, K, dist_coeffs, rvec, tvec);
 
+            if (verbose)
+            {
+                cv::Mat img = cv::imread(input_fnames[0]);
+                fsiv_draw_axes(img, K, dist_coeffs, rvec, tvec, square_size, 3);
+                cv::imshow("EJES", img);
+                cv::waitKey(0);
+                //
+            }
         }
         else
         {
-            //TODO
             //Make an intrisic calibration.
-            //Remember: For each view (at least two) you must find the
-            //chessboard to get the 3D -> 2D matches.
-            auto board_Size = cv::Size(cols-1,rows-1);
-            std::string wname = "TABLERO";
-            std::vector<std::vector<cv::Point2f>> _2dpoints;
-            std::vector<std::vector<cv::Point3f>> _3dpoints;
-            std::vector<cv::Point3f> _3d_corners = fsiv_generate_3d_calibration_points(board_Size, square_size);
+
+            if (input_fnames.size() < 2)
+            {
+                std::cerr<<"Se necesitan al menos dos vistas para la calibración íntrinseca"<<std::endl;
+                return EXIT_FAILURE;
+            }
 
             cv::Size camera_size;
             std::vector<cv::Mat> tvecs;
             std::vector<cv::Mat> rvecs;
 
-            if(!parser.has("video")){
+            for (size_t v = 0; v < input_fnames.size(); v++)
+            {
+                cv::Mat img = cv::imread(input_fnames[v]);
+                camera_size = cv::Size(img.cols, img.rows);
 
-                for(size_t v; v<input_fnames.size(); v++){
-                    cv::Mat img = cv::imread(input_fnames[v]);
-                    camera_size=cv::Size(img.cols,img.rows);
-
-                    std::vector<cv::Point2f> corners;
-                    if (fsiv_find_chessboard_corners(img, board_Size, corners, wname.c_str())){
-                        _2dpoints.push_back(corners);
-                        _3dpoints.push_back(_3d_corners);
-                    }
-
-                }
-
-                cv::Mat cameraMatrix, dist_coeffs;
-                float error = fsiv_calibrate_camera(_2dpoints,_3dpoints, camera_size, cameraMatrix, dist_coeffs, &rvecs, &tvecs);
-                std::cout<<"Error de reproyección: "<<error<<std::endl;
-                
-
-                auto fs = cv::FileStorage();
-                fs.open(output_fname, cv::FileStorage::WRITE);
-                // (fs,camera_size,);
-
-                fsiv_save_calibration_parameters(fs,camera_size,error,cameraMatrix, dist_coeffs, rvecs[0], tvecs[0]);
-                //
-
-                if (verbose)
+                std::vector<cv::Point2f> corners;
+                if (fsiv_find_chessboard_corners(img, board_Size, corners, wname.c_str()))
                 {
-                    //TODO
-                    //Show WCS axis on each pattern view.
-                    for(size_t v=0; v<input_fnames.size(); v++){
-                        cv::Mat img = cv::imread(input_fnames[v]);
-                        fsiv_draw_axes(img,cameraMatrix,dist_coeffs,rvecs[v],tvecs[v],square_size, 3);
-                        cv::imshow("EJES",img);
-                        cv::waitKey(0);
-                    }
-
-                    //
+                    _2dpoints.push_back(corners);
+                    _3dpoints.push_back(_3d_corners);
                 }
             }
-            //Video
-            else{
-                cv::VideoCapture capture;
-                capture.open(cv::samples::findFileOrKeep(parser.get<std::string>("video")));
 
-                while(true){
-                    cv::Mat view, viewGray;
-                    //bool blink = false;
+            float error = fsiv_calibrate_camera(_2dpoints, _3dpoints, camera_size, K, dist_coeffs, &rvecs, &tvecs);
+            std::cout << "Error de reproyección: " << error << std::endl;
 
-                    if( capture.isOpened() )
-                    {
-                        cv::Mat view0;
-                        capture >> view0;
-                        view0.copyTo(view);
-                    }
+            auto fs = cv::FileStorage();
+            fs.open(output_fname, cv::FileStorage::WRITE);
 
-                    if(view.empty())
-                    {
-                        
-                        break;//Fin while
-                    }
+            fsiv_save_calibration_parameters(fs, camera_size, error, K, dist_coeffs, rvecs[0], tvecs[0]);
+            //
 
-                    camera_size=cv::Size(view.cols,view.rows);
-
-                    std::vector<cv::Point2f> corners;
-                    if (fsiv_find_chessboard_corners(view, board_Size, corners, wname.c_str())){
-                        _2dpoints.push_back(corners);
-                        _3dpoints.push_back(_3d_corners);
-                    }
-
-                    cv::Mat cameraMatrix, dist_coeffs;
-                    float error = fsiv_calibrate_camera(_2dpoints,_3dpoints, camera_size, cameraMatrix, dist_coeffs, &rvecs, &tvecs);
-                    std::cout<<"Error de reproyección: "<<error<<std::endl;
-                    
-
-                    auto fs = cv::FileStorage();
-                    fs.open(output_fname, cv::FileStorage::WRITE);
-                    // (fs,camera_size,);
-
-                    fsiv_save_calibration_parameters(fs,camera_size,error,cameraMatrix, dist_coeffs, rvecs[0], tvecs[0]);
-                    //
+            if (verbose)
+            {
+                //TODO
+                //Show WCS axis on each pattern view.
+                for (size_t v = 0; v < input_fnames.size(); v++)
+                {
+                    cv::Mat img = cv::imread(input_fnames[v]);
+                    fsiv_draw_axes(img, K, dist_coeffs, rvecs[v], tvecs[v], square_size, 3);
+                    cv::imshow("EJES", img);
+                    cv::waitKey(0);
                 }
+
+                //
             }
         }
     }
-    catch (std::exception& e)
+    catch (std::exception &e)
     {
         std::cerr << "Capturada excepcion: " << e.what() << std::endl;
         retCode = EXIT_FAILURE;

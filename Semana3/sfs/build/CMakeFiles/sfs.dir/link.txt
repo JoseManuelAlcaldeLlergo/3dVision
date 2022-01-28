@@ -1,0 +1,2 @@
+/bin/ar qc libsfs.a  CMakeFiles/sfs.dir/code_todo.cpp.o CMakeFiles/sfs.dir/voxel.cpp.o CMakeFiles/sfs.dir/camera_parameters.cpp.o CMakeFiles/sfs.dir/voxelset.cpp.o CMakeFiles/sfs.dir/view.cpp.o CMakeFiles/sfs.dir/octree.cpp.o
+/bin/ranlib libsfs.a

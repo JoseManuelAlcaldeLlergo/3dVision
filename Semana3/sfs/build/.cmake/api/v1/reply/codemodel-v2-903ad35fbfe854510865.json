@@ -1,0 +1,95 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "sfs",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "mk_octree::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-mk_octree-Debug-dfc25aab578239fe92cf.json",
+					"name" : "mk_octree",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "mk_voxelset::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-mk_voxelset-Debug-af28ed04b2ee06529cfe.json",
+					"name" : "mk_voxelset",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "oct2wrl::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-oct2wrl-Debug-d659e66aa56d67939aef.json",
+					"name" : "oct2wrl",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sfs::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sfs-Debug-2db7f6ce7fe1bc95e882.json",
+					"name" : "sfs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vs2wrl::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vs2wrl-Debug-9dc1ddc567421b0f0200.json",
+					"name" : "vs2wrl",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/pepe/UCO/V3D/Semana3/sfs/build",
+		"source" : "/home/pepe/UCO/V3D/Semana3/sfs"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

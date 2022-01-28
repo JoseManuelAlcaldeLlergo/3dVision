@@ -3,6 +3,7 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     // "args": ["-verbose","-c=6", "-r=5", "-s=0.04","out.yml","./data/logitech_000_001.png", "./data/logitech_000_002.png", "./data/logitech_000_003.png"],            
+    //"args": ["./data/elp-intrinsics.xml", "./data/tablero_000_000.avi", "out.mp4", "-v"],
 
     "version": "0.2.0",
     "configurations": [
@@ -11,7 +12,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/build/${fileBasenameNoExtension}",
-            "args": ["./data/elp-intrinsics.xml", "./data/tablero_000_000.avi", "out.mp4", "-v"],            
+            "args": ["-verbose","-c=6", "-r=5", "-s=0.04","out.yml","./data/logitech_000_001.png", "./data/logitech_000_002.png", "./data/logitech_000_003.png"],            
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

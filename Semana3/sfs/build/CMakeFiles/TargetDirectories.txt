@@ -1,0 +1,7 @@
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/rebuild_cache.dir
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/edit_cache.dir
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/oct2wrl.dir
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/vs2wrl.dir
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/mk_octree.dir
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/mk_voxelset.dir
+/home/pepe/UCO/V3D/Semana3/sfs/build/CMakeFiles/sfs.dir
