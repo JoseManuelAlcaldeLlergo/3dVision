@@ -111,22 +111,28 @@ namespace fsiv
         // std::cout<<"m2: "<<m2<<std::endl;
         // decoding = (m1 >= m2);
         // std::cout<<decoding<<std::endl;
-        cv::Mat mask = (img_pos >= img_neg) & bit;
+        // cv::Mat mask = (img_pos >= img_neg) & bit;
 
         // std::cout<<"pos: "<<img_pos<<std::endl;
         // std::cout<<"neg: "<<img_neg<<std::endl;
 
-        img_pos.copyTo(decoding, mask);
-        cv::imshow("Decoding", decoding);
-        img_neg.copyTo(decoding, ~mask);
-        cv::imshow("Decoding2", decoding);
+        // img_pos.copyTo(decoding, mask);
+        // cv::imshow("Decoding", decoding);
+        // img_neg.copyTo(decoding, ~mask);
+        // cv::imshow("Decoding2", decoding);
 
-        std::cout << "neg: " << img_neg << std::endl;
+        cv::Mat out = cv::Mat::zeros(img_pos.rows, img_pos.cols, CV_16SC1);
 
-        decoding.convertTo(decoding, CV_16SC1);
+        cv::Mat mask = (img_pos >= img_neg) & bit;
 
-        cv::imshow("Decoding3", decoding);
-        cv::waitKey(0);
+        out += pow(2, bit);
+
+        // std::cout << "out: " << out << std::endl;
+
+        out.copyTo(decoding, mask);
+
+        // cv::imshow("Decoding3", decoding);
+        // cv::waitKey(0);
 
         //
         CV_Assert(decoding.size() == img_pos.size() && decoding.type() == CV_16SC1);
@@ -211,21 +217,22 @@ namespace fsiv
             //Para cada posición de bit desde la más significativa hasta la
             //posición remove_lsb inclusive, hacer ...
             //Sugerencia: utiliza la función fsiv::decode_binary_code_pattern()
-
-            for (size_t i = 0; i <= remove_lsb; i++)
+            
+            int i = int(std::floor(std::log2(prj_size.height)));
+            for (; i >= remove_lsb; i--)
             {
                 if (use_inverse)
                 {
                     y_codes += decode_binary_code_pattern(seq[seq_idx], seq[seq_idx + 1], i);
-                    cv::imshow("patata", y_codes);
-                    cv::waitKey(0);
+                    // cv::imshow("patata", y_codes);
+                    // cv::waitKey(0);
                     seq_idx += 2;
                 }
                 else
                 {
                     y_codes += decode_binary_code_pattern(seq[seq_idx], mean_img, i);
-                    cv::imshow("patata", y_codes);
-                    cv::waitKey(0);
+                    // cv::imshow("patata", y_codes);
+                    // cv::waitKey(0);
                     seq_idx += 1;
                 }
             }
@@ -259,21 +266,24 @@ namespace fsiv
             //posición remove_lsb inclusive, hacer ...
             //Sugerencia: utiliza la función fsiv::decode_binary_code_pattern()
 
-            for (size_t i = 0; i <= remove_lsb; i++)
+            int i = int(std::floor(std::log2(prj_size.height)));
+            for (; i >= remove_lsb; i--)
             {
                 if (use_inverse)
                 {
                     x_codes += decode_binary_code_pattern(seq[seq_idx], seq[seq_idx + 1], i);
+                    // cv::imshow("patata", x_codes);
+                    // cv::waitKey(0);
                     seq_idx += 2;
                 }
                 else
                 {
                     x_codes += decode_binary_code_pattern(seq[seq_idx], mean_img, i);
+                    // cv::imshow("patata", x_codes);
+                    // cv::waitKey(0);
                     seq_idx += 1;
                 }
             }
-            cv::imshow("patata", x_codes);
-            cv::waitKey(0);
 
             //
             if (use_gray_code)
