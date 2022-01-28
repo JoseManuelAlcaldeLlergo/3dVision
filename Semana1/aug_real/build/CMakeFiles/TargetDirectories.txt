@@ -1,4 +1,0 @@
-/home/pepe/UCO/V3D/Semana1/aug_real/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/Semana1/aug_real/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/Semana1/aug_real/build/CMakeFiles/test_common_code.dir
-/home/pepe/UCO/V3D/Semana1/aug_real/build/CMakeFiles/aug_real.dir

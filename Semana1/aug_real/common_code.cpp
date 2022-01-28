@@ -42,8 +42,8 @@ fsiv_find_chessboard_corners(const cv::Mat& img, const cv::Size &board_size,
     if (wname) {
         cv::Mat aux = img.clone();
         cv::drawChessboardCorners(aux, board_size, corner_points, was_found);
-        cv::imshow(wname, aux);
-        cv::waitKey(0);
+        // cv::imshow(wname, aux);
+        // cv::waitKey(0);
     }
 
     //
@@ -155,8 +155,32 @@ fsiv_draw_3d_model(cv::Mat &img, const cv::Mat& M, const cv::Mat& dist_coeffs,
     CV_Assert(img.type()==CV_8UC3);
     //TODO
 
+    std::vector<cv::Point2f> img_points;
+    std::vector<cv::Point3f> obj_points;
 
-    //
+    // Añadimos los puntos de la base
+    obj_points.push_back(cv::Point3f(2 * size, 2 * size, 0));
+    obj_points.push_back(cv::Point3f(2 * size, 3 * size, 0));
+    obj_points.push_back(cv::Point3f(3 * size, 2 * size, 0));
+    obj_points.push_back(cv::Point3f(3 * size, 3 * size, 0));
+
+    // Añadimos los puntos de la cúspide
+    obj_points.push_back(cv::Point3f(2.5 * size, 2.5 * size, -size));
+
+    // Proyectamos los puntos seleccionados
+    projectPoints(obj_points, rvec, tvec, M, dist_coeffs, img_points);
+
+    // Pintamos las líneas
+    line(img, img_points[0], img_points[1], cv::Scalar(180, 120, 12), 3);
+    line(img, img_points[0], img_points[2], cv::Scalar(180, 120, 12), 3);
+    line(img, img_points[1], img_points[3], cv::Scalar(180, 120, 12), 3);
+    line(img, img_points[2], img_points[3], cv::Scalar(180, 120, 12), 3);
+
+    line(img, img_points[0], img_points[4], cv::Scalar(180, 120, 12), 3);
+    line(img, img_points[1], img_points[4], cv::Scalar(180, 120, 12), 3);
+    line(img, img_points[2], img_points[4], cv::Scalar(180, 120, 12), 3);
+    line(img, img_points[3], img_points[4], cv::Scalar(180, 120, 12), 3);
+
 }
 
 void
@@ -167,9 +191,39 @@ fsiv_project_image(const cv::Mat& input, cv::Mat& output,
     CV_Assert(!input.empty() && input.type()==CV_8UC3);
     CV_Assert(!output.empty() && output.type()==CV_8UC3);
     CV_Assert(board_size.area()==_2dpoints.size());
-    //TODO
-
     
+    std::vector<cv::Point2f> img_corners(4);
 
-    //
+    std::vector<cv::Point2f> board_corners(4);
+
+    // Rellenamos las esquinas de la imagen acorde a las dimensiones de la misma
+    img_corners[0] = cv::Point2f(0.0, 0.0);
+    img_corners[1] = cv::Point2f(input.cols - 1, 0.0);
+    img_corners[2] = cv::Point2f(input.cols - 1, input.rows - 1);
+    img_corners[3] = cv::Point2f(0.0, input.rows - 1);
+
+    // Rellenamos las esquinas del tablero acorde sus dimensiones
+    board_corners[0] = _2dpoints[0];
+    board_corners[1] = _2dpoints[board_size.width - 1];
+    board_corners[2] = _2dpoints[board_size.height * board_size.width - 1];
+    board_corners[3] = _2dpoints[(board_size.height - 1) * board_size.width];
+
+    std::vector<cv::Point> board_corners_point(4);
+    board_corners_point[0] = board_corners[0];
+    board_corners_point[1] = board_corners[1];
+    board_corners_point[2] = board_corners[2];
+    board_corners_point[3] = board_corners[3];
+
+    // Obterner la perspectiva para establecer la imagen
+    cv::Mat perspective, warp;
+    perspective = cv::getPerspectiveTransform(img_corners, board_corners);
+
+    // Obtenemos la máscara de la imagen y la aplicamos sobre los corners internos del tablero
+    cv::Mat mask(output.size(), output.type(), cv::Scalar::all(0));
+    
+    // Se crea el polígono
+    cv::fillConvexPoly(mask, board_corners_point, cv::Scalar::all(255));
+
+    cv::warpPerspective(input, warp, perspective, output.size());
+    warp.copyTo(output, mask);
 }
