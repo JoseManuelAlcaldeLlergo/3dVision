@@ -102,37 +102,17 @@ namespace fsiv
         //Recuerda en la imagen de salida los pixeles "iluminados" por el proyector
         //deberán tener el valor 2^bit en la imagen devuelta.
         //Utiliza opencv para generar código vectorizado (sin bucles).
-        // float data[6] = { 0,1,0,0,1,1 };
-        // float data2[6] = { 0,0,1,0,0,1 };
-        // cv::Mat m1 = cv::Mat(1, 6, CV_32F, data);
-        // cv::Mat m2 = cv::Mat(1, 6, CV_32F, data2);
 
-        // std::cout<<"m1: "<<m1<<std::endl;
-        // std::cout<<"m2: "<<m2<<std::endl;
-        // decoding = (m1 >= m2);
-        // std::cout<<decoding<<std::endl;
-        // cv::Mat mask = (img_pos >= img_neg) & bit;
-
-        // std::cout<<"pos: "<<img_pos<<std::endl;
-        // std::cout<<"neg: "<<img_neg<<std::endl;
-
-        // img_pos.copyTo(decoding, mask);
-        // cv::imshow("Decoding", decoding);
-        // img_neg.copyTo(decoding, ~mask);
-        // cv::imshow("Decoding2", decoding);
-
+        // Creamos una matriz de 0s para rellenarla rapidamente con la suma vectorial
         cv::Mat out = cv::Mat::zeros(img_pos.rows, img_pos.cols, CV_16SC1);
 
-        cv::Mat mask = (img_pos >= img_neg) & bit;
+        cv::Mat mask = img_pos >= img_neg;
 
+        // Ahora en out tenemos una matriz completamente rellena de 2^bit
         out += pow(2, bit);
 
-        // std::cout << "out: " << out << std::endl;
-
+        // Ponemos en decoding 2^bit solamente en los pixeles iluminados
         out.copyTo(decoding, mask);
-
-        // cv::imshow("Decoding3", decoding);
-        // cv::waitKey(0);
 
         //
         CV_Assert(decoding.size() == img_pos.size() && decoding.type() == CV_16SC1);
@@ -169,12 +149,6 @@ namespace fsiv
         pos_img = seq[0].clone();
         neg_img = seq[1].clone();
 
-        // cv::namedWindow("Pos img", CV_WINDOW_NORMAL);
-        // cv::namedWindow("Neg img", CV_WINDOW_NORMAL);
-
-        // cv::imshow("Pos img", seq[0]);
-        // cv::imshow("Neg img", seq[1]);
-        // cv::waitKey(0);
 
         //TODO
         //Primero, si la propiedad use_inverse no es cierta, calcula la imagen
@@ -182,7 +156,7 @@ namespace fsiv
         //
         if (!use_inverse)
         {
-            //Sumar sep[0]+sep[1] y dividir entre 2?
+            //Calculo de la imagen media mediante operaciones vectoriales
             mean_img = (pos_img + neg_img) / 2;
         }
         //
@@ -217,22 +191,19 @@ namespace fsiv
             //Para cada posición de bit desde la más significativa hasta la
             //posición remove_lsb inclusive, hacer ...
             //Sugerencia: utiliza la función fsiv::decode_binary_code_pattern()
-            
+
+            // Recorremos desde el bit más significativo
             int i = int(std::floor(std::log2(prj_size.height)));
             for (; i >= remove_lsb; i--)
             {
                 if (use_inverse)
                 {
                     y_codes += decode_binary_code_pattern(seq[seq_idx], seq[seq_idx + 1], i);
-                    // cv::imshow("patata", y_codes);
-                    // cv::waitKey(0);
                     seq_idx += 2;
                 }
                 else
                 {
                     y_codes += decode_binary_code_pattern(seq[seq_idx], mean_img, i);
-                    // cv::imshow("patata", y_codes);
-                    // cv::waitKey(0);
                     seq_idx += 1;
                 }
             }
@@ -266,21 +237,18 @@ namespace fsiv
             //posición remove_lsb inclusive, hacer ...
             //Sugerencia: utiliza la función fsiv::decode_binary_code_pattern()
 
-            int i = int(std::floor(std::log2(prj_size.height)));
+            // Ahora igual, pero cogiendo width porque es para las líneas verticales
+            int i = int(std::floor(std::log2(prj_size.width)));
             for (; i >= remove_lsb; i--)
             {
                 if (use_inverse)
                 {
                     x_codes += decode_binary_code_pattern(seq[seq_idx], seq[seq_idx + 1], i);
-                    // cv::imshow("patata", x_codes);
-                    // cv::waitKey(0);
                     seq_idx += 2;
                 }
                 else
                 {
                     x_codes += decode_binary_code_pattern(seq[seq_idx], mean_img, i);
-                    // cv::imshow("patata", x_codes);
-                    // cv::waitKey(0);
                     seq_idx += 1;
                 }
             }

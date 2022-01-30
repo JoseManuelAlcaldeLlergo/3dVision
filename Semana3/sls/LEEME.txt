@@ -1,0 +1,9 @@
+Solo triangulación recta plano. Por motivos de tiempo no se ha implementado el resto.
+
+Ejecución:
+
+Axis = 0
+./decode_bc_scanning ../dataset4/scan/sls_calibration_20211013070630.yml ../dataset4/scan/bc_scanning_20211013114604.yml ./out_0.wrl --axis=0
+
+Axis = 1
+./decode_bc_scanning ../dataset4/scan/sls_calibration_20211013070630.yml ../dataset4/scan/bc_scanning_20211013114604.yml ./out_1.wrl --axis=1

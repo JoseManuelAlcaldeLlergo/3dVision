@@ -1,7 +1,0 @@
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/rebuild_cache.dir
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/calibrate.dir
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/edit_cache.dir
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/mk_bc_scan.dir
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/scan_pattern.dir
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/decode_bc_scanning.dir
-/home/pepe/UCO/V3D/Semana3/sls/build/CMakeFiles/sls.dir

@@ -56,13 +56,17 @@ namespace fsiv
         //  coordenadas WCS  <X,Y,Z> en la matriz XYZ<y,x> usando el tipo cv::Vec3d().
 
         cv::Mat R_proj, R_cam;
+
         //Obtenemos las matrices de rotacion a partir de los vectores
         cv::Rodrigues(cparams.prj_rvec, R_proj);
         cv::Rodrigues(cparams.cam_rvec, R_cam);
 
-        //Puntos de la camara(q_) y el proyector
-        cv::Mat q_p = -1 * R_proj.t() * cparams.prj_tvec;
-        cv::Mat q_l = -1 * R_cam.t() * cparams.cam_tvec;
+        //Puntos de la camara(q_l) y el proyector (q_p). Seguiremos la nomenclatura de las diapositivas
+        cv::Mat q_l = -R_cam.t() * cparams.cam_tvec;
+        cv::Mat q_p = -R_proj.t() * cparams.prj_tvec;
+
+        // La resta del numerador de lambada va a ser siempre el mismo por lo que evitamos calcularlo varias veces
+        cv::Mat resta_num_lambda = q_p - q_l;
 
         for (size_t y = 0; y < p_codes.rows; y++)
         {
@@ -72,55 +76,58 @@ namespace fsiv
                 if (mask.at<uchar>(y, x) != 0)
                 {
 
-                    //4. punto  3D - u
+                    // Inicializamos el punto u con el pixel que toca
                     cv::Mat u(3, 1, CV_64F);
                     u.at<double>(0, 0) = x;
                     u.at<double>(1, 0) = y;
-                    u.at<double>(2, 0) = 1;
-
-                    //5. Pasamos el punto u a coordenadas del mundo real
-                    cv::Mat v = R_cam.t() * cparams.cam_K.inv() * u;
+                    u.at<double>(2, 0) = 1.0;                   
 
                     //- Obtener la coordenada x/y del proyector codificada de la
                     //  matriz p_codes (cv::int16_t).
                     auto point = p_codes.at<cv::int16_t>(y, x);
 
-                    //- Calcular la recta (WCS) que contiene el centro proyectivo de la cámara y
-                    //  punto <x,y> de la cámara.
+                    //Calculamos la recta l y n teninedo en cuenta los axis si son verticales y horizontales
                     cv::Mat l = cv::Mat::ones(3, 1, CV_64F);
-                    //Recta normal
+
+                    //Recta normal a l
                     cv::Mat n(3, 1, CV_64FC1);
+                    
                     if (axis == 1)
                     {
                         l.at<double>(0, 0) = point;
-                        l.at<double>(1, 0) = 0;
-                        l.at<double>(2, 0) = 1;
+                        l.at<double>(1, 0) = 0.0;
+                        l.at<double>(2, 0) = 1.0;
 
-                        //Normalizamos la recta a unidades del mundo
+                        //Pasamos la recta a unidades del mundo real
                         l = cparams.prj_K.inv() * l;
 
+                        //Rellenamos la recta normal n
                         n.at<double>(0, 0) = 1.0;
                         n.at<double>(1, 0) = 0.0;
                         n.at<double>(2, 0) = -l.at<double>(0, 0);
                     }
                     else
                     {
-                        l.at<double>(0, 0) = 0;
+                        l.at<double>(0, 0) = 0.0;
                         l.at<double>(1, 0) = point;
-                        l.at<double>(2, 0) = 1;
+                        l.at<double>(2, 0) = 1.0;
 
-                        //Normalizamos la recta a unidades del mundo
+                        //Pasamos la recta a unidades del mundo real
                         l = cparams.prj_K.inv() * l;
 
-                        //Creamos el vector n (normal)
+                        //Rellenamos la recta normal n
                         n.at<double>(0, 0) = 0.0;
                         n.at<double>(1, 0) = 1.0;
                         n.at<double>(2, 0) = -l.at<double>(1, 0);
                     }
-                    //7. Pasamos esa recta normal a unidades del mundo real
+                    //Convertimos la recta normal a unidades del mundo real
                     n = R_proj.t() * n;
 
-                    double lambda = n.dot(q_p - q_l) / v.dot(n);
+                    //  Calculamos v
+                    cv::Mat v = R_cam.t() * cparams.cam_K.inv() * u;
+
+                    // Calculamos lambda
+                    double lambda = n.dot(resta_num_lambda) / v.dot(n);
 
                     XYZ.at<cv::Vec3d>(y, x) = cv::Mat(q_l + lambda * v);
                 }
